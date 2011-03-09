@@ -1,0 +1,16 @@
+{% extends "gphpbase.html" %}
+
+{% block title %}Upload a Photo{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <!-- Upload Photo  -->
+        <ul>
+            <h1>Upload A Photo Page!</h1>
+        </ul>
+        <form enctype="multipart/form-data" action="" method="post">
+            {{ form.as_ul }}
+            <input type="submit" value="Upload!">
+        </form>
+    </div>
+{% endblock %}

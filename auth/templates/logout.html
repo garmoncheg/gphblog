@@ -1,0 +1,11 @@
+{% extends "base_auth.html" %}
+{% block head %}
+<META HTTP-EQUIV="refresh" CONTENT="3;{% url photo.views.photos_by_albom %}">
+{% endblock %}
+{% block title %}Good bye!{% endblock %}
+{% block content %}
+
+<h1>Thanks for using my Photoblog</h1>
+<p>Now You may want to go to <h3><a href="{% url photo.views.thumbnail_view %}">Main site</a></h3></p>
+
+{% endblock %}

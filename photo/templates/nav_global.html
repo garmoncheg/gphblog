@@ -1,0 +1,18 @@
+{% block nav_global %}
+
+<!-- MENU -->
+<h3><a href="{% url photo.views.thumbnail_view %}">{{ appname }}</a></h3>
+{% if user.is_staff %}
+    <a href="{% url admin:index %}">Admin</a>
+    <a href="{% url admin:photo_image_add %}">Add Image By Admin</a>
+{% endif %}
+{% if user.is_authenticated %}
+    Logged in as: <b><a href="{% url auth.views.auth_state %}">{{ user }}</a></b>, IP:<b>{{ ip_adress }}</b>
+    <a href="{% url photo.views.upload_photo %}">Upload a Photo</a>
+    <a href="{% url django.contrib.auth.views.logout %}">Log out</a>
+{% endif %}
+{% if not user.is_authenticated %}
+    <a href="{% url django.contrib.auth.views.login %}">Log in</a>
+    <a href="{% url auth.views.create_new_user %}">Register!</a>
+{% endif %}
+{% endblock %}

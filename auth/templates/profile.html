@@ -1,0 +1,11 @@
+{% extends "base_auth.html" %}
+{% block head %}
+<META HTTP-EQUIV="refresh" CONTENT="3;{% url photo.views.thumbnail_view %}">
+{% endblock %}
+{% block title %}Authentication{% endblock %}
+
+{% block content %}
+<h1>User state is: <b> {{ user_auth_state }}. </b></h1>
+<h2><b>Username is {{ username }}</b></h2>
+<h3><a href="{% url photo.views.thumbnail_view %}">Go to App!</a></h3>
+{% endblock %}

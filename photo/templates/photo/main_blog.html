@@ -1,0 +1,36 @@
+{% extends "gphpbase.html" %}
+
+{% block title %}Main Photo Blog{% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        .metadata { margin-left: 25px; margin-bottom: 50px; }
+        .phtitle { font-size: 1.1em;
+                   border-top: 1px solid #aaa; 
+                   border-bottom: 1px solid #aaa;
+                 }
+        h5     { font-size: 2.1em; }
+    </style>
+{% load thumbnail %}
+{% load pagination_tags %}
+    <div class="main">
+    <!-- Posts in blog  -->
+        <h5>{{ appname }} of <b>{{ user }}</b></h5>
+        {% autopaginate item 5 %}
+        {% for item in item.all %}
+            <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
+            <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
+            <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
+            <div class="title"><b>rating:</b>{{ item.rating }}</div>
+            <a href="{% url photo.views.single_image_view item.pk %}">
+                {% thumbnail item.image "700x500" crop="center" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+            </a>
+            <div class="metadata"><b>(c):</b>{{ item.user }}</div>
+            <hr>
+        {% endfor %}
+        {% paginate %}
+    </div>
+    <hr> <p>Thanks for visiting my site.</p>
+{% endblock %}
