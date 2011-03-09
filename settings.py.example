@@ -10,23 +10,33 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+
+# default base config
 DATABASE_ENGINE = 'sqlite3'
 DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'gphblog.db').replace('\\','/')
+
+#timezone: choose yours
 TIME_ZONE = 'Europe/Kiev'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_I18N = True
+
+#default media dir is set to: projectdir/madia
+#you can override this by changing this setting
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media/').replace('\\','/')
+
+# change it to your media URL
 MEDIA_URL = 'http://127.0.0.1:8000/site_media/'
+
+# change it to your MEDIA dir path
 ADMIN_MEDIA_PREFIX = '/media/'
 
-# Make this unique, and don't share it with anybody.
+# Insert your own generated key here
 SECRET_KEY = 'PLEASE ENTER YOUR KEY HERE!'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
-#     'django.template.loaders.eggs.load_template_source',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

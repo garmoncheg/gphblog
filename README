@@ -1,0 +1,30 @@
+#################
+    gphblog
+#################
+
+
+Readme for project Gphblog (Garmoncheg's Photo Blog)
+
+This project is for demonstration of my programming skills mostly.
+If I write something worth seeing, i'll definitely say the world about it.
+But for now it's only my practice for django development.
+
+
+Dependencies:
+_____________
+
+You have to have this things installed:
+
+    - sorl-thumbnails v 11.0 (for thumbnails generation)
+        url: https://github.com/sorl/sorl-thumbnail.git
+    - PIL (python imaging library) (for image size viewing and other metadata access)
+        url: http://www.pythonware.com/products/pil/
+    - django pagination (for pagination :)
+        included in the distribution
+        url: http://code.google.com/p/django-pagination/
+
+Installation:
+______________
+
+Use settings.py.example for creating your own configuration.
+(rename it to settings.py and watch for the comments)
