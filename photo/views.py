@@ -67,7 +67,6 @@ def upload_photo(request):
     return render_to_response("photo/upload_photo.html", {'form': form},
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
-
 def photos_by_albom(request):
     """View of photos sorted by album."""
     albums = Album.objects.all()
