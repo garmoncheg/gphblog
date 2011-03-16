@@ -44,8 +44,6 @@ def single_image_view(request, pk):
 @login_required
 def thumbnail_view(request):
     """Blog view, also main view"""
-#    item=Image.objects.all().order_by(Comment('-created'))
-#    if view == "post":
     item=Image.objects.all().order_by('-last_commented')
     return render_to_response("photo/main_blog.html", {'item': item },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
