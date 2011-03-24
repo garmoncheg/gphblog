@@ -1,5 +1,5 @@
-from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from photo.models import Album, MEDIA_URL, Image, Comment
@@ -11,37 +11,42 @@ import datetime
 @login_required
 def add_comment_ajax(request):
     """Add a new comment.with ajax method"""
-    pk = request.POST["pk"]
-    #body = request.POST["body"]
-    author = request.user
-    comment = Comment(image=Image.objects.get(pk=pk))
-    cf = CommentForm(request.POST, instance=comment)
-    comment = cf.save(commit=False)
-    #comment.body = body
-    comment.author = author
-    item = Image.objects.get(pk=pk)
-    item.last_commented = datetime.datetime.now()
-    item.save()
-    comment.save()
-    return render_to_response("photo/comment.html", {"comment": comment})
+    #checking for POST
+    if request.method == 'POST':
+        pk = request.POST["pk"]
+        author = request.user
+        item = get_object_or_404(Image, pk=pk)
+        comment = Comment(image=item)
+        cf = CommentForm(request.POST, instance=comment)
+        comment = cf.save(commit=False)
+        comment.author = author
+        item.last_commented = datetime.datetime.now()
+        item.save()
+        comment.save()
+        return render_to_response("photo/comment.html", {"comment": comment})
+    else:
+        return HttpResponseBadRequest('Only POST accepted')
 
 @login_required
 def change_rating_ajax_view(request):
     """ A view for AJAX voting for the photo with POST method """
-    pk = request.POST["pk"]
-    incrementer = request.POST["incrementer"]
-    item = Image.objects.get(pk=pk)
-    if incrementer == '1':
-        item.rating = item.rating+1
+    if request.method == 'POST':
+        pk = request.POST["pk"]
+        incrementer = request.POST["incrementer"]
+        item = get_object_or_404(Image, pk=pk)
+        if incrementer == '1':
+            item.rating = item.rating+1
+        else:
+            item.rating = item.rating-1
+        item.save()
+        return HttpResponse(unicode(item.rating))
     else:
-        item.rating = item.rating-1
-    item.save()
-    return HttpResponse(unicode(item.rating))
+        return HttpResponseBadRequest('Only POST accepted')
 
 @login_required
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
-    item = Image.objects.get(pk=pk)
+    item = get_object_or_404(Image, pk=pk)
     comments = Comment.objects.filter(image=item)
     return render_to_response("photo/image.html", {"item": item, "comments": comments, "form": CommentForm() },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
