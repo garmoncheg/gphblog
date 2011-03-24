@@ -24,6 +24,6 @@ if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^site_media/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': 
-            os.path.join(os.path.dirname(__file__), 'media/').replace('\\','/'),
+            os.path.join(settings.PROJECT_ROOT, 'media/').replace('\\','/'),
             'show_indexes': True}),
     )

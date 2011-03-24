@@ -4,13 +4,15 @@
 
 {% block content %}
     <div class="main">
+        <div class="body">
         <!-- Upload Photo  -->
         <ul>
-            <h1>Upload A Photo Page!</h1>
+            <h1 class="phtitle">Upload Your Photo</h1>
         </ul>
         <form enctype="multipart/form-data" action="" method="post">
             {{ form.as_ul }}
             <input type="submit" value="Upload!">
         </form>
+        </div>
     </div>
 {% endblock %}

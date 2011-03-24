@@ -63,7 +63,7 @@ class Image(models.Model):
         return "%s" % ((MEDIA_URL + self.image.name))
     
     def thumbnail(self):
-        return """<a href="/site_media/%s">%</a>""" % ((self.image.name, self.image.name))
+        return """<a href="/site_media/%s">%s</a>""" % ((self.image.name, self.image.name))
     thumbnail.allow_tags = True
 
 

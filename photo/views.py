@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from photo.models import Album, MEDIA_URL, Image, Comment
@@ -9,28 +9,34 @@ from forms import UploadImageForm, CommentForm
 import datetime
 
 @login_required
-def add_comment(request, pk):
-    """Add a new comment."""
+def add_comment_ajax(request):
+    """Add a new comment.with ajax method"""
+    pk = request.POST["pk"]
+    #body = request.POST["body"]
+    author = request.user
     comment = Comment(image=Image.objects.get(pk=pk))
     cf = CommentForm(request.POST, instance=comment)
     comment = cf.save(commit=False)
-    comment.author = request.user
+    #comment.body = body
+    comment.author = author
     item = Image.objects.get(pk=pk)
     item.last_commented = datetime.datetime.now()
     item.save()
     comment.save()
-    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    return render_to_response("photo/comment.html", {"comment": comment})
 
 @login_required
-def change_photo_rating_view(request, incrementer, pk):
-    """ A view for voting for the photo """
+def change_rating_ajax_view(request):
+    """ A view for AJAX voting for the photo with POST method """
+    pk = request.POST["pk"]
+    incrementer = request.POST["incrementer"]
     item = Image.objects.get(pk=pk)
     if incrementer == '1':
         item.rating = item.rating+1
     else:
         item.rating = item.rating-1
     item.save()
-    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+    return HttpResponse(unicode(item.rating))
 
 @login_required
 def single_image_view(request, pk):

@@ -2,18 +2,21 @@
 
 import os.path #needed for use in path constructions
 
+#project root dir path
+PROJECT_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), '').replace('\\','/')
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-     ('Dummy Dummy', 'dummy@example.com'),
+     #('Dummy Dummy', 'dummy@example.com'),
 )
 
 MANAGERS = ADMINS
 
 # default base config
 DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = os.path.join(os.path.dirname(__file__), 'gphblog.db').replace('\\','/')
+DATABASE_NAME = os.path.join(PROJECT_ROOT, 'gphblog.db').replace('\\','/')
 
 #timezone: choose yours
 TIME_ZONE = 'Europe/Kiev'
@@ -23,7 +26,7 @@ USE_I18N = True
 
 #default media dir is set to: projectdir/madia
 #you can override this by changing this setting
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media/').replace('\\','/')
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media/').replace('\\','/')
 
 # change it to your media URL
 MEDIA_URL = 'http://127.0.0.1:8000/site_media/'
@@ -58,7 +61,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'gphblog.urls'
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates/').replace('\\','/'),
+    os.path.join(PROJECT_ROOT, 'templates/').replace('\\','/'),
 )
 
 INSTALLED_APPS = (

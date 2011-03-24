@@ -1,29 +1,23 @@
 {% extends "photo/gphpbase.html" %}
 
+{% block head %}
+<script type='text/javascript' src='/site_media/scripts/vote_single_view.js'></script>
+<script type='text/javascript' src='/site_media/scripts/comment_system.js'></script>
+{% endblock %}
+
 {% block title %}Image: {{ item.title }}{% endblock %}
 
 {% block content %}
-    <style type="text/css">
-        .metadata { margin-left: 25px; margin-bottom: 50px; }
-        .phtitle { font-size: 1.1em;
-                   border-top: 1px solid #aaa; 
-                   border-bottom: 1px solid #aaa;
-                 }
-        h5     { font-size: 2.1em; }
-        h6     { font-size: 1.7em; }
-        .commentlink { text-align: right; }
-        .time { font-size: 0.8em; margin-top: 2px; }
-        .body { font-size: 1.1em; margin-top: 2px; }
-        .right { text-align: right; float: right; margin: 4px; }
-    </style>
+
 {% load thumbnail %}
+
     <div class="main">
     <!-- Rating  -->
     <div class="right">
         <h5>Rating:
-        <a href="{% url photo.views.change_photo_rating_view 1 item.pk %}">+</a>
+        <a onclick="return voteClick(this, '{{ item.pk }}', '1', '{% url ajaxvote %}')" href=''>+</a>
         <b>/</b>
-        <a href="{% url photo.views.change_photo_rating_view 2 item.pk %}">-</a>
+        <a onclick="return voteClick(this, '{{ item.pk }}', '2', '{% url ajaxvote %}')" href=''>-</a>
     </h5></div>
     <!-- Photo instance  -->
         <h5>Image: {{ item.title }}</b></h5>
@@ -31,7 +25,7 @@
             <div class="title"><b>original name:</b> "{{ item.image.name }}"</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
-            <div class="title"><b>rating:</b>{{ item.rating }}</div>
+            <div class="title"><b>rating:</b><span class="rating-{{item.pk}}">{{ item.rating }}</span></div>
             <div class="title"><b>last commented:</b> {{ item.last_commented }}</div>
             <div class="title"><b>Click the image to view full sized:</b></div>
             
@@ -48,23 +42,16 @@
         <p>Comments:</p>
     {% endif %}
     {% for comment in comments %}
-        <div class="comment">
-            <div class="time">{{ comment.created }} | <b>{{ comment.author }}</b></div>
-            <div class="body">{{ comment.body|linebreaks }}</div>
-        </div>
+        {% include "photo/comment.html" %}
     {% endfor %}
 
-    <div id="addc">Add a comment</div>
-    <!-- Comment form  -->
-    <form action="{% url photo.views.add_comment item.pk %}" method="POST">
-        <div id="cform">
+    <!-- Comment form  with ajax -->
+    <form id="comment_form" method="put">
             Name: {{ form.author }}
-            <p>{{ form.body|linebreaks }}</p>
-        </div>
-        <div id="submit"><input type="submit" value="Comment"></div>
+            <div id="form_message" name="form_message">
+            {{ form.body|linebreaks }}
+        <input type="submit" onclick="return post_comment(this, '{{ item.pk }}', get_comment_body, '{% url add_comment_ajax %}')" value="Comment">
     </form>
-    
-    
     </div>
     <hr> <p>Thanks for visiting my site.</p>
 {% endblock %}

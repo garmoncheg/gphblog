@@ -5,39 +5,9 @@
 <head>
     <title>{% block title %}PhotoApp{% endblock %}</title>
     <!-- <meta http-equiv="refresh" content="2">  -->
-    <link rel="stylesheet" href="/media/style.css" type="text/css" media="screen"
-      charset="utf-8" />
-
-    <style type="text/css">
-        * {
-            color: #555;
-            font-size: 0.95em;
-        }
-
-        #menu a {
-            text-decoration: none;
-            background: #eee;
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            border-right: 2px solid #fff;
-            padding-right: 3px;
-            padding-left: 3px;
-            color: #777;
-            font-size: 0.9em;
-        }
-
-        a:hover {
-            background: #eeebeb;
-            border-top: 1px solid #aaa;
-            border-bottom: 1px solid #aaa;
-            color: #555;
-        }
-
-        #container { margin: auto; width: 800px; border: 0px solid; }
-        p { font-size: 1.1em; }
-        h3 { margin-right: 30px; display: inline; }
-    </style>
-
+    <script type='text/javascript' src='/site_media/scripts/jquery.min.js'></script> 
+    <link rel="stylesheet" href="/site_media/styles/main_style.css" type="text/css" media="screen" charset="utf-8" />
+    {% block head %}{% endblock %}
 </head>
 
 <body>
