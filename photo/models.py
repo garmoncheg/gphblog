@@ -76,3 +76,16 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return unicode("%s: %s" % (self.author, self.body[:60]))
+
+class Vote(models.Model):
+    """Model for storing votes of users for the photo"""
+    image = models.ForeignKey(Image)
+    user = models.ForeignKey(User)
+    cratete_date = models.DateTimeField(auto_now_add=True)
+    rating = models.IntegerField()
+    
+    class Meta:
+        unique_together = (("image", "user"),)
+
+    def __unicode__(self):
+        return self.cratete_date

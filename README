@@ -12,6 +12,7 @@ _____________
 
 You have to have this things installed:
 
+    - Django 1.1
     - sorl-thumbnails v 11.0 (for thumbnails generation)
         url: https://github.com/sorl/sorl-thumbnail.git
     - PIL (python imaging library) (for image size viewing and other metadata access)

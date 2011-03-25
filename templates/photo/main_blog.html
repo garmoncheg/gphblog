@@ -2,6 +2,12 @@
 
 {% block title %}Main Photo Blog{% endblock %}
 
+{% block head %}
+<script type='text/javascript' src='/site_media/scripts/vote_single_view.js'></script>
+<script type='text/javascript' src='/site_media/scripts/comment_system.js'></script>
+{% endblock %}
+
+
 {% block content %}
 
 {% load thumbnail %}
@@ -11,12 +17,19 @@
         <h5>{{ appname }} of <b>{{ user }}</b></h5>
         {% autopaginate item 5 %}
         {% for item in item.all %}
+            <!-- Rating  -->
+            <div class="right">
+                <h5>Rating:
+                    <a onclick="return voteClick(this, '{{ item.pk }}', '1', '{% url ajaxvote %}')" href=''>+</a>
+                <b>/</b>
+                    <a onclick="return voteClick(this, '{{ item.pk }}', '2', '{% url ajaxvote %}')" href=''>-</a>
+            </h5></div>
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
-            <div class="title"><b>rating:</b>{{ item.rating }}</div>
+            <div class="title"><b>rating:</b><span class="rating-{{item.pk}}">{{ item.rating }}</span></div>
             <a href="{% url photo.views.single_image_view item.pk %}">
-                {% thumbnail item.image "700x500" crop="center" as im %}
+                {% thumbnail item.image "701x501" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                 {% endthumbnail %}
             </a>

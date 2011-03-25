@@ -30,7 +30,7 @@
             <div class="title"><b>Click the image to view full sized:</b></div>
             
             <a href="{{ item.fullpath }}">
-                {% thumbnail item.image "800x600" crop="center" as im %}
+                {% thumbnail item.image "900x700" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                 {% endthumbnail %}
             </a>
@@ -38,20 +38,33 @@
             <hr>
             
     <!-- Comments  -->
+    <div class="comments-block" data-id="{{ item.pk }}">
+        <p class="comments-header" {% if not comments %}
+        style="display: none;"
+        {% endif %}>Comments:</p>
+    {% for comment in comments %}
+        {% include "photo/comment.html" %}
+    {% endfor %}
+    </div>
+    <!--
+    <div class="comments-block">
     {% if comments %}
-        <p>Comments:</p>
+        <p class="comments-present">Comments:</p>
     {% endif %}
     {% for comment in comments %}
         {% include "photo/comment.html" %}
     {% endfor %}
-
+    </div>
+    -->
+    
     <!-- Comment form  with ajax -->
-    <form id="comment_form" method="put">
+    <form id="comment_form" >
             Name: {{ form.author }}
             <div id="form_message" name="form_message">
             {{ form.body|linebreaks }}
-        <input type="submit" onclick="return post_comment(this, '{{ item.pk }}', get_comment_body, '{% url add_comment_ajax %}')" value="Comment">
+            </div>
+            <input return=false type="submit" onclick="return post_comment(this, '{{ item.pk }}', get_textarea_body, '{% url add_comment_ajax %}')" value="Comment">
     </form>
-    </div>
+    
     <hr> <p>Thanks for visiting my site.</p>
 {% endblock %}

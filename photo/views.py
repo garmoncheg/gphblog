@@ -34,6 +34,16 @@ def change_rating_ajax_view(request):
         pk = request.POST["pk"]
         incrementer = request.POST["incrementer"]
         item = get_object_or_404(Image, pk=pk)
+        """ checking  for whether user already voted """
+        """
+        try:
+            VoteUpAnswer.objects.get(voted_up_by = voted_up_by)
+        except VoteUpAnswer.DoesNotExist:
+            # No vote from "voted_up_by" exists
+            VoteUpAnswer.objects.create(answer = answer, voted_up_by = voted_up_by)
+        else:
+            # User already voted. Redirect to an error page, for example.
+        """
         if incrementer == '1':
             item.rating = item.rating+1
         else:
@@ -46,6 +56,7 @@ def change_rating_ajax_view(request):
 @login_required
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
+    CommentForm().author = request.user
     item = get_object_or_404(Image, pk=pk)
     comments = Comment.objects.filter(image=item)
     return render_to_response("photo/image.html", {"item": item, "comments": comments, "form": CommentForm() },

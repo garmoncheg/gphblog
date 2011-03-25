@@ -7,6 +7,6 @@ urlpatterns = patterns('',
     (r"^albums/$", photos_by_albom),
     (r"^upload/", upload_photo),
     (r"^image/(\d+)/$", single_image_view),
-    url(r"^image/comment/$", add_comment_ajax, name='add_comment_ajax'),
+    url(r'^image/comment/$', add_comment_ajax, name='add_comment_ajax'),
     url(r'^image/ratingajax/', change_rating_ajax_view, name='ajaxvote'),
 )
