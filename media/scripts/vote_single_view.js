@@ -10,7 +10,8 @@ function voteClick(button, pk, incrementer, url)
         pk: pk,
         incrementer: incrementer,
     }, function(data) {
-        $('.rating-' + pk).html(data);
+        $('.rating-' + pk).html(data);//changing rating visually
+        $('div.vote_block_' + pk).hide("slow");//hiding vote button
     });
     return false;
 }

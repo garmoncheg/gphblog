@@ -17,13 +17,9 @@
         <h5>{{ appname }} of <b>{{ user }}</b></h5>
         {% autopaginate item 5 %}
         {% for item in item.all %}
-            <!-- Rating  -->
-            <div class="right">
-                <h5>Rating:
-                    <a onclick="return voteClick(this, '{{ item.pk }}', '1', '{% url ajaxvote %}')" href=''>+</a>
-                <b>/</b>
-                    <a onclick="return voteClick(this, '{{ item.pk }}', '2', '{% url ajaxvote %}')" href=''>-</a>
-            </h5></div>
+        
+            {% include "photo/rating.html" %}
+            
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>

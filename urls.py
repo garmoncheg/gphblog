@@ -8,6 +8,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^photo/', include('photo.urls')),
+    (r'^$', 'django.views.generic.simple.redirect_to', {'url': 'photo/'}),
+    
     # Example:
     # (r'^gphblog/', include('gphblog.foo.urls')),
 

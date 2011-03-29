@@ -88,4 +88,4 @@ class Vote(models.Model):
         unique_together = (("image", "user"),)
 
     def __unicode__(self):
-        return self.cratete_date
+        return unicode(self.rating)

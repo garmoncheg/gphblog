@@ -12,13 +12,8 @@
 {% load thumbnail %}
 
     <div class="main">
-    <!-- Rating  -->
-    <div class="right">
-        <h5>Rating:
-        <a onclick="return voteClick(this, '{{ item.pk }}', '1', '{% url ajaxvote %}')" href=''>+</a>
-        <b>/</b>
-        <a onclick="return voteClick(this, '{{ item.pk }}', '2', '{% url ajaxvote %}')" href=''>-</a>
-    </h5></div>
+    {% include "photo/rating.html" %}
+    
     <!-- Photo instance  -->
         <h5>Image: {{ item.title }}</b></h5>
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>

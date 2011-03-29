@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from photo.models import Album, MEDIA_URL, Image, Comment
+from photo.models import Album, MEDIA_URL, Image, Comment, Vote
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
 from forms import UploadImageForm, CommentForm
@@ -29,28 +29,33 @@ def add_comment_ajax(request):
 
 @login_required
 def change_rating_ajax_view(request):
-    """ A view for AJAX voting for the photo with POST method """
+    """ A view for AJAX voting for the photo with POST method 
+        and checking if user already voted"""
     if request.method == 'POST':
         pk = request.POST["pk"]
         incrementer = request.POST["incrementer"]
+        user = request.user
         item = get_object_or_404(Image, pk=pk)
-        """ checking  for whether user already voted """
-        """
+        intial_rating = item.rating
+        #checking for whether user already voted
         try:
-            VoteUpAnswer.objects.get(voted_up_by = voted_up_by)
-        except VoteUpAnswer.DoesNotExist:
-            # No vote from "voted_up_by" exists
-            VoteUpAnswer.objects.create(answer = answer, voted_up_by = voted_up_by)
-        else:
-            # User already voted. Redirect to an error page, for example.
-        """
-        if incrementer == '1':
-            item.rating = item.rating+1
-        else:
-            item.rating = item.rating-1
-        item.save()
-        return HttpResponse(unicode(item.rating))
-    else:
+            #votes by request user exist
+            Vote.objects.get(image = pk)
+        except Vote.DoesNotExist:
+            # No vote from "request.user" exists
+            Vote.objects.create(image = item, user=user, rating=1)
+            if incrementer == '1':
+                #user votes "+"
+                item.rating = intial_rating+1
+            elif incrementer == '2':
+                #user votes "-"
+                item.rating = intial_rating-1
+            item.save()
+            return HttpResponse(unicode(item.rating))#if vote added correctly return image rating
+        else:#try
+            # User already voted.
+            return HttpResponse(unicode("already voted!")) #if vote exists return error
+    else:#if post
         return HttpResponseBadRequest('Only POST accepted')
 
 @login_required

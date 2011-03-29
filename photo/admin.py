@@ -1,5 +1,5 @@
 # admin config here
-from photo.models import Album, Tag, Image, Comment
+from photo.models import Album, Tag, Image, Comment, Vote
 from django.contrib import admin
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -23,9 +23,12 @@ class CommentAdmin(admin.ModelAdmin):
     display_fields = ["image", "author", "created", "body"]
     list_display = ["author", "created", "image"]
 
-
+class VoteAdmin(admin.ModelAdmin):
+    display_fields = ["image", "user", "rating"]
+    list_display = ["image","cratete_date", "user", "rating"]
 
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Vote, VoteAdmin)
