@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadReque
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from photo.models import Album, MEDIA_URL, Image, Comment, Vote
+#from django.contrib.auth.models import User
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
 from forms import UploadImageForm, CommentForm
@@ -64,14 +65,18 @@ def single_image_view(request, pk):
     CommentForm().author = request.user
     item = get_object_or_404(Image, pk=pk)
     comments = Comment.objects.filter(image=item)
+    try:
+        Vote.objects.get(image__pk=pk, user=request.user)
+        item.voted = True
+    except Vote.DoesNotExist: item.voted = False
     return render_to_response("photo/image.html", {"item": item, "comments": comments, "form": CommentForm() },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required
 def thumbnail_view(request):
     """Blog view, also main view"""
-    item=Image.objects.all().order_by('-last_commented')
-    return render_to_response("photo/main_blog.html", {'item': item },
+    items=Image.objects.all().order_by('-last_commented')
+    return render_to_response("photo/main_blog.html", {'items': items },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 

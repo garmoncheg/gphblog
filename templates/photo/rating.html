@@ -1,5 +1,5 @@
     <!-- Rating  -->
-    <div class="right vote_block_{{ item.pk }}">
+    <div class="right vote_block_{{ item.pk }}" {% if item.voted %}style="display: none;"{% endif %}>
         <h5>Rating:
         <a onclick="return voteClick(this, '{{ item.pk }}', '1', '{% url ajaxvote %}')" href=''>+</a>
         <b>/</b>

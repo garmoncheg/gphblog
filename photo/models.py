@@ -83,9 +83,9 @@ class Vote(models.Model):
     user = models.ForeignKey(User)
     cratete_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()
-    
+
     class Meta:
         unique_together = (("image", "user"),)
 
     def __unicode__(self):
-        return unicode(self.rating)
+        return unicode(self.image.pk)

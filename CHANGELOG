@@ -1,0 +1,15 @@
+Changelog for Gphblog (Garmoncheg's Photo Blog)
+
+gphblog 1.1.1 29.03.2011
+==============================================================
+- main blog view doesen't show voting buttons if user already voted for the photo
+    templatetag is used for adding .voted = true/false according to Votes model.
+
+
+
+gphblog 1.1.1 29.03.2011
+==============================================================
+- user can vote only once.
+- script now hides voting button (<div>) when user voted.
+- votes became a stand alone template rating.html
+- main url file now redirects to main app /photo/
