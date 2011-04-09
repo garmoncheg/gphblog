@@ -15,7 +15,7 @@
 	font-size: 0.9em;
 }
 
-a:hover {
+#menu a:hover {
 	background: #eeebeb;
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
@@ -73,4 +73,17 @@ h6 {
 	text-align: right;
 	float: right;
 	margin: 4px;
+}
+
+.comments-block {
+    text-decoration: none;
+    background: #eee;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #fff;
+    padding-right: 3px;
+    padding-left: 3px;
+    color: #777;
+    font-size: 1.2em;
+    margin-bottom: 50px;
 }

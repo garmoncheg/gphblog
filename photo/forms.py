@@ -11,7 +11,7 @@ class UploadImageForm(forms.ModelForm):
 
     class Meta:
         model = Image
-        fields = ("image", "title", "albums",)
+        fields = ("image", "title",)
         exclude =('user',)
 
 class CommentForm(forms.ModelForm):

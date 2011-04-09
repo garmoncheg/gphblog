@@ -1,0 +1,15 @@
+<script type='text/javascript'>
+    setFormajax()
+</script>
+<div id="ajaxwrapper">
+<form id="uploadForm" enctype="multipart/form-data" action="{% url upload_photo_ajax %}" method="post">
+{% if form.errors %}
+<div class="form_errors">{{ form.errors }}</div>
+{% else %}
+<div class="upload_photo_title">Upload Your Photo</div>
+{% endif %}
+<p><label for="id_image">File:</label> <input type="file" name="image" id="id_image" /></p>
+<p><label for="id_title">Title:</label> <input id="id_title" type="text" name="title" maxlength="60" /></p>
+<p id="sendwrapper"><input type="submit" value="Upload" id="uploadbutton"/></p>
+</form>
+</div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -24,7 +24,7 @@ def add_comment_ajax(request):
         item.last_commented = datetime.datetime.now()
         item.save()
         comment.save()
-        return render_to_response("photo/comment.html", {"comment": comment})
+        return render_to_response("comments/single_comment.html", {"comment": comment})
     else:
         return HttpResponseBadRequest('Only POST accepted')
 
@@ -64,12 +64,11 @@ def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
     CommentForm().author = request.user
     item = get_object_or_404(Image, pk=pk)
-    comments = Comment.objects.filter(image=item)
     try:
         Vote.objects.get(image__pk=pk, user=request.user)
         item.voted = True
     except Vote.DoesNotExist: item.voted = False
-    return render_to_response("photo/image.html", {"item": item, "comments": comments, "form": CommentForm() },
+    return render_to_response("photo/image.html", {"item": item, "form": CommentForm() },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required
@@ -79,6 +78,22 @@ def thumbnail_view(request):
     return render_to_response("photo/main_blog.html", {'items': items },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
+@login_required
+def upload_photo_ajax(request):
+    """View for Uploading a photo."""
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES or None)
+        if form.is_valid():
+            t = form.save(commit=False)
+            t.user=request.user
+            t.save()
+            form.save_m2m()
+            return HttpResponse(unicode("Uploaded success!"))
+        else:
+            render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
+    else:
+        form = UploadImageForm()
+    return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
 
 @login_required
 def upload_photo(request):

@@ -1,0 +1,8 @@
+<!-- Comment form  with ajax -->
+<form id="comment_form" method="post" >
+    Name: {{ user }}
+    <div id="form_message" name="form_message">
+    {{ form.body|linebreaks }}
+    </div>
+    <input return=false type="submit" onclick="return post_comment(this, '{{ item.pk }}', get_textarea_body, '{% url add_comment_ajax %}')" value="Comment">
+</form>

@@ -5,7 +5,16 @@
 {% block head %}
 <script type='text/javascript' src='/site_media/scripts/vote_single_view.js'></script>
 <script type='text/javascript' src='/site_media/scripts/comment_system.js'></script>
+
+<link rel="stylesheet" href="/site_media/styles/upload_photo_style.css" type="text/css" />
+<script type='text/javascript' src='/site_media/scripts/photo_uploader.js'></script> 
 {% endblock %}
+
+
+{% block sidebar %}
+{% include "photo/upload_photo_panel.html" %}
+{% endblock %}
+
 
 
 {% block content %}
@@ -14,15 +23,15 @@
 {% load thumbnail %}
 {% load pagination_tags %}
 {% load votes %}
+{% load comments_for_item %}
 
-
-    <div class="main">
+<div class="main">
     <!-- Posts in blog  -->
         <h5>Photoblog of <b>{{ user }}</b></h5>
         {% autopaginate items 5 %}
         {% add_voted user.pk items %}
         {% for item in items %}
-            {% include "photo/rating.html" %}
+            {% include "photo/voter.html" %}
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
@@ -34,6 +43,10 @@
             </a>
             <div class="metadata"><b>(c):</b>{{ item.user }}</div>
             <hr>
+            <div class="comments">
+            {% add_comments_for_item item 3 as comments %}
+            {% include "comments/comments_block.html" %}
+            </div>
         {% endfor %}
         {% paginate %}
     </div>
