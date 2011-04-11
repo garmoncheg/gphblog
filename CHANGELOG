@@ -1,13 +1,16 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.2.1 11.04.2011
+==============================================================
+- adding comment button to main view
+
 gphblog 1.2.0 09.04.2011
 ==============================================================
 - added baloon ajax form for uploading photo
 - added new view for it
 - changed template system a bit for it
 - added 3 comments for each photo to main blog
-- added templatetag to return comments for item in the template
-
+- added templatetag to return comments for item in the template=
 
 gphblog 1.1.1 29.03.2011
 ==============================================================

@@ -68,14 +68,14 @@ def single_image_view(request, pk):
         Vote.objects.get(image__pk=pk, user=request.user)
         item.voted = True
     except Vote.DoesNotExist: item.voted = False
-    return render_to_response("photo/image.html", {"item": item, "form": CommentForm() },
+    return render_to_response("photo/image.html", {"item": item, "comment_form": CommentForm(), },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required
 def thumbnail_view(request):
     """Blog view, also main view"""
     items=Image.objects.all().order_by('-last_commented')
-    return render_to_response("photo/main_blog.html", {'items': items },
+    return render_to_response("photo/main_blog.html", {'items': items, "comment_form": CommentForm(), },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required

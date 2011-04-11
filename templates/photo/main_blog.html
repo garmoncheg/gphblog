@@ -46,6 +46,7 @@
             <div class="comments">
             {% add_comments_for_item item 3 as comments %}
             {% include "comments/comments_block.html" %}
+            {% include "comments/comment_form.html" %}
             </div>
         {% endfor %}
         {% paginate %}
