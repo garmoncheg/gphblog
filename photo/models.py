@@ -36,6 +36,7 @@ class Image(models.Model):
     width = models.IntegerField(blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, null=True, blank=True)
+    views = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         """Save image dimensions."""
@@ -81,12 +82,22 @@ class Votes(models.Model):
     """Model for storing votes of users for the photo"""
     image = models.ForeignKey(Image)
     user = models.ForeignKey(User, null=True, blank=True)
-    user_key = models.CharField(max_length=40)
+    user_key = models.CharField(max_length=40, null=True, blank=True)
     cratete_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()
 
     class Meta:
         unique_together = (("image", "user"),)
 
+    def __unicode__(self):
+        return unicode(self.image.pk)
+
+class ImageViews(models.Model):
+    """Model for storing unique views of users"""
+    image = models.ForeignKey(Image)
+    user = models.ForeignKey(User, null=True, blank=True)
+    user_key = models.CharField(max_length=40)
+    view_create_date = models.DateTimeField(auto_now_add=True)
+    
     def __unicode__(self):
         return unicode(self.image.pk)

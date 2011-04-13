@@ -65,14 +65,18 @@ def change_rating_ajax_view(request):
 #@login_required
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
-    CommentForm().author = request.user
+    user=request.user
+    CommentForm().author = user
     item = get_object_or_404(Image, pk=pk)
     try:
-        Votes.objects.get(image__pk=pk, user=request.user)
+        if user.is_authenticated():
+            Votes.objects.get(image__pk=pk, user=user)
+        else:
+            Votes.objects.get(image__pk=pk, user_key=request.session.session_key)
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
     return render_to_response("photo/image.html", {"item": item, "comment_form": CommentForm(), },
-                              context_instance=RequestContext(request, processors=[my_auth_processor]))
+                              context_instance=RequestContext(request))
 
 #@login_required
 def thumbnail_view(request):

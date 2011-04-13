@@ -11,10 +11,11 @@
 
 {% load thumbnail %}
 {% load comments_for_item %}
+{% load photo_views %}
 
     <div class="main">
     {% include "photo/voter.html" %}
-    
+    {% register_viewer item.pk as views %}
     <!-- Photo instance  -->
         <h5>Image: {{ item.title }}</b></h5>
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
@@ -23,6 +24,7 @@
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
             <div class="title"><b>rating:</b><span class="rating-{{item.pk}}">{{ item.rating }}</span></div>
             <div class="title"><b>last commented:</b> {{ item.last_commented }}</div>
+            <div class="title"><b>viewed:</b> {% if views %}{{ views }}{% else %}{{ item.views }}{% endif %} time(s) by unique users.</div>
             <div class="title"><b>Click the image to view full sized:</b></div>
             
             <a href="{{ item.fullpath }}">
