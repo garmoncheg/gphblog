@@ -1,5 +1,11 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.2.2 13.04.2011
+==============================================================
+- Anonymous users can vote for the photos
+- changes in template tag usage for voting
+- some minor changes in main template to support Anonymous
+
 gphblog 1.2.1 11.04.2011
 ==============================================================
 - adding comment button to main view

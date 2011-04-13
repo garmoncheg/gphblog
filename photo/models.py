@@ -77,10 +77,11 @@ class Comment(models.Model):
     def __unicode__(self):
         return unicode("%s: %s" % (self.author, self.body[:60]))
 
-class Vote(models.Model):
+class Votes(models.Model):
     """Model for storing votes of users for the photo"""
     image = models.ForeignKey(Image)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True, blank=True)
+    user_key = models.CharField(max_length=40)
     cratete_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField()
 

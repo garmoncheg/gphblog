@@ -13,7 +13,7 @@ def do_comments(parser, token):
     try:
         tag_name, item, comments_amount, as_text, var_name = token.contents.split()
     except ValueError:
-        raise template.TemplateSyntaxError("%r tag requires arguments" % token.contents.split()[0])
+        raise template.TemplateSyntaxError("%r tag requires arguments" % tag_name)
     return Comments(item, comments_amount, var_name)
 
 class Comments(template.Node):

@@ -2,14 +2,13 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from photo.models import Album, MEDIA_URL, Image, Comment, Vote
-#from django.contrib.auth.models import User
+from photo.models import Album, MEDIA_URL, Image, Comment, Votes
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
 from forms import UploadImageForm, CommentForm
 import datetime
 
-@login_required
+#@login_required
 def add_comment_ajax(request):
     """Add a new comment.with ajax method"""
     #checking for POST
@@ -28,11 +27,12 @@ def add_comment_ajax(request):
     else:
         return HttpResponseBadRequest('Only POST accepted')
 
-@login_required
+#@login_required
 def change_rating_ajax_view(request):
     """ A view for AJAX voting for the photo with POST method 
         and checking if user already voted"""
     if request.method == 'POST':
+        user_key = request.session.session_key
         pk = request.POST["pk"]
         incrementer = request.POST["incrementer"]
         user = request.user
@@ -41,10 +41,13 @@ def change_rating_ajax_view(request):
         #checking for whether user already voted
         try:
             #votes by request user exist
-            Vote.objects.get(image = pk)
-        except Vote.DoesNotExist:
+            Votes.objects.get(image = pk, user_key=user_key)
+        except Votes.DoesNotExist:
             # No vote from "request.user" exists
-            Vote.objects.create(image = item, user=user, rating=1)
+            if request.user.is_authenticated():
+                Votes.objects.create(image = item, user=user, rating=1, user_key=user_key)
+            else:
+                Votes.objects.create(image = item, rating=1, user_key=user_key)
             if incrementer == '1':
                 #user votes "+"
                 item.rating = intial_rating+1
@@ -59,24 +62,25 @@ def change_rating_ajax_view(request):
     else:#if post
         return HttpResponseBadRequest('Only POST accepted')
 
-@login_required
+#@login_required
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
     CommentForm().author = request.user
     item = get_object_or_404(Image, pk=pk)
     try:
-        Vote.objects.get(image__pk=pk, user=request.user)
+        Votes.objects.get(image__pk=pk, user=request.user)
         item.voted = True
-    except Vote.DoesNotExist: item.voted = False
+    except Votes.DoesNotExist: item.voted = False
     return render_to_response("photo/image.html", {"item": item, "comment_form": CommentForm(), },
                               context_instance=RequestContext(request, processors=[my_auth_processor]))
 
-@login_required
+#@login_required
 def thumbnail_view(request):
     """Blog view, also main view"""
     items=Image.objects.all().order_by('-last_commented')
-    return render_to_response("photo/main_blog.html", {'items': items, "comment_form": CommentForm(), },
-                              context_instance=RequestContext(request, processors=[my_auth_processor]))
+    return render_to_response("photo/main_blog.html", {'items': items, 
+                                                       "comment_form": CommentForm(),},
+                                                        context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required
 def upload_photo_ajax(request):

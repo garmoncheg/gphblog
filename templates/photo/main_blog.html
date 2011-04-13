@@ -27,9 +27,13 @@
 
 <div class="main">
     <!-- Posts in blog  -->
-        <h5>Photoblog of <b>{{ user }}</b></h5>
+        {% if request.user.is_authenticated %}
+            <h5>Photoblog of <b>{{ user }}</b></h5>
+        {% else %}
+            <h5>Photoblog</h5>
+        {% endif %}
         {% autopaginate items 5 %}
-        {% add_voted user.pk items %}
+        {% add_voted user.pk items as items %}
         {% for item in items %}
             {% include "photo/voter.html" %}
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>

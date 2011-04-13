@@ -1,5 +1,5 @@
 from django import template
-from photo.models import Vote
+from photo.models import Votes
 
 register = template.Library()
 
@@ -11,29 +11,35 @@ def do_voted(parser, token):
        In case no votes found returns an empty string. """
     try:
         # split_contents() knows not to split quoted strings.
-        tag_name, pk, items = token.split_contents()
+        tag_name, pk, items, as_text, var_name= token.split_contents()
     except ValueError:
-        raise template.TemplateSyntaxError, "%r tag requires exactly 2 arguments user and an item." % token.contents.split()[0]
-    return Votes(pk, items)
+        raise template.TemplateSyntaxError, "%r tag requires exactly 2 arguments user and an item." % tag_name
+    return generateVotes(pk, items, var_name)
 
-class Votes(template.Node):
-    def __init__(self, pk, items):
+class generateVotes(template.Node):
+    def __init__(self, pk, items, var_name):
         self.pk = template.Variable(pk)
         self.items = template.Variable(items)
-        
+        self.var_name = var_name
     def render(self, context):
         try:
-            actual_pk = self.pk.resolve(context)
+            user_key = context["request"].session.session_key
+            user = context["request"].user
             items_array = self.items.resolve(context)
             pks = [image.pk for image in items_array]
-            user_votes = Vote.objects.filter(image__pk__in = pks, user__pk = actual_pk)
+            if user.is_authenticated():
+                actual_user_pk = self.pk.resolve(context)
+                user_votes = Votes.objects.filter(image__pk__in = pks, user__pk = actual_user_pk)
+            else:
+                user_votes = Votes.objects.filter(image__pk__in = pks, user_key = user_key)
             voted_image_pks = [vote.image.pk for vote in user_votes ]
             for item in items_array:
                 if item.pk in voted_image_pks:
                     item.voted = True
                 else: item.voted=False
-            context['items'] = items_array
+            context[self.var_name] = items_array
         except template.VariableDoesNotExist:
+            print 'Error in getting template variables. in votes_by_user'
             return ''
         return ''
 
