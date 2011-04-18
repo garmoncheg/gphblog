@@ -1,5 +1,17 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.2.5 18.04.2011
+==============================================================
+- changes comment system for use of ajax form plugin
+    (made ajax comment form like upload photo form)
+    need to fix some bugs with captcha and form errors (if so presist)
+
+gphblog 1.2.4 13.04.2011
+==============================================================
+- add comments for anonymous users with captcha(not working for now)
+    in need to reconsider idea of comments form in the main page
+    todo: ajax commenting form with button "add comment" in main photoblog
+
 gphblog 1.2.3 13.04.2011
 ==============================================================
 - add unique image views logged by user or by session
@@ -18,11 +30,11 @@ gphblog 1.2.1 11.04.2011
 
 gphblog 1.2.0 09.04.2011
 ==============================================================
-- added baloon ajax form for uploading photo
-- added new view for it
+- add baloon ajax form for uploading photo
+- add new view for it
 - changed template system a bit for it
-- added 3 comments for each photo to main blog
-- added templatetag to return comments for item in the template=
+- add 3 comments for each photo to main blog
+- add templatetag to return comments for item in the template=
 
 gphblog 1.1.1 29.03.2011
 ==============================================================

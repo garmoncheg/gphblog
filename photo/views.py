@@ -5,8 +5,16 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from photo.models import Album, MEDIA_URL, Image, Comment, Votes
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
-from forms import UploadImageForm, CommentForm
+from forms import UploadImageForm, CommentForm, CommentFormWithCapthca
 import datetime
+
+def get_comment_form(user, *args, **kwargs):
+    if user.is_authenticated():
+        cf = CommentForm(*args, **kwargs)
+    else:
+        cf = CommentFormWithCapthca(*args, **kwargs)
+    cf.author = user
+    return cf
 
 #@login_required
 def add_comment_ajax(request):
@@ -17,15 +25,16 @@ def add_comment_ajax(request):
         author = request.user
         item = get_object_or_404(Image, pk=pk)
         comment = Comment(image=item)
-        cf = CommentForm(request.POST, instance=comment)
+        cf = get_comment_form(author, data=request.POST, instance=comment)
         comment = cf.save(commit=False)
         comment.author = author
         item.last_commented = datetime.datetime.now()
         item.save()
         comment.save()
+        comment.data_id = pk
         return render_to_response("comments/single_comment.html", {"comment": comment})
     else:
-        return HttpResponseBadRequest('Only POST accepted')
+        return render_to_response("comments/comment_form.html",{"comment_form": get_comment_form(request.user)})
 
 #@login_required
 def change_rating_ajax_view(request):
@@ -66,7 +75,6 @@ def change_rating_ajax_view(request):
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
     user=request.user
-    CommentForm().author = user
     item = get_object_or_404(Image, pk=pk)
     try:
         if user.is_authenticated():
@@ -75,15 +83,16 @@ def single_image_view(request, pk):
             Votes.objects.get(image__pk=pk, user_key=request.session.session_key)
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
-    return render_to_response("photo/image.html", {"item": item, "comment_form": CommentForm(), },
+    return render_to_response("photo/image.html", {"item": item, "comment_form": get_comment_form(user), },
                               context_instance=RequestContext(request))
 
 #@login_required
 def thumbnail_view(request):
     """Blog view, also main view"""
+    user = request.user
     items=Image.objects.all().order_by('-last_commented')
     return render_to_response("photo/main_blog.html", {'items': items, 
-                                                       "comment_form": CommentForm(),},
+                                                       "comment_form": get_comment_form(user),},
                                                         context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 @login_required
@@ -98,11 +107,12 @@ def upload_photo_ajax(request):
             form.save_m2m()
             return HttpResponse(unicode("Uploaded success!"))
         else:
-            render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
+            return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
     else:
         form = UploadImageForm()
     return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
 
+#is now prohibited
 @login_required
 def upload_photo(request):
     """View for Uploading a photo."""

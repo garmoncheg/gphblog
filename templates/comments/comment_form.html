@@ -1,8 +1,16 @@
+<div id="ajaxwrapper_comment">
 <!-- Comment form  with ajax -->
-<form id="comment_form" class="id{{item.pk}}" method="post" >
+<form id="comment_form" action="{% url add_comment_ajax %}" method="post" >
+    {% if comment_form.errors %}
+        <div class="form_errors">{{ comment_form.errors }}</div>
+    {% endif %}
     Name: {{ user }}
     <div id="form_message" name="form_message">
+    {% if not request.user.is_authenticated %}
+    {{ comment_form.recaptcha }}
+    {% endif %}
     {{ comment_form.body|linebreaks }}
     </div>
-    <input return=false type="submit" onclick="return post_comment(this, '{{ item.pk }}', get_textarea_body, '{% url add_comment_ajax %}')" value="Comment">
+    <input type="submit" value="Comment"> 
 </form>
+</div>

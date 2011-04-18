@@ -8,7 +8,6 @@
 {% endif %}
 {% if user.is_authenticated %}
     Logged in as: <b><a href="{% url auth.views.auth_state %}">{{ user }}</a></b>
-    <a href="{% url photo.views.upload_photo %}">Upload a Photo</a>
     <a href="{% url django.contrib.auth.views.logout %}">Log out</a>
 {% endif %}
 {% if not user.is_authenticated %}

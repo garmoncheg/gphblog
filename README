@@ -17,9 +17,18 @@ You have to have this things installed:
         url: https://github.com/sorl/sorl-thumbnail.git
     - PIL (python imaging library) (for image size viewing and other metadata access)
         url: http://www.pythonware.com/products/pil/
+    - python setuptools (for use in recaptcha plugin)
+        url: http://pypi.python.org/pypi/setuptools
+        
+Things included in the distribution:
     - django pagination (for pagination :)
         included in the distribution
         url: http://code.google.com/p/django-pagination/
+    - django recaptcha-client 1.0.6
+        included in the distribution
+        url: http://pypi.python.org/pypi/recaptcha-client
+    - marco.fucci widget and form field
+        http://djangosnippets.org/snippets/1653/
 
 Installation:
 ______________

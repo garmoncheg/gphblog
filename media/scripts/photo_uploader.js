@@ -22,7 +22,7 @@ $(document).ready(function(){
 	$(".btn-slide").click(function(){
 	    // toggle sliding of the upload photo form
 		$("#panel").slideToggle("slow");
-		 $('.slide a').text(closed_text); 
+		$('.slide a').text(closed_text); 
 		if ($(this).hasClass('active')){}
 		else{
 		//get view data

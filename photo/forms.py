@@ -1,6 +1,7 @@
 from django import forms
 from models import Image, Comment
 from django.utils.translation import ugettext_lazy as _
+from recaptcha.fields import ReCaptchaField
 
 class UploadImageForm(forms.ModelForm):
     """
@@ -29,4 +30,20 @@ class CommentForm(forms.ModelForm):
         except:
             raise forms.ValidationError(_("You've entered some unsupported symbols. Please correct your comment"))
         return body
-        
+
+class CommentFormWithCapthca(forms.ModelForm):
+    """
+    A form to post comments for image instance
+    """
+    recaptcha = ReCaptchaField()
+    class Meta:
+        model = Comment
+        fields = ("body","recaptcha",)
+        exclude =("author", "image")
+    
+    def clean_body(self):
+        try:
+            body= self.cleaned_data["body"]
+        except:
+            raise forms.ValidationError(_("You've entered some unsupported symbols. Please correct your comment"))
+        return body
