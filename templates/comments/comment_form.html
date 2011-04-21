@@ -1,4 +1,4 @@
-<div id="ajaxwrapper_comment">
+<div id="ajaxwrapper_comment"{% if comment_form.errors %} data-id="{{ cf_pk }}" {% endif %}>
 <!-- Comment form  with ajax -->
 <form id="comment_form" action="{% url add_comment_ajax %}" method="post" >
     {% if comment_form.errors %}
@@ -7,7 +7,7 @@
     Name: {{ user }}
     <div id="form_message" name="form_message">
     {% if not request.user.is_authenticated %}
-    {{ comment_form.recaptcha }}
+    {{ comment_form.captcha }}
     {% endif %}
     {{ comment_form.body|linebreaks }}
     </div>

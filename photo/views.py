@@ -11,9 +11,10 @@ import datetime
 def get_comment_form(user, *args, **kwargs):
     if user.is_authenticated():
         cf = CommentForm(*args, **kwargs)
+        cf.author = user
     else:
         cf = CommentFormWithCapthca(*args, **kwargs)
-    cf.author = user
+        cf.author = 'Anonymous'
     return cf
 
 #@login_required
@@ -26,13 +27,20 @@ def add_comment_ajax(request):
         item = get_object_or_404(Image, pk=pk)
         comment = Comment(image=item)
         cf = get_comment_form(author, data=request.POST, instance=comment)
-        comment = cf.save(commit=False)
-        comment.author = author
-        item.last_commented = datetime.datetime.now()
-        item.save()
-        comment.save()
-        comment.data_id = pk
-        return render_to_response("comments/single_comment.html", {"comment": comment})
+        if cf.is_valid():
+            #actions for valid comment and captcha
+            print "comment is valid"
+            comment = cf.save(commit=False)
+            item.last_commented = datetime.datetime.now()
+            item.save()
+            comment.save()
+            comment.data_id = pk
+            return render_to_response("comments/single_comment.html", {"comment": comment})
+        else:
+            #form unvalid return form with errors
+            print "comment invalid"
+            return render_to_response("comments/comment_form.html",{"comment_form": cf, "cf_pk": pk,})
+        
     else:
         return render_to_response("comments/comment_form.html",{"comment_form": get_comment_form(request.user)})
 
@@ -95,7 +103,7 @@ def thumbnail_view(request):
                                                        "comment_form": get_comment_form(user),},
                                                         context_instance=RequestContext(request, processors=[my_auth_processor]))
 
-@login_required
+#@login_required
 def upload_photo_ajax(request):
     """View for Uploading a photo."""
     if request.method == 'POST':

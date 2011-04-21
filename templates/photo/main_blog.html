@@ -3,15 +3,9 @@
 {% block title %}Main Photo Blog{% endblock %}
 
 {% block head %}
-<!-- VOTING scripts and styles -->
-<script type='text/javascript' src='/site_media/scripts/vote_single_view.js'></script>
-<!-- PHOTO UPLOAD scripts and styles -->
-<link rel="stylesheet" href="/site_media/styles/upload_photo_style.css" type="text/css" />
-<script type='text/javascript' src='/site_media/scripts/photo_uploader.js'></script> 
-<!-- COMMENTS scripts and styles -->
-<script type='text/javascript' src='/site_media/scripts/jquery.form.js'></script>
-<script type='text/javascript' src='/site_media/scripts/comment_system.js'></script>
-<link rel="stylesheet" href="/site_media/styles/avesome_buttons.css" type="text/css" media="screen" charset="utf-8" />
+{% include "photo/header_voting.html" %}
+{% include "photo/header_uploader.html" %}
+{% include "photo/header_comments.html" %}
 {% endblock %}
 
 

@@ -1,11 +1,20 @@
 /**
  * Scripts for commenting a Photo.
  */
+//script to determine response whether it is a comment,
+//recently made, or a comment form with errors
+function chooseSubmitActions(data, pk)
+{
+	alert(data);
+	alert(pk);
+	//.last_comment[data-id="' + pk + '"]
+};
+
 //making comment form ajax ready
 function setCommentformajax(pk)
 {
 var options = { 
-    target: '.last_comment[data-id="' + pk + '"]',
+    //target: ('.last_comment[data-id="' + pk + '"]'),
     data: {pk: pk},
     success: afterSubmit,
     }; 
@@ -18,6 +27,21 @@ function afterSubmit(responseText, statusText, xhr, $form)
 {
 	//getting item pk from response
 	var pk=$(responseText).attr("data-id");
+	if (responseText.indexOf("ajaxwrapper_comment") > -1)
+	{
+		//_________actions if function receives form with errors in response_________
+		//alert(responseText);
+		$('div.form_place[data-id="' + pk + '"]').html(responseText);
+		//adding this form pk atribute
+		$('form#comment_form').attr("data-id", pk);
+		setCommentformajax(pk);
+		$('div#ajaxwrapper_comment').attr("data-id", pk);
+	}
+	else
+	{
+		//__________actions if function receives comment in response__________
+	//inserting comment into place
+	$('.last_comment[data-id="' + pk + '"]').html(responseText);
 	//comment already written so we removing class last comment from it
 	$('div.last_comment[data-id="' + pk + '"]').removeClass("last_comment");
 	//showing comment button
@@ -27,6 +51,7 @@ function afterSubmit(responseText, statusText, xhr, $form)
 	$('#ajaxwrapper_comment[data-id="' + pk + '"]').remove();
 	//adding place for new comment
 	$('div.comments-block[data-id="' + pk + '"]').append('<div class="last_comment" data-id="'+pk+'"></div>');
+	};
 };
 
 

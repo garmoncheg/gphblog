@@ -15,20 +15,20 @@ You have to have this things installed:
     - Django 1.1
     - sorl-thumbnails v 11.0 (for thumbnails generation)
         url: https://github.com/sorl/sorl-thumbnail.git
-    - PIL (python imaging library) (for image size viewing and other metadata access)
+    - PIL (python imaging library) (for everything)
+        need to be compiled with support of Freetype2 library
+        in order for captcha to work properly
+        a good solution to compile it for the mac is here:
+        http://www.kyngchaos.com/macosx/build/freetype2
         url: http://www.pythonware.com/products/pil/
-    - python setuptools (for use in recaptcha plugin)
-        url: http://pypi.python.org/pypi/setuptools
-        
+
 Things included in the distribution:
-    - django pagination (for pagination :)
+    - django pagination
         included in the distribution
         url: http://code.google.com/p/django-pagination/
-    - django recaptcha-client 1.0.6
+    - django django-simple-captcha
         included in the distribution
-        url: http://pypi.python.org/pypi/recaptcha-client
-    - marco.fucci widget and form field
-        http://djangosnippets.org/snippets/1653/
+        url: http://code.google.com/p/django-simple-captcha/
 
 Installation:
 ______________

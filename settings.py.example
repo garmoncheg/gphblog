@@ -74,14 +74,9 @@ INSTALLED_APPS = (
     'sorl.thumbnail', #thumbnail generation lib
     'pagination', #pagination generation lib
     'django.contrib.admin',
+    'captcha',
 )
 
 
 #setting for using sorl lib
 INTERNAL_IPS = ('127.0.0.1',)
-
-#insert your reCaptcha keys here
-# get it from here if you will:
-#http://www.google.com/recaptcha
-RECAPTCHA_PUBLIC_KEY = '<your public key>'
-RECAPTCHA_PRIVATE_KEY = '<your private key>'

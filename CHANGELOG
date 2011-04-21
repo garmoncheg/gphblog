@@ -1,5 +1,9 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.2.7 21.04.2011
+==============================================================
+- fixed comment form ajax submit in case of error.
+
 gphblog 1.2.5 18.04.2011
 ==============================================================
 - changes comment system for use of ajax form plugin
