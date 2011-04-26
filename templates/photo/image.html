@@ -16,7 +16,7 @@
     {% include "photo/voter.html" %}
     {% register_viewer item.pk as views %}
     <!-- Photo instance  -->
-        <h5>Image: {{ item.title }}</b></h5>
+        <div class="h5"><b>Image: {{ item.title }}</b></div>
             <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
             <div class="title"><b>original name:</b> "{{ item.image.name }}"</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
@@ -27,9 +27,11 @@
             <div class="title"><b>Click the image to view full sized:</b></div>
             
             <a href="{{ item.fullpath }}">
-                {% thumbnail item.image "900x700" crop="center" as im %}
+                <center>
+                {% thumbnail item.image "795x595" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                 {% endthumbnail %}
+                </center>
             </a>
             <div class="metadata"><b>(c):</b>{{ item.user }}</div>
             <hr>
@@ -37,5 +39,5 @@
         {% add_comments_for_item item 300 as comments %}
         {% include "comments/comment_system.html" %}
     </div>
-    <hr> <p>Thanks for visiting my site.</p>
+    <hr>
 {% endblock %}

@@ -29,16 +29,15 @@ def add_comment_ajax(request):
         cf = get_comment_form(author, data=request.POST, instance=comment)
         if cf.is_valid():
             #actions for valid comment and captcha
-            print "comment is valid"
             comment = cf.save(commit=False)
             item.last_commented = datetime.datetime.now()
             item.save()
+            if author.is_authenticated(): comment.author=author
             comment.save()
             comment.data_id = pk
             return render_to_response("comments/single_comment.html", {"comment": comment})
         else:
             #form unvalid return form with errors
-            print "comment invalid"
             return render_to_response("comments/comment_form.html",{"comment_form": cf, "cf_pk": pk,})
         
     else:
@@ -106,19 +105,24 @@ def thumbnail_view(request):
 #@login_required
 def upload_photo_ajax(request):
     """View for Uploading a photo."""
-    if request.method == 'POST':
-        form = UploadImageForm(request.POST, request.FILES or None)
-        if form.is_valid():
-            t = form.save(commit=False)
-            t.user=request.user
-            t.save()
-            form.save_m2m()
-            return HttpResponse(unicode("Uploaded success!"))
-        else:
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = UploadImageForm(request.POST, request.FILES or None)
+            if form.is_valid():
+                t = form.save(commit=False)
+                t.user=request.user
+                t.save()
+                form.save_m2m()
+                return HttpResponse(unicode("Uploaded success!"))
+            else: #form errors
+                return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
+        else: #get received
+            form = UploadImageForm()
             return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
     else:
-        form = UploadImageForm()
-    return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
+        return HttpResponse(unicode("Please log in to upload photos!"))
+
+
 
 #is now prohibited
 @login_required

@@ -1,5 +1,13 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.3.0 26.04.2011
+==============================================================
+- fixed bugs with upload photo form ajax (errors redirects and incorrect scrolling text)
+- fixed comment form bugs (incorrect username save)
+- add Cancel button in comment form (no more user stuck in commenting mode)
+- add New site styling, using CSS Framework "Blueprint"
+- fixed general ajax problems in forms
+
 gphblog 1.2.7 21.04.2011
 ==============================================================
 - fixed comment form ajax submit in case of error.

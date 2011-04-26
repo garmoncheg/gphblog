@@ -1,14 +1,6 @@
 /**
  * Scripts for commenting a Photo.
  */
-//script to determine response whether it is a comment,
-//recently made, or a comment form with errors
-function chooseSubmitActions(data, pk)
-{
-	alert(data);
-	alert(pk);
-	//.last_comment[data-id="' + pk + '"]
-};
 
 //making comment form ajax ready
 function setCommentformajax(pk)
@@ -19,6 +11,10 @@ var options = {
     success: afterSubmit,
     }; 
 $('#comment_form[data-id="' + pk + '"]').ajaxForm(options);
+//intercepting form cancel comment
+$('#cancel').click(function(){
+	cancelComment(pk);
+});
 };
 
 //operations after form submit
@@ -55,6 +51,15 @@ function afterSubmit(responseText, statusText, xhr, $form)
 };
 
 
+
+// function to close the comment form and show hidden comment button
+function cancelComment(pk){
+	$('#comment_form[data-id="' + pk + '"]').hide("slow");
+	$('#ajaxwrapper_comment[data-id="' + pk + '"]').remove();
+	$('.comment-btn[data-id="' + pk + '"]').show("slow");
+	return false;
+};
+
 //MAIN comment function
 $(document).ready(function(){
 	//click on comment button under photo
@@ -75,6 +80,7 @@ $(document).ready(function(){
 				//adding ajax form wrapper to this form
 				setCommentformajax($pk);
 				$('div#ajaxwrapper_comment').attr("data-id", $pk);
+				$('#comment_form[data-id="' + $pk + '"] button.red').attr("data-id", $pk);
 			}
 		);
 		//hiding the comment button

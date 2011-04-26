@@ -1,0 +1,5 @@
+{% if request.user.is_authenticated %}
+<div class="h5">Photoblog of <b>{{ user }}</b></div>
+{% else %}
+<div class="h5">Photoblog</div>
+{% endif %}

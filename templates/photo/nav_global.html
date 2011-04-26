@@ -1,7 +1,7 @@
 {% block nav_global %}
 
 <!-- MENU -->
-<h3><a href="{% url photo.views.thumbnail_view %}">Photoblog</a></h3>
+<div class="h3"><a href="{% url photo.views.thumbnail_view %}">Photoblog</a></div>
 {% if user.is_staff %}
     <a href="{% url admin:index %}">Admin</a>
     <a href="{% url admin:photo_image_add %}">Add Image By Admin</a>

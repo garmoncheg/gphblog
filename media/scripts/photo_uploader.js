@@ -1,8 +1,8 @@
 /**
  * Script for Uploading a Photo.
  */
-var closed_text = 'Upload Photo!'
-var open_text = 'Close'
+var closed_text = 'Upload'
+var open_text =   'Close!'
 
 //use ajax Form Plugin
 //setting this form as an ajax form
@@ -10,10 +10,18 @@ var open_text = 'Close'
 function setFormajax() {
 var options = { 
     target: '#ajaxwrapper',
-}; 
+    success: setform_with_errors_ajax,
+	}; 
 $('#uploadForm').ajaxForm(options);
-}
+};
 
+function setform_with_errors_ajax(){
+	var options = { 
+		    target: '#ajaxwrapper',
+		    success: setform_with_errors_ajax,
+	}; 
+$('#uploadForm').ajaxForm(options);
+};
 
 //making sliding animations 
 //and overriding ajax form submission
@@ -22,8 +30,16 @@ $(document).ready(function(){
 	$(".btn-slide").click(function(){
 	    // toggle sliding of the upload photo form
 		$("#panel").slideToggle("slow");
-		$('.slide a').text(closed_text); 
-		if ($(this).hasClass('active')){}
+		//$('.slide a').text(open_text); 
+		
+		if ($(".btn-slide").hasClass('active')){
+			//actions on "close button click!
+			$('.slide a').text(closed_text);
+			$(".btn-slide").removeClass('active');
+			$('div#panel div div#ajaxwrapper').remove();
+			$('div.slide-inside').html('Loading...');
+			
+		}
 		else{
 		//get view data
 		$.get(
@@ -33,12 +49,11 @@ $(document).ready(function(){
 					//insert data to this div
 					$('div.slide-inside').html(data);
 					$('.slide a').text(open_text);
-					//$('div.slide-inside').append('<a href="#">Upload</a>')
-					//setFormajax();
+					//add class active to Button (can be closed)
+					$(".btn-slide").addClass('active'); 
+					setFormajax();
 				}
 		);
-	    //add class active to Button (can be closed)
-		$(this).toggleClass('active'); 
 		};
 		return false;
 	});

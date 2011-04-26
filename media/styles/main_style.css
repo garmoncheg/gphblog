@@ -32,14 +32,13 @@ p {
 	font-size: 1.1em;
 }
 
-h3 {
+.h3 {
 	margin-right: 30px;
 	display: inline;
 }
 
 .metadata {
 	margin-left: 25px;
-	margin-bottom: 50px;
 }
 
 .phtitle {
@@ -47,7 +46,7 @@ h3 {
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
 }
-h5 {
+.h5 {
 	font-size: 2.1em;
 }
 
@@ -77,13 +76,19 @@ h6 {
 
 .comments-block {
     text-decoration: none;
-    background: #eee;
+    background: #FEF0C9;
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     border-right: 2px solid #fff;
-    padding-right: 3px;
-    padding-left: 3px;
     color: #777;
     font-size: 1.2em;
+}
+
+.photo_instance {
+    background: #ECF1EF;
     margin-bottom: 50px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 2px solid #fff;
+    border-left: 2px solid #fff;
 }

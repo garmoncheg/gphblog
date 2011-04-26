@@ -29,9 +29,17 @@ Things included in the distribution:
     - django django-simple-captcha
         included in the distribution
         url: http://code.google.com/p/django-simple-captcha/
+    - blueprint (CSS framework)
+        included in the distribution
+        url: http://www.blueprintcss.org/
 
 Installation:
 ______________
 
 Use settings.py.example for creating your own configuration.
 (rename it to settings.py and watch for the comments)
+
+Extra Information
+_________________
+
+    For the latest updates, see CHANGELOG.
