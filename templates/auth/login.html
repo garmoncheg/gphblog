@@ -1,9 +1,17 @@
 {% extends "auth/base_auth.html" %}
 
 {% block content %}
-
+    <!-- Header --> 
+    <div id="header"> 
+        <div id="branding"> 
+            <h1 id="site-name">Photoblog login</h1> 
+        </div> 
+    </div> 
+    <!-- END Header --> 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<div class="form_erros" style="color:red">
+Your username and password didn't match. Please try again.
+</div>
 {% endif %}
 
 <form method="post" action="{% url django.contrib.auth.views.login %}">
@@ -18,7 +26,11 @@
 </tr>
 </table>
 
-<input type="submit" value="Go to my Photoblog" />
+<button type="submit" class="large green awesome">Login &raquo;</button>
+<button type="reset" class="large red awesome" onClick="location.href='{% url photo.views.thumbnail_view %}'">Cancel &raquo;</button>
+<button type="reset" class="large blue awesome" onClick="location.href='{% url auth.views.create_new_user %}'">Register &raquo;</button>
+<input type="hidden" value="Go to my Photoblog" />
+
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 

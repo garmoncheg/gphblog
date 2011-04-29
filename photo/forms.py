@@ -1,7 +1,6 @@
 from django import forms
 from models import Image, Comment
 from django.utils.translation import ugettext_lazy as _
-#from recaptcha.fields import ReCaptchaField
 from captcha.fields import CaptchaField
 
 

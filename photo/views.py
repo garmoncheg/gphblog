@@ -9,6 +9,9 @@ from forms import UploadImageForm, CommentForm, CommentFormWithCapthca
 import datetime
 
 def get_comment_form(user, *args, **kwargs):
+    """
+    Simple function to choose comment form depending if user islogged in.
+    """
     if user.is_authenticated():
         cf = CommentForm(*args, **kwargs)
         cf.author = user
@@ -121,45 +124,5 @@ def upload_photo_ajax(request):
             return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
     else:
         return HttpResponse(unicode("Please log in to upload photos!"))
-
-
-
-#is now prohibited
-@login_required
-def upload_photo(request):
-    """View for Uploading a photo."""
-    if request.method == 'POST':
-        form = UploadImageForm(request.POST, request.FILES or None)
-        if form.is_valid():
-            t = form.save(commit=False)
-            t.user=request.user
-            t.save()
-            form.save_m2m()
-            return HttpResponseRedirect('/photo/')
-    else:
-        form = UploadImageForm()
-    return render_to_response("photo/upload_photo.html", {'form': form},
-                              context_instance=RequestContext(request, processors=[my_auth_processor]))
-
-def photos_by_albom(request):
-    """View of photos sorted by album."""
-    albums = Album.objects.all()
-    if not request.user.is_authenticated():
-        albums = albums.filter(public=True)
-
-    paginator = Paginator(albums, 10)
-    try: page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-
-    try:
-        albums = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        albums = paginator.page(paginator.num_pages)
-
-    for album in albums.object_list:
-        album.images = album.image_set.all()
-
-    return render_to_response("photo/photos_by_album.html", dict(albums=albums, user=request.user,
-        media_url=MEDIA_URL), context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 

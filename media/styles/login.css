@@ -1,0 +1,74 @@
+/* LOGIN FORM */
+
+body.login {
+    background: white;
+}
+
+.login #container {
+    background: white;
+    border: 1px solid #ccc;
+    width: 28em;
+    min-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+.login #content-main {
+    width: 200%;
+}
+
+.login form {
+    margin-top: 1em;
+}
+
+.login .form-row {
+    padding: 4px 0;
+    float: left;
+    width: 100%;
+}
+
+.login .form-row label {
+    float: left;
+    width: 9em;
+    padding-right: 0.5em;
+    line-height: 2em;
+    text-align: right;
+    font-size: 1em;
+    color: #333;
+}
+
+.login span.help {
+    font-size: 10px;
+    color: red;
+    display: block;
+}
+
+.form_errors {
+    padding-left: 20px;
+}
+
+table.create_form {
+    border-width: 0px;
+    border-spacing: 0px;
+    border-style: outset;
+    border-color: gray;
+    border-collapse: separate;
+    background-color: white;
+}
+table.create_form th {
+    border-width: 0px;
+    padding: 2px;
+    border-style: inset;
+    border-color: gray;
+    background-color: white;
+    -moz-border-radius: ;
+}
+table.create_form td {
+    border-width: 0px;
+    padding: 2px;
+    border-style: inset;
+    border-color: gray;
+    background-color: white;
+    -moz-border-radius: ;
+}

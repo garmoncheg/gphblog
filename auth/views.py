@@ -23,8 +23,8 @@ def create_new_user(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect("/accounts/login/")
+        else:
+            return render_to_response("auth/create.html", {'form': form, })
     else:
         form = MyUserCreationForm()
-    return render_to_response("auth/create.html", {
-        'form': form, 
-    })
+    return render_to_response("auth/create.html", {'form': form, })

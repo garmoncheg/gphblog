@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from captcha.fields import CaptchaField
     
 class MyUserCreationForm(forms.ModelForm):
     """
@@ -12,6 +13,7 @@ class MyUserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
     password2 = forms.CharField(label=_("Password confirmation"), widget=forms.PasswordInput)
     email = forms.EmailField(label=_("E-mail"))
+    captcha = CaptchaField()
 
     class Meta:
         model = User

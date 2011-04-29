@@ -2,9 +2,59 @@
 
 {% block title %}Create a new account{% endblock %}
 {% block content %}
+    <!-- Header --> 
+    <div id="header"> 
+        <div id="branding"> 
+            <h1 id="site-name">Register:</h1> 
+        </div> 
+    </div> 
+    <!-- END Header --> 
+{% if form.errors %}
+<div class="form_erros" style="color:red">
+{% for error in form.errors %}
+Please enter correct data to field {{ error }}<br />
+{% endfor %}
+</div>
+{% endif %}
+<form action="" method="post">
+<table class="create_form">
+<tr>
+    <td>
+        <p><label for="id_username">Username:</label></p>
+    </td>
+    <td>
+        <p><input id="id_username" type="text" name="username" maxlength="30" /></p>
+    </td>
+<tr>
+    <td>
+        <p><label for="id_password1">Password:</label></p>
+    </td>
+    <td>
+        <p><input type="password" name="password1" id="id_password1" /></p>
+    </td>
+</tr>
+<tr>
+    <td>
+        <p><label for="id_password2">Password confirmation:</label></p>
+    </td>
+    <td>
+        <p><input type="password" name="password2" id="id_password2" /></p>
+    </td>
+</tr>
+<tr>
+    <td>
+        <p><label for="id_email">E-mail:</label></p>
+    </td>
+    <td>
+        <p><input type="text" name="email" id="id_email" /></p>
+    </td>
+</tr>
+</table>
+{{ form.captcha }}<br /><br />
+<button type="submit" class="large green awesome">Create &raquo;</button>
+<button type="reset" class="large red awesome" onClick="location.href='{% url photo.views.thumbnail_view %}'">
+Cancel &raquo;
+</button>
+</form>
 
-  <form action="" method="post">
-    {{ form.as_ul }}
-      <input type="submit" value="Create the account">
-  </form>
 {% endblock %}

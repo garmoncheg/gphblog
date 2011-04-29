@@ -24,13 +24,13 @@ You have to have this things installed:
 
 Things included in the distribution:
     - django pagination
-        included in the distribution
+        version used, included in the project
         url: http://code.google.com/p/django-pagination/
     - django django-simple-captcha
-        included in the distribution
+        version used, included in the project
         url: http://code.google.com/p/django-simple-captcha/
     - blueprint (CSS framework)
-        included in the distribution
+        version used, included in the project
         url: http://www.blueprintcss.org/
 
 Installation:

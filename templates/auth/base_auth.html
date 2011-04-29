@@ -3,32 +3,25 @@
 <head>
 {% block head %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
-<link rel="stylesheet" type="text/css" href="/media/css/base.css" /> 
-<link rel="stylesheet" type="text/css" href="/media/css/login.css" /> 
-<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/media/css/ie.css" /><![endif]--> 
+<link rel="stylesheet" href="/site_media/styles/login.css" type="text/css" media="screen" charset="utf-8"  /> 
+<link rel="stylesheet" href="/site_media/styles/avesome_buttons.css" type="text/css" media="screen" charset="utf-8" />
+{% include "headers/header_blueprint.html" %}
 <meta name="robots" content="NONE,NOARCHIVE" /> 
 </head>
 <body class="login"> 
  
 <!-- Container --> 
 <div id="container"> 
- 
-    
-    <!-- Header --> 
-    <div id="header"> 
-        <div id="branding"> 
-            <h1 id="site-name">Photoblog login</h1> 
-        </div> 
-    </div> 
-    <!-- END Header --> 
+
 
     {% block content %}{% endblock %}
 
-    <div id="footer"></div> 
+    <div id="footer">
+    {% block footer %}{% endblock %}
+    </div> 
 </div> 
 <!-- END Container --> 
  
-    {% block footer %}
-    {% endblock %}
+
 </body>
 </html>

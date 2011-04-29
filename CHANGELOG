@@ -1,5 +1,10 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.3.1 29.04.2011
+==============================================================
+- login restyling
+- globla project cleanup where possible
+
 gphblog 1.3.0 26.04.2011
 ==============================================================
 - fixed bugs with upload photo form ajax (errors redirects and incorrect scrolling text)

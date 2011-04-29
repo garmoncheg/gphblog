@@ -7,12 +7,7 @@
     <!-- <meta http-equiv="refresh" content="2">  -->
     <script type='text/javascript' src='/site_media/scripts/jquery.min.js'></script> 
     <link rel="stylesheet" href="/site_media/styles/main_style.css" type="text/css" media="screen" charset="utf-8" />
-    <!-- Usage of blueprint -->
-    <link rel="stylesheet" href="/site_media/blueprint/screen.css" type="text/css" media="screen, projection" />
-    <link rel="stylesheet" href="/site_media/blueprint/print.css" type="text/css" media="print" /> 
-    <!--[if lt IE 8]>
-        <link rel="stylesheet" href="/site_media/blueprint/ie.css" type="text/css" media="screen, projection" />
-    <![endif]-->
+    {% include "headers/header_blueprint.html" %}
     {% block head %}{% endblock %}
 </head>
 

@@ -1,23 +1,13 @@
 from django.conf.urls.defaults import *
 import os.path
 from django.conf import settings
-
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^photo/', include('photo.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': 'photo/'}),
-    
-    # Example:
-    # (r'^gphblog/', include('gphblog.foo.urls')),
-
-    # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
-    # to INSTALLED_APPS to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('auth.urls')),
     url(r'^captcha/', include('captcha.urls')),
