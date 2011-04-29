@@ -1,16 +1,18 @@
-#################
-    gphblog
-#################
+h1. gphblog
 
-
-Readme for project Gphblog (Garmoncheg's Photo Blog)
+h2. Readme for project Gphblog (Garmoncheg's Photo Blog)
 
 This project is a demo for learning Django, Ajax, jQuery and Git.)
 
-Dependencies:
-_____________
+h2. Screenshots:
+!https://picasaweb.google.com/lh/photo/F9vKQpJgtCoaAcKQO3JqwJy8BxOgupmWSl9T9B9YTX4?feat=directlink!
+!https://picasaweb.google.com/lh/photo/oNBP65wdY42DjYgrQKZappy8BxOgupmWSl9T9B9YTX4?feat=directlink!
+!<table style="width:auto;"><tr><td><a href="https://picasaweb.google.com/lh/photo/F9vKQpJgtCoaAcKQO3JqwJy8BxOgupmWSl9T9B9YTX4?feat=embedwebsite"><img src="https://lh6.googleusercontent.com/_U-IlmBvfZYs/Tbp7FHF7o0I/AAAAAAAAEUI/oSj4veYNK8k/s144/ss1.jpg" height="69" width="144" /></a></td></tr><tr><td style="font-family:arial,sans-serif; font-size:11px; text-align:right">From <a href="https://picasaweb.google.com/garmon1/WebProgrammerBlog?authkey=Gv1sRgCI6e9p_Ejfr-jgE&feat=embedwebsite">Web programmer blog</a></td></tr></table>!
 
-You have to have this things installed:
+
+h3. Dependencies:
+
+h3. You have to have this things installed:
 
     - Django 1.1
     - sorl-thumbnails v 11.0 (for thumbnails generation)
@@ -22,7 +24,7 @@ You have to have this things installed:
         http://www.kyngchaos.com/macosx/build/freetype2
         url: http://www.pythonware.com/products/pil/
 
-Things included in the distribution:
+h3. Things included in the distribution:
     - django pagination
         version used, included in the project
         url: http://code.google.com/p/django-pagination/
@@ -33,13 +35,11 @@ Things included in the distribution:
         version used, included in the project
         url: http://www.blueprintcss.org/
 
-Installation:
-______________
+h2. Installation:
 
 Use settings.py.example for creating your own configuration.
 (rename it to settings.py and watch for the comments)
 
-Extra Information
-_________________
+h2. Extra Information
 
     For the latest updates, see CHANGELOG.
