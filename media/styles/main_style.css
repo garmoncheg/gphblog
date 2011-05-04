@@ -109,7 +109,7 @@ h6 {
     background-color: #FFEC8B;
 }
 
-textarea#id_body {
+textarea {
     height: 200px;
     width: 750px;
     border-color: black;

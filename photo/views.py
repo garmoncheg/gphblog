@@ -19,12 +19,11 @@ def get_comment_form(user, *args, **kwargs):
     return cf
 
 def delete_comment_ajax(request):
-    print ('delete_comment_ajax triggered')
     if request.method =='POST':
         if request.user.is_authenticated():
             comment_pk = request.POST["comment_pk"]
             comment = get_object_or_404(Comment, pk=comment_pk)
-            if comment.author==request.user or request.user.is_superuser():
+            if (comment.author==request.user) or (request.user.is_superuser):
                 comment.delete()
                 return HttpResponse(comment_pk)
             else:
@@ -53,9 +52,12 @@ def edit_comment_ajax(request):
                     return render_to_response("comments/comment_edit_form.html",{"pk": comment_pk, "textarea_text": comment_text})
                 else:
                     comment = get_object_or_404(Comment, pk=comment_pk)
-                    comment.body = unicode(comment_body)
-                    comment.save()
-                    return HttpResponse(unicode(comment.body))
+                    if (comment.author==request.user) or (request.user.is_superuser):
+                        comment.body = unicode(comment_body)
+                        comment.save()
+                        return HttpResponse(unicode(comment.body))
+                    else:
+                        return HttpResponseBadRequest('You are not allowed to edit comments!')
         else: return HttpResponseBadRequest('must be logged in to edit your comments!')
     else:#if post
         return HttpResponseBadRequest('Only POST accepted')
@@ -164,6 +166,6 @@ def upload_photo_ajax(request):
             form = UploadImageForm()
             return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})
     else:
-        return HttpResponse(unicode("Please log in to upload photos!"))
+        return HttpResponse(unicode('<div class="phtitle">Please log in to upload photos!</div>'))
 
 

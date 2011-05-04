@@ -1,5 +1,10 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.4.1 04.05.2011
+==============================================================
+- fix bug with superuser deletion and edition of comments
+- some minor restyle
+
 gphblog 1.4.0 04.05.2011
 ==============================================================
 - add AJAX comments editing (by comment creator or superuser)
