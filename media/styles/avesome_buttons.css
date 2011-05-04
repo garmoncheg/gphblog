@@ -17,6 +17,7 @@
     .awesome:hover                          { background-color: #111; color: #fff; }
     .awesome:active                         { top: 1px; }
     .small.awesome, .small.awesome:visited          { font-size: 11px; padding: 8px 14px 9px; }
+    .tiny.awesome, .tini.awesome:visited          { font-size: 1px; padding: 2px 5px 3px; }
     .awesome, .awesome:visited,
     .medium.awesome, .medium.awesome:visited        { font-size: 13px; font-weight: bold; line-height: 1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
     .large.awesome, .large.awesome:visited          { font-size: 14px; padding: 8px 14px 9px; }

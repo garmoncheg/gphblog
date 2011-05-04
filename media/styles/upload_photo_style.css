@@ -41,8 +41,7 @@ a.btn-slide:focus {
 }
 
 .btn-slide {
-	position: relative;
-	center: 0px;
+    position: relative;
     margin-left: 80px;
     padding-left: 30px;
 }

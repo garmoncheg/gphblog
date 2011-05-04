@@ -1,5 +1,5 @@
 <!-- Comments  -->
-<div class="comments-block" data-id="{{ item.pk }}">
+<div class="comments-block" data-id="{{ item.pk }}" url="{% url edit_comment %}" del="{% url delete_comment %}">
     <p class="comments-header" {% if not comments %}style="display: none;"{% endif %}>Comments:</p>
     {% for comment in comments %}
 {% include "comments/single_comment.html" %}

@@ -1,8 +1,6 @@
-from django.shortcuts import render_to_response, get_object_or_404, redirect
-from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from photo.models import Album, MEDIA_URL, Image, Comment, Votes
+from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponse, HttpResponseBadRequest
+from photo.models import Image, Comment, Votes
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
 from forms import UploadImageForm, CommentForm, CommentFormWithCapthca
@@ -10,7 +8,7 @@ import datetime
 
 def get_comment_form(user, *args, **kwargs):
     """
-    Simple function to choose comment form depending if user islogged in.
+    Simple function to choose comment form depending if user is logged in.
     """
     if user.is_authenticated():
         cf = CommentForm(*args, **kwargs)
@@ -19,6 +17,48 @@ def get_comment_form(user, *args, **kwargs):
         cf = CommentFormWithCapthca(*args, **kwargs)
         cf.author = 'Anonymous'
     return cf
+
+def delete_comment_ajax(request):
+    print ('delete_comment_ajax triggered')
+    if request.method =='POST':
+        if request.user.is_authenticated():
+            comment_pk = request.POST["comment_pk"]
+            comment = get_object_or_404(Comment, pk=comment_pk)
+            if comment.author==request.user or request.user.is_superuser():
+                comment.delete()
+                return HttpResponse(comment_pk)
+            else:
+                return HttpResponseBadRequest('You have no permit to delete this comment!')
+        else:
+            return HttpResponseBadRequest('Forbidden! User is not logged in!')
+    else:
+        return HttpResponseBadRequest('Only POST accepted')
+
+
+def edit_comment_ajax(request):
+    """
+    View to edit comments
+    """
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            action=request.POST["action"]
+            if (action=="receive"):
+                comment_pk = request.POST["comment_pk"]
+                comment_text = request.POST["comment_text"]
+                return render_to_response("comments/comment_edit_form.html",{"pk": comment_pk, "textarea_text": comment_text})
+            if (action=="comment"):
+                comment_pk = request.POST["comment_pk"]
+                comment_body = request.POST["body"]
+                if comment_body == u'': 
+                    return render_to_response("comments/comment_edit_form.html",{"pk": comment_pk, "textarea_text": comment_text})
+                else:
+                    comment = get_object_or_404(Comment, pk=comment_pk)
+                    comment.body = unicode(comment_body)
+                    comment.save()
+                    return HttpResponse(unicode(comment.body))
+        else: return HttpResponseBadRequest('must be logged in to edit your comments!')
+    else:#if post
+        return HttpResponseBadRequest('Only POST accepted')
 
 #@login_required
 def add_comment_ajax(request):
@@ -38,7 +78,8 @@ def add_comment_ajax(request):
             if author.is_authenticated(): comment.author=author
             comment.save()
             comment.data_id = pk
-            return render_to_response("comments/single_comment.html", {"comment": comment})
+            comment.permited = unicode('permit')
+            return render_to_response("comments/single_comment.html", {"comment": comment, "pk": comment.pk}, context_instance=RequestContext(request))
         else:
             #form unvalid return form with errors
             return render_to_response("comments/comment_form.html",{"comment_form": cf, "cf_pk": pk,})

@@ -46,6 +46,8 @@ body.login {
 
 .form_errors {
     padding-left: 20px;
+    background-color: #FF4040;
+    color: white;
 }
 
 table.create_form {

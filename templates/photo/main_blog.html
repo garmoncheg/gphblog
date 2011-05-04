@@ -43,7 +43,6 @@
                 </center>
             </a>
             <div class="metadata"><b>(c):</b>{{ item.user }}</div>
-            <hr>
             <div class="comments">
             {% add_comments_for_item item 3 as comments %}
             {% include "comments/comment_system.html" %}
@@ -52,5 +51,4 @@
         {% endfor %}
         {% paginate %}
     </div>
-    <hr> 
 {% endblock %}

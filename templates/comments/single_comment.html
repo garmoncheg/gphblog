@@ -1,4 +1,11 @@
-<div class="comment" data-id="{{ comment.data_id }}">
-    <div class="time">{{ comment.created }} | <b>{{ comment.author }}</b></div>
-    <div class="body">{{ comment.body|linebreaks }}</div>
+<div class="comment {{ comment.permited }} {{ comment.permited }}{{ comment.pk }}" commment-id="{{ comment.pk }}" data-id="{{ comment.data_id }}">
+    <div class="comment_header">{{ comment.created }} | <b>{{ comment.author }}</b>
+        {% if request.user.is_authenticated %}
+        <span class="comment_edit_buttons">
+            {% include "comments/edit_comment_btn.html" %}
+            {% include "comments/delete_comment_btn.html" %}
+        </span>
+        {% endif %}
+    </div>
+    <div class="comment_body" comment-id="{{ comment.pk }}">{{ comment.body }}</div>
 </div>

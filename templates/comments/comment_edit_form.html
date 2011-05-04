@@ -1,0 +1,20 @@
+<div id="ajaxwrapper_edit_comment" comment-id="{{ pk }}">
+    <!-- Comment EDIT form -->
+    <form id="comment_edit_form" comment-id="{{ pk }}" action="{% url edit_comment %}" method="post" >
+        <textarea id="id_body" name="body" cols="40" rows="10">{{ textarea_text }}</textarea>
+        <button
+            type="submit"
+            class="small green awesome"
+            >
+            Save
+        </button>
+        <button
+            onclick="return false"
+            id="edit_cancel" 
+            comment-id="{{ pk }}"
+            class="small red awesome"
+            >
+            Cancel
+        </button>
+    </form>
+</div>

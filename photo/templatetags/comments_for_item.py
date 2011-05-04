@@ -22,9 +22,15 @@ class Comments(template.Node):
         self.comments_amount = comments_amount
         self.var_name = var_name
     def render(self, context):
+        user = context["request"].user
         try:
             item = self.item.resolve(context)
             comments = Comment.objects.filter(image=item).order_by('-created')[:self.comments_amount]
+            for comment in comments:
+                if (comment.author == user) or (user.is_superuser):
+                    comment.permited = "permit"
+                else: comment.permited = "none"
+                #print comment.permited
             context[self.var_name] = comments
         except template.VariableDoesNotExist:
             return ''

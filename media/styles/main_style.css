@@ -54,34 +54,10 @@ h6 {
 	font-size: 1.7em;
 }
 
-.commentlink {
-	text-align: right;
-}
-
-.time {
-	font-size: 0.8em;
-	margin-top: 2px;
-}
-
-.body {
-	font-size: 1.1em;
-	margin-top: 2px;
-}
-
 .right {
 	text-align: right;
 	float: right;
 	margin: 4px;
-}
-
-.comments-block {
-    text-decoration: none;
-    background: #FEF0C9;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    border-right: 2px solid #fff;
-    color: #777;
-    font-size: 1.2em;
 }
 
 .photo_instance {
@@ -91,4 +67,53 @@ h6 {
     border-bottom: 1px solid #ccc;
     border-right: 2px solid #fff;
     border-left: 2px solid #fff;
+}
+
+/* --------------------------- comments styles --------------------------- */
+.comments-block {
+    text-decoration: none;
+    background: #FEF0C9;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    color: #777;
+    font-size: 1.8em;
+}
+
+.comment_header {
+    font-size: 1.2em;
+    margin-top: 2px;
+    color: #8C8C8C;
+}
+
+.comment_body {
+    font-size: 1.2em;
+}
+
+.comment {
+    color: #000000;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+
+}
+
+
+.commentlink {
+    text-align: right;
+}
+
+.comment:hover {
+    background-color: #FFEC8B;
+}
+
+textarea#id_body {
+    height: 200px;
+    width: 750px;
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+    padding: 3px;
 }
