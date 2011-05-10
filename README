@@ -32,6 +32,12 @@ Things included in the distribution:
     - blueprint (CSS framework)
         version used, included in the project
         url: http://www.blueprintcss.org/
+    - django-tagging (0.3.1)
+        version used, included in the project
+        url: http://code.google.com/p/django-tagging/
+    - jQuery Tags Input
+        version used, included in the project
+        url: http://xoxco.com/clickable/jquery-tags-input
 
 Installation:
 ----------------------------------------------------------------------

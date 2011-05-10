@@ -1,0 +1,52 @@
+.tagbox {
+	width: 220px;
+	position:fixed;
+	background-color: #FCF8DC;
+	text-align: center;
+	padding: 5px;
+	overflow: auto;
+	font-size: 70%;
+	font-family: arial;
+}
+
+.tags_header {
+	color: #777;
+	font-size: 2.5em;
+	margin: 0 0 10px 0;
+	background: url("../../site_media/site_graphics/cloud.gif") no-repeat 0;
+	padding: 15px 0 15px 80px;
+}
+
+.tags_group {
+	margin: 0;
+	padding: 0;
+}
+
+.tags_group li {
+	list-style-type: none;
+	float: left;
+	margin: 0 10px;
+	height: 35px;
+}
+
+.tags_group li a {
+	text-decoration: none;
+	color: #777;
+}
+
+.tags_group li a:hover {
+	text-decoration: underline;
+	color: #050505;
+}
+
+.tag1 {
+	font-size: 1em;
+}
+
+.tag4 {
+	font-size: 2em;
+}
+
+.tag10 {
+	font-size: 2.5em;
+}

@@ -1,0 +1,23 @@
+{% block head %}
+{% include "headers/header_tags_system.html" %}
+{% endblock %}
+{% load tagging_tags %}
+{% tags_for_object item as tags_string %}
+<!-- TAGS system block -->
+<div id="tags_block" class="tags{{ item.pk }}" url="{% url tag_edit %}" data-id="{{ item.pk }}">
+    {% if tags_string %}
+    <div class="tags{{ item.pk }}">Tags: <span id="all_tags">{{ item.tags_string }}</span> <br />
+    {% else %}
+    <div class="tags{{ item.pk }}"><b>This picture is not tagged yet! {% if item.tags_permit %}<p style="color:red;">Please tag it! </p></b> Tags: {% endif %}<span id="all_tags"></span><br />
+    {% endif %}
+        {% if item.tags_permit %}
+            <form class="tags{{ item.pk }}" style="display:none;">
+            <h5>You can edit Picture tags here.<br />
+            Tag is complete after comma inserted.<br />
+            Tag max length is 50 symbols.<br /></h5>
+                <input id="tags_1" data-id="{{ item.pk }}" type="text" class="tags tags{{ item.pk }}" value="{{ item.tags_string }}" />
+            </form>
+            <a id="tags-edit-btn" class="small orange awesome" data-id="{{ item.pk }}">Edit tags >>></a>
+        {% endif %}
+    </div>
+</div>

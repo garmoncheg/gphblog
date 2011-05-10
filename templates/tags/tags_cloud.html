@@ -1,0 +1,12 @@
+{% load tagging_tags %}
+<link rel="stylesheet" href="/site_media/styles/tagcloud.css" type="text/css" media="screen" charset="utf-8" />
+<div class="tagbox">
+    <div class="tags_header">Filter by Tag:</div>
+    <div class="tags_group">
+        {% tag_cloud_for_model photo.Image as entry_tags with steps=10 min_count=1 distribution=log %}
+        {% for tag in entry_tags %}
+            <li><a class="tag{{ tag.font_size }}" freq="{{ tag.font_size }}" href="/photo/tag/{{ tag }}/">{{ tag }}</a></li>
+        {% endfor %}
+    </div>
+</div>
+

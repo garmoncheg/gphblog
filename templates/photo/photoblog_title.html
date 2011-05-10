@@ -1,5 +1,14 @@
 {% if request.user.is_authenticated %}
-<div class="h5">Photoblog of <b>{{ user }}</b></div>
+    {% if tagged_name %}
+        <div class="h5">Photos tagged: <b>{{ tagged_name }}</b></div>
+    {% else %}
+        <div class="h5">Photoblog of <b>{{ user }}</b></div>
+    {% endif %}
+    
 {% else %}
-<div class="h5">Photoblog</div>
+    {% if tagged_name %}
+        <div class="h5">Photos tagged: <b>{{ tagged_name }}</b></div>
+    {% else %}
+        <div class="h5">Photoblog</div>
+    {% endif %}
 {% endif %}

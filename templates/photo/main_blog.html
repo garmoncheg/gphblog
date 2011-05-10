@@ -11,6 +11,7 @@
 
 {% block sidebar %}
 {% include "photo/upload_photo_panel.html" %}
+{% include "tags/tags_cloud.html" %}
 {% endblock %}
 
 
@@ -31,7 +32,7 @@
         {% for item in items %}
         <div class="photo_instance" data-id="{{ item.pk }}">
             {% include "photo/voter.html" %}
-            <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
+            <div class="h5"><b>Photo:</b> {{ item.title }}</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
             <div class="title"><b>rating:</b><span class="rating-{{item.pk}}">{{ item.rating }}</span></div>

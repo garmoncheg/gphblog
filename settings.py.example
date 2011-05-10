@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'photo',
     'sorl.thumbnail', #thumbnail generation lib
     'pagination', #pagination generation lib
+    'tagging', #tagging library
     'django.contrib.admin',
     'captcha',
 )

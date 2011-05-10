@@ -1,5 +1,16 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.5.0 10.05.2011
+==============================================================
+- add tags
+- add usage of tagging plugins (django-tagging) and (jQuery tags plugin)
+- add tagcoud with tag photos filtering to main view
+- add Main blog shows photos filtered by tag
+- add User (photo owner) or Superuser can add tags to his photo
+- add single image page now shows tags string
+- removed depreciated Tag model form photo.models to use of django-tagging v 0.3.1 plugin
+- add jQuery tagging system to visually edit tags (in a AJAX form)
+
 gphblog 1.4.1 04.05.2011
 ==============================================================
 - fix bug with superuser deletion and edition of comments

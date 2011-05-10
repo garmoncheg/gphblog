@@ -5,6 +5,8 @@ import os
 from PIL import Image as PilImage
 from settings import MEDIA_ROOT, MEDIA_URL 
 
+import tagging
+
 class Album(models.Model):
     """Album used to store photos. Has "Public" key """
     title = models.CharField(max_length=60)
@@ -19,16 +21,9 @@ class Album(models.Model):
     def __unicode__(self):
         return self.title
 
-class Tag(models.Model):
-    """Tags model"""
-    tag = models.CharField(max_length=50)
-    def __unicode__(self):
-        return self.tag
-
 class Image(models.Model):
     title = models.CharField(max_length=60, blank=True, null=True)
     image = models.FileField(upload_to="images/")
-    tags = models.ManyToManyField(Tag, blank=True)
     albums = models.ManyToManyField(Album, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     last_commented = models.DateTimeField(auto_now_add=True)
@@ -52,9 +47,9 @@ class Image(models.Model):
     def __unicode__(self):
         return self.image.name
 
-    def tags_(self):
-        lst = [x[1] for x in self.tags.values_list()]
-        return str(join(lst, ', '))
+#    def tags_(self):
+#        lst = [x[1] for x in self.tags.values_list()]
+#        return str(join(lst, ', '))
 
     def albums_(self):
         lst = [x[1] for x in self.albums.values_list()]
@@ -67,6 +62,8 @@ class Image(models.Model):
         return """<a href="/site_media/%s">%s</a>""" % ((self.image.name, self.image.name))
     thumbnail.allow_tags = True
 
+#registering tagging model to access some handy tags managers 
+tagging.register(Image)
 
 class Comment(models.Model):
     """Single comment model. Returns comment"""

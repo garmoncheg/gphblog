@@ -1,10 +1,66 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
 from photo.models import Image, Comment, Votes
+from tagging.models import Tag, TaggedItem
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
 from forms import UploadImageForm, CommentForm, CommentFormWithCapthca
 import datetime
+from string import join
+
+"""
+#########################################################################################
+                           TAGS system
+#########################################################################################
+"""
+def get_tags_data(user, item, *args, **kwargs):
+    """
+    Function to retrieve tags data depending on user and add it to an image.
+    """
+    
+    #checking for user permit to edit tags
+    if user.is_authenticated():
+        if (item.user==user) or (user.is_superuser):
+            item.tags_permit = True
+        else: item.tags_permit = False
+    else:
+        item.tags_permit = False
+    #getting image tags
+    lst = [x[1] for x in item.tags.values_list()]
+    item.tags_string =unicode(join(lst, ', '))
+    return item
+
+
+def tag_edit(request):
+    """
+    View for adding a tag
+    """
+    #POST checking
+    if request.method == 'POST':
+        user=request.user
+        image_pk = request.POST["image_pk"]
+        image=get_object_or_404(Image, pk=image_pk)
+        #checking user permit to edit tags
+        if user.is_authenticated() and (image.user==user) or user.is_superuser:
+            #getting tags string and parsing them with tags APP
+            tag_string = request.POST["body"]
+            Tag.objects.update_tags(image, tag_string)
+            #generate string of tags for output
+            lst = [x[1] for x in image.tags.values_list()]
+            image.tags_string=unicode(join(lst, ', '))
+            return HttpResponse(unicode(image.tags_string))
+        else: return HttpResponseBadRequest('Forbidden! User is not logged in!')
+    else: return HttpResponseBadRequest('Only POST accepted')
+    
+
+
+
+
+"""
+#########################################################################################
+                           Comments
+#########################################################################################
+"""
 
 def get_comment_form(user, *args, **kwargs):
     """
@@ -19,6 +75,9 @@ def get_comment_form(user, *args, **kwargs):
     return cf
 
 def delete_comment_ajax(request):
+    """
+    View to DELETE comments
+    """
     if request.method =='POST':
         if request.user.is_authenticated():
             comment_pk = request.POST["comment_pk"]
@@ -33,10 +92,9 @@ def delete_comment_ajax(request):
     else:
         return HttpResponseBadRequest('Only POST accepted')
 
-
 def edit_comment_ajax(request):
     """
-    View to edit comments
+    View to EDIT comments
     """
     if request.method == 'POST':
         if request.user.is_authenticated():
@@ -62,9 +120,10 @@ def edit_comment_ajax(request):
     else:#if post
         return HttpResponseBadRequest('Only POST accepted')
 
-#@login_required
 def add_comment_ajax(request):
-    """Add a new comment.with ajax method"""
+    """
+    Add a new comment view
+    """
     #checking for POST
     if request.method == 'POST':
         pk = request.POST["pk"]
@@ -89,7 +148,14 @@ def add_comment_ajax(request):
     else:
         return render_to_response("comments/comment_form.html",{"comment_form": get_comment_form(request.user)})
 
-#@login_required
+
+
+"""
+#########################################################################################
+                           Votes(rating)
+#########################################################################################
+"""
+
 def change_rating_ajax_view(request):
     """ A view for AJAX voting for the photo with POST method 
         and checking if user already voted"""
@@ -124,11 +190,20 @@ def change_rating_ajax_view(request):
     else:#if post
         return HttpResponseBadRequest('Only POST accepted')
 
-#@login_required
+
+"""
+#########################################################################################
+                           BLOG system
+#########################################################################################
+"""
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
     user=request.user
     item = get_object_or_404(Image, pk=pk)
+    
+    #loading tags data from my function
+    get_tags_data(user, item)
+    
     try:
         if user.is_authenticated():
             Votes.objects.get(image__pk=pk, user=user)
@@ -140,15 +215,30 @@ def single_image_view(request, pk):
                               context_instance=RequestContext(request))
 
 #@login_required
-def thumbnail_view(request):
+def thumbnail_view(request, tag=''):
     """Blog view, also main view"""
     user = request.user
-    items=Image.objects.all().order_by('-last_commented')
+    if tag=='':
+        items=Image.objects.all().order_by('-last_commented')
+    else:
+        tag_object = Tag.objects.get(name=tag)
+        items=TaggedItem.objects.get_by_model(Image, tag_object)
+        #items=Tag.objects.
     return render_to_response("photo/main_blog.html", {'items': items, 
+                                                       'tagged_name': tag,
                                                        "comment_form": get_comment_form(user),},
                                                         context_instance=RequestContext(request, processors=[my_auth_processor]))
 
-#@login_required
+
+
+
+
+"""
+#########################################################################################
+                           photo UPLOADS
+#########################################################################################
+"""
+
 def upload_photo_ajax(request):
     """View for Uploading a photo."""
     if request.user.is_authenticated():

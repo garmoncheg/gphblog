@@ -35,6 +35,10 @@
             </a>
             <div class="metadata"><b>(c):</b>{{ item.user }}</div>
             <hr>
+
+            {% include "tags/tags_system.html" %}
+
+<hr>
     <div class="comments">
         {% add_comments_for_item item 300 as comments %}
         {% include "comments/comment_system.html" %}
