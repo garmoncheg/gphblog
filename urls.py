@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': 'photo/'}),
     (r'^admin/', include(admin.site.urls)),
     (r'^accounts/', include('auth.urls')),
+    (r'^notification/', include('notification.urls')),
     url(r'^captcha/', include('captcha.urls')),
 )
 

@@ -3,19 +3,34 @@
 	font-size: 0.95em;
 }
 
+#sidebar {
+	position:fixed;
+	background-color: #FCF8DC;
+	height: auto;
+}
+
+#menu {
+    width: 220px;
+    text-align: left;
+    padding: 5px;
+    font-family: arial;
+}
+
 #menu a {
+	font-size: 3.7em;
+	text-align: center;
 	text-decoration: none;
-	background: #eee;
+	background: #FCF8DC;
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
-	border-right: 2px solid #fff;
+	border-right: 2px solid #FCF8DC;
 	padding-right: 3px;
 	padding-left: 3px;
 	color: #777;
-	font-size: 0.9em;
 }
 
 #menu a:hover {
+	font-size: 3.7em;
 	background: #eeebeb;
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
@@ -35,6 +50,7 @@ p {
 .h3 {
 	margin-right: 30px;
 	display: inline;
+	font-size: 1.7em;
 }
 
 .metadata {
@@ -47,7 +63,7 @@ p {
 	border-bottom: 1px solid #aaa;
 }
 .h5 {
-	font-size: 2.1em;
+	font-size: 3.1em;
 }
 
 h6 {
@@ -116,4 +132,5 @@ textarea {
     border-style: solid;
     border-width: thin;
     padding: 3px;
+    font-size: 2.7em;
 }

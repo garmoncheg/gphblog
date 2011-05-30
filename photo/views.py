@@ -8,6 +8,17 @@ from forms import UploadImageForm, CommentForm, CommentFormWithCapthca
 import datetime
 from string import join
 
+#notification imports for optional notification usage
+from django.conf import settings
+from models import User
+if "notification" in settings.INSTALLED_APPS:
+    from notification import models as notification
+    notification.create_notice_type("c_add", "Comment Added", "Comment added to your photo")
+    notification.create_notice_type("photo_add", "Photo Added", "user added a new photo")
+else:
+    notification = None
+
+
 """
 #########################################################################################
                            TAGS system
@@ -140,6 +151,8 @@ def add_comment_ajax(request):
             comment.save()
             comment.data_id = pk
             comment.permited = unicode('permit')
+            if notification:
+                notification.send([item.user], "c_add", {"ph_title":item.title, "notice":comment.body})
             return render_to_response("comments/single_comment.html", {"comment": comment, "pk": comment.pk}, context_instance=RequestContext(request))
         else:
             #form unvalid return form with errors
@@ -245,10 +258,12 @@ def upload_photo_ajax(request):
         if request.method == 'POST':
             form = UploadImageForm(request.POST, request.FILES or None)
             if form.is_valid():
-                t = form.save(commit=False)
-                t.user=request.user
-                t.save()
+                image = form.save(commit=False)
+                image.user=request.user
+                image.save()
                 form.save_m2m()
+                if notification:
+                    notification.send(User.objects.filter(is_superuser=True), "photo_add", {"ph_title":image.title,})
                 return HttpResponse(unicode("Uploaded success!"))
             else: #form errors
                 return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})

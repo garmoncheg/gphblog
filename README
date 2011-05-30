@@ -23,6 +23,11 @@ You have to have this things installed:
         url: http://www.pythonware.com/products/pil/
 
 Things included in the distribution:
+    - django notification
+        version used, included in the project (v0.2.0a)
+        (commented out sending mail procedures in order to
+        use debugging without send_mail)
+        url: https://github.com/jtauber/django-notification/
     - django pagination
         version used, included in the project
         url: http://code.google.com/p/django-pagination/

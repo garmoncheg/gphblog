@@ -1,6 +1,6 @@
 .tagbox {
 	width: 220px;
-	position:fixed;
+
 	background-color: #FCF8DC;
 	text-align: center;
 	padding: 5px;
@@ -41,6 +41,14 @@
 
 .tag1 {
 	font-size: 1em;
+}
+
+.tag3 {
+	font-size: 1.5em;
+}
+
+.tag {
+	font-size:2.5em;
 }
 
 .tag4 {

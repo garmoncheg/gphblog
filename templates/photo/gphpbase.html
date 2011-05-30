@@ -12,12 +12,12 @@
 </head>
 
 <body class="free">
-    <div id="sidebar"> {% block sidebar %} {% endblock %} </div>
-    <div id="container">
-        <div id="menu">
+    <div id="sidebar"> 
         {% include "photo/nav_global.html" %}
-
-        </div>
+        {% include "tags/tags_cloud.html" %}
+        {% block sidebar %} {% endblock %}
+    </div>
+    <div id="container">
 
         <div id="content">
             {% block content %}{% endblock %}

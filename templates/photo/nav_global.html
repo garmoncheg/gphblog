@@ -1,17 +1,23 @@
 {% block nav_global %}
 
 <!-- MENU -->
-<div class="h3"><a href="{% url photo.views.thumbnail_view %}">Photoblog</a></div>
+<a class="logo" href="{% url photo.views.thumbnail_view %}">
+    <img src="/site_media/site_graphics/site_logo.png" 
+        onmouseover="this.src='/site_media/site_graphics/site_logo_MouseOver.png'"
+        onmouseout="this.src='/site_media/site_graphics/site_logo.png'"/>
+</a>
+<div id="menu">
+
 {% if user.is_staff %}
-    <a href="{% url admin:index %}">Admin</a>
-    <a href="{% url admin:photo_image_add %}">Add Image By Admin</a>
+    <a href="{% url admin:index %}">Admin</a><br />
 {% endif %}
 {% if user.is_authenticated %}
-    Logged in as: <b><a href="{% url auth.views.auth_state %}">{{ user }}</a></b>
-    <a href="{% url django.contrib.auth.views.logout %}">Log out</a>
+    <a href="{% url auth.views.auth_state %}">Profile</a><br />
+    <a href="{% url django.contrib.auth.views.logout %}">Log out</a><br />
 {% endif %}
 {% if not user.is_authenticated %}
-    <a href="{% url django.contrib.auth.views.login %}">Log in</a>
-    <a href="{% url auth.views.create_new_user %}">Register!</a>
+    <a href="{% url django.contrib.auth.views.login %}">Log in</a><br />
+    <a href="{% url auth.views.create_new_user %}">Register</a><br />
 {% endif %}
 {% endblock %}
+</div>

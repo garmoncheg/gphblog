@@ -1,5 +1,13 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.6.0 31.05.2011
+==============================================================
+- add notifications system (by django-notifications v0.2.0a plugin)
+- add notification to photo author about comment in his photo
+- add notification to superusers about new photo upload (in case of spam)
+- restyle main menu
+- restyle Site Logo!
+
 gphblog 1.5.0 10.05.2011
 ==============================================================
 - add tags
