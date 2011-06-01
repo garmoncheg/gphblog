@@ -1,5 +1,10 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 1.7.0 31.05.2011
+==============================================================
+- add rss feed with photo titles
+- add rss button to main blog menu
+
 gphblog 1.6.0 31.05.2011
 ==============================================================
 - add notifications system (by django-notifications v0.2.0a plugin)

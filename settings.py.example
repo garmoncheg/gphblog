@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'auth',
     'photo',
+    'feeds',
     'sorl.thumbnail', #thumbnail generation lib
     'pagination', #pagination generation lib
     'tagging', #tagging library

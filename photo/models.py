@@ -58,6 +58,10 @@ class Image(models.Model):
     def fullpath(self):
         return "%s" % ((MEDIA_URL + self.image.name))
     
+    @models.permalink
+    def get_absolute_url(self):
+        return ('photo.views.single_image_view', [str(self.pk)])
+    
     def thumbnail(self):
         return """<a href="/site_media/%s">%s</a>""" % ((self.image.name, self.image.name))
     thumbnail.allow_tags = True
