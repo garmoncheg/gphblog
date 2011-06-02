@@ -3,7 +3,7 @@ import os.path
 from django.conf import settings
 from django.contrib import admin
 from feeds.feeds import LatestEntries
-
+from sitemap_dictionaries import sitemaps
 
 admin.autodiscover()
 
@@ -14,6 +14,9 @@ feeds = {
 
 urlpatterns = patterns('',
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
+    
+    (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    
     (r'^photo/', include('photo.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': 'photo/'}),
     (r'^admin/', include(admin.site.urls)),

@@ -35,7 +35,7 @@ def register(model, tag_descriptor_attr='tags',
     from tagging.managers import ModelTaggedItemManager, TagDescriptor
 
     if model in registry:
-        raise AlreadyRegistered("The model '%s' has already been "
+        return AlreadyRegistered("The model '%s' has already been "
             "registered." % model._meta.object_name)
     if hasattr(model, tag_descriptor_attr):
         raise AttributeError("'%s' already has an attribute '%s'. You must "
