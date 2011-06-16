@@ -7,6 +7,8 @@ from settings import MEDIA_ROOT, MEDIA_URL
 
 import tagging
 
+from syncr.flickr.models import FLICKR_LICENSES
+
 class Album(models.Model):
     """Album used to store photos. Has "Public" key """
     title = models.CharField(max_length=60)
@@ -33,12 +35,14 @@ class Image(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
     views = models.IntegerField(default=0)
 
+
     def save(self, *args, **kwargs):
         """Save image dimensions."""
         super(Image, self).save(*args, **kwargs)
         im = PilImage.open(os.path.join(MEDIA_ROOT, self.image.name))
         self.width, self.height = im.size
         super(Image, self).save(*args, ** kwargs)
+
 
     def size(self):
         """Image size."""

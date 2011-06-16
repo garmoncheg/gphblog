@@ -1,0 +1,23 @@
+<div id="cgbflickr">
+{% if flickr_photos %}
+    <h1><a class="flickr_bage" href="{% url flickr_synchronize_finale %}">
+        Step 4: Final download.
+        <img src="/site_media/site_graphics/flickr_badge.png" />
+        </a>
+    </h1>
+    <h2 style="color:grey">Check out photos you've got from Flickr and transfer them to your Photoblog.</h2>
+    <h3 style="color:grey">Now we will actually download all these photos to our Photoblog and delete from temporary sync base.</h3>
+
+<div id="flickr_sync_thumbnails">
+    <h1>Look at what you've get so far:</h1><br />
+    <h2>{{ flickr_photos_count }} Photos</h2>
+    {% for photo in flickr_photos %}
+        <img src="{{ photo.get_square_url }}" />
+    {% endfor %}
+{% else %}
+    <h1>Sorry you've got no photos on this request or something got wrong.</h1>
+    <h2>Try to go back and change your request.</h2>
+{% endif %}
+</div>
+
+</div>

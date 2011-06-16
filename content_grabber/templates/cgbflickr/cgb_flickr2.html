@@ -1,0 +1,19 @@
+<div id="cgbflickr">
+    <h1><a class="flickr_bage" href="{% url flickr_synchronize_second_phase %}">
+        Step 3: Choose a way to grab content from flickr!
+        <img src="/site_media/site_graphics/flickr_badge.png" />
+        </a>
+    </h1>
+    <h2 style="color:grey">Check for photos.</h2>
+
+<form id="flickr_sync_by_username" enctype="multipart/form-data" action="{% url flickr_synchronize_second_phase %}" method="post">
+{% if form.errors %}
+    <div class="form_errors">{{ form.errors }}</div>
+{% else %}
+    <div class="sync_flickr_form_title">Enter a Flickr user Username!</div>
+{% endif %}
+    <p><label for="flickr_username">Flickr Username:</label> <input id="flickr_username" type="text" name="flickr_username" maxlength="60" /></p>
+    <h2 style="color:grey">in character format: for e.g. "username", not a Flickr converted username like "72157626239925361"</h2>
+    <input type="submit" value="Sync" />
+</form>
+</div>

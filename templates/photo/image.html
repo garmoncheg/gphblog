@@ -28,9 +28,15 @@
             
             <a href="{{ item.fullpath }}">
                 <center>
+            {% if item.image|is_portrait %}
+                {% thumbnail item.image "795x1095" crop="10px 10px" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+            {% else %}
                 {% thumbnail item.image "795x595" crop="center" as im %}
                     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
                 {% endthumbnail %}
+            {% endif %}
                 </center>
             </a>
             <div class="metadata"><b>(c):</b>{{ item.user }}</div>

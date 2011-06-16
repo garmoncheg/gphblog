@@ -1,0 +1,14 @@
+<div id="cgbflickr">
+    <h2>Welcome, oh authenticated user: </h2><h1><b>{{user}}!</b></h1>
+
+    <p>Now You must sync photosets with Flickr. </p>
+    <p>This may take a while!</p>
+    
+    <h1><a class="flickr_bage" href="{% url flickr_synchronize_second_phase %}">
+        Step 2: Sync Photosets list:
+        <img src="/site_media/site_graphics/flickr_badge.png" />
+        </a>
+    </h1>
+    <h2 style="color:grey">Please wait while we synchronize your flickr photosets.</h2>
+</div>
+

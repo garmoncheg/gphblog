@@ -37,6 +37,15 @@
 	color: #555;
 }
 
+#menu_staff_wrapper a{
+	font-size: 0.9em;
+}
+
+#menu_staff_wrapper a:hover{
+    font-size: 1em;
+}
+
+
 #container {
 	margin: auto;
 	width: 800px;

@@ -23,6 +23,14 @@ You have to have this things installed:
         url: http://www.pythonware.com/products/pil/
 
 Things included in the distribution:
+    - django-syncr 0.4.1
+        version used, included in the project
+        django backend for Flickr Python API
+        also app to sync various services with django
+        url: http://media.jesselegg.com/syncr/syncr.app.html
+    - python Flickr API
+        version used, included in the project 
+        url: http://stuvel.eu/projects/flickrapi
     - django notification
         version used, included in the project (v0.2.0a)
         (commented out sending mail procedures in order to
@@ -52,3 +60,30 @@ Use settings.py.example for creating your own configuration.
 Extra Information
 ----------------------------------------------------------------------
     For the latest updates, see CHANGELOG.
+    
+    
+How to register content grabber on Flickr:
+----------------------------------------------------------------------
+    Let's write how to get things done on flickr authentication
+    for "Photoblog" to sync content with Flickr properly:
+    1. You need to "Obtain an API key" for e.g. from here:
+    
+        http://www.flickr.com/services/apps/create/apply/
+        
+    2. Save your KEY and SECRET pair received in the main settings.py file.
+        for e.g:
+        
+        FLICKR_API_KEY = '9a0554259914a86fb9e7eb014e4e5d52'
+        FLICKR_API_SECRET = '000005fab4534d05'
+        
+    3. Add at least 1 Screenshot to your app and at least 1 tag, 
+        in order to make your app public.
+    
+    4. Add your app Callback URL:
+    
+        for e.g.:   http://yoursite.com/content/callback/
+        
+       in order flickr to redirect after authentication directly to your site.
+
+    You can read about how Flickr API works and why do you need all this things here:
+        http://www.flickr.com/services/api/auth.howto.web.html

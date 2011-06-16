@@ -65,21 +65,33 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+############################################# DJANGO PARTS ##########################################
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
+    'django.contrib.admin',
     'django.contrib.sitemaps',
+############################################## MY APPS ##############################################
     'auth',
     'photo',
     'feeds',
-    'sorl.thumbnail', #thumbnail generation lib
-    'pagination', #pagination generation lib
+    'content_grabber',
+############################################# PLUGINS ###############################################
+    'flickrapi',#Python frontend to flickr api
+    'captcha',#captcha plugin
+    'notification', #notification system plugin django-notification
     'tagging', #tagging library
-    'django.contrib.admin',
-    'captcha',
+    'pagination', #pagination generation lib
+    'sorl.thumbnail', #thumbnail generation lib
+    'syncr.flickr', #app to sync django with a set of websites
 )
 
 
 #setting for using sorl lib
 INTERNAL_IPS = ('127.0.0.1',)
+
+#settings for content grabber
+#change 'xxxx'-es to your flickr APP keys obtained from flickr (see readme)
+FLICKR_API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+FLICKR_API_SECRET = 'xxxxxxxxxxxxxxxx'

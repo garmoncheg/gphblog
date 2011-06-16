@@ -9,7 +9,11 @@
 <div id="menu">
 
 {% if user.is_staff %}
-    <a href="{% url admin:index %}">Admin</a><br />
+    <div id="menu_staff_wrapper">
+        Welcome Admin!<br />
+        <a href="{% url admin:index %}">Django Admin</a><br />
+        <a href="{% url cgbmain %}">Content grabber</a><br />
+    </div>
 {% endif %}
 {% if user.is_authenticated %}
     <a href="{% url auth.views.auth_state %}">Profile</a><br />
