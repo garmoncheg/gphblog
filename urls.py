@@ -16,7 +16,7 @@ urlpatterns = patterns('',
     (r'^feeds/(?P<url>.*)/$', 'django.contrib.syndication.views.feed', {'feed_dict': feeds}),
     
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
-    
+    (r'^multiuploader/', include('multiuploader.urls')),
     (r'^photo/', include('photo.urls')),
     (r'^$', 'django.views.generic.simple.redirect_to', {'url': 'photo/'}),
     (r'^admin/', include(admin.site.urls)),

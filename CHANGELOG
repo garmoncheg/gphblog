@@ -1,5 +1,11 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.0.0 23.06.2011
+==============================================================
+- fix content grabber attribute error in case given user has no photosets.
+- add multiaploader app for uploading multiple photos.
+
+
 gphblog 1.9.0 16.06.2011
 ==============================================================
 - fix Photo orientation displaying. (recognizes landscpe and portrait photos.

@@ -1,3 +1,5 @@
+{% extends "photo/gphpbase.html" %}
+{% block content %}
 <div id="cgbflickr">
     <h2>Welcome, oh authenticated user: </h2><h1><b>{{user}}!</b></h1>
 
@@ -11,4 +13,4 @@
     </h1>
     <h2 style="color:grey">Please wait while we synchronize your flickr photosets.</h2>
 </div>
-
+{% endblock %}

@@ -111,18 +111,24 @@ def flickr_synchronize2(request):
         #flag = request.POST == ['choice']
         
         if form_username.is_valid():
+            
             flickr_syncr_instance = FlickrSyncr(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET)
             flickr_username = request.POST["flickr_username"]
             log.info( 'FlickrSync by user name: "' + flickr_username + '" submitted. '+
             'It will sync All Photo Sets of '+ flickr_username )
-            flickr_syncr_instance.syncAllPhotoSets(flickr_username)
+            try:
+                flickr_syncr_instance.syncAllPhotoSets(flickr_username)
+            except AttributeError:
+                errors = 'Error! Username "'+flickr_username+'" has no photosets or photos!'
+                log.info('Sync for user "'+flickr_username+'" has failed')
+                return render_to_response ('cgbflickr/cgb_flickr2.html', {'user': request.user,
+                                                                 'form':form_username,
+                                                                 'errors':errors,
+                                                                 })
         else:
             return render_to_response('cgbflickr/cgb_flickr2.html', {'user': request.user,
                                                                  'form':form_username,
                                                                  })
-        #flickr_syncr_instance.syncPhotoSet('72157626239925361')
-        #photosets = flickr_syncr_instance.syncAllPhotoSets('garmoncheg')
-        #log.info( photosets )
 
         flickr_photos = Photo.objects.all().order_by('-upload_date')#list of photos got
         flickr_photos_count = flickr_photos.count()
@@ -149,7 +155,7 @@ from django.core.files.base import ContentFile
 def flickr_synchronize3(request):
     
     flickr_photos = Photo.objects.all()
-    list = '' #list to log photos to
+    list = '' #list to log photos to      feature request in future versions!
     for photo in flickr_photos:
         log.info('Adding photo "'+str(photo.flickr_id)+'" to main Photoblog database table')
         
@@ -164,7 +170,7 @@ def flickr_synchronize3(request):
         image.save()
         photo.delete()
         list = list+str(photo.flickr_id)+','
-    return HttpResponse('Flickr sync completed!')
+    return HttpResponse('Flickr sync completed! <a href="/">Go home<a>')
 
 
 

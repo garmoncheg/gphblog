@@ -1,3 +1,5 @@
+{% extends "photo/gphpbase.html" %}
+{% block content %}
 <div id="cgbmain" style="border:2px; background-color:grey;">
     <h1>Welcome {{ user }}!</h1>
     <p>You can grab Flickr content to add to your Photoblog.</p>
@@ -6,3 +8,4 @@
             <img src="/site_media/site_graphics/flickr_badge.png" />
     </a>
 </div>
+{% endblock %}

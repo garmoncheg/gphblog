@@ -2,7 +2,11 @@ GPHBLOG
 ----------------------------------------------------------------------
 Readme for project Gphblog (Garmoncheg's Photo Blog)
 
+This project is my try to make my first own Django project.
+I selected to make a personal photoblog, that you could easily connect to your 
+django powered website.
 This project is a demo for learning Django, Ajax, jQuery and Git.)
+It uses lots of jQuery and Javascript in order to work.
 
 Screenshots:
 ----------------------------------------------------------------------
@@ -51,11 +55,19 @@ Things included in the distribution:
     - jQuery Tags Input
         version used, included in the project
         url: http://xoxco.com/clickable/jquery-tags-input
+    - jQuery File Upload by Sebastian Tschan
+        version used, included in the project.
+        changed demo source codes used mostly
+        url: http://aquantum-demo.appspot.com/file-upload
 
 Installation:
 ----------------------------------------------------------------------
 Use settings.py.example for creating your own configuration.
 (rename it to settings.py and watch for the comments)
+You must also configure the flickr content grabber and create an app for it
+(if you want to load your photos from Flickr).
+You must also have PIL compiled with support of Freetype2 library
+in order for captcha to work properly.
 
 Extra Information
 ----------------------------------------------------------------------

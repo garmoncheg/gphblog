@@ -1,3 +1,5 @@
+{% extends "photo/gphpbase.html" %}
+{% block content %}
 <div id="cgbflickr">
     <h1><a class="flickr_bage" href="{% url flickr_synchronize_second_phase %}">
         Step 3: Choose a way to grab content from flickr!
@@ -5,7 +7,7 @@
         </a>
     </h1>
     <h2 style="color:grey">Check for photos.</h2>
-
+{% if errors %}<h2><span style="color:red;">{{errors}}</span></h2>{% endif %}
 <form id="flickr_sync_by_username" enctype="multipart/form-data" action="{% url flickr_synchronize_second_phase %}" method="post">
 {% if form.errors %}
     <div class="form_errors">{{ form.errors }}</div>
@@ -17,3 +19,4 @@
     <input type="submit" value="Sync" />
 </form>
 </div>
+{% endblock %}
