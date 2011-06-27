@@ -1,5 +1,17 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.1.0 27.06.2011
+==============================================================
+- fix comments username displaying None instead of Anonymous
+- add pagination style too meet whole project
+- add Photo Title Editor (view, scripts and style)
+    multiuploader creates title from filename so it's 
+    important to have this one added)
+
+gphblog 2.0.2 23.06.2011
+==============================================================
+- add "About" page
+
 gphblog 2.0.1 23.06.2011
 ==============================================================
 - fix content grabber attribute error in case given user has no photosets.

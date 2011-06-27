@@ -1,5 +1,6 @@
 <div class="comment {{ comment.permited }} {{ comment.permited }}{{ comment.pk }}" commment-id="{{ comment.pk }}" data-id="{{ comment.data_id }}">
-    <div class="comment_header">{{ comment.created }} | <b>{{ comment.author }}</b>
+    <div class="comment_header">{{ comment.created }} | {% if comment.author %}<b>{{ comment.author }}</b>
+    {% else %}<b>Anonymous</b>{% endif %}
         {% if request.user.is_authenticated %}
         <span class="comment_edit_buttons">
             {% include "comments/edit_comment_btn.html" %}

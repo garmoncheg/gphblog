@@ -1,0 +1,22 @@
+
+<!-- Photo title with editor block -->
+<div id="photo_title" title-id="{{ item.pk }}" class="photo_title {{ item.title_permit }} {{ item.title_permit }}{{ item.pk }}">
+        <b>Photo: 
+        {% if item.title %}
+            <span data-id="title-{{item.pk}}" class="title-body">{{ item.title }}</span></b>
+        {% else %}
+        Noname photo</b>
+        {% endif %}
+
+<!-- Title editor block -->
+<div data-id="{{ item.pk }}" 
+    url="{% url edit_title %}"
+    class="title_form_place" 
+    style="display: none">
+</div>
+<a id="title_edit_btn" class="title_edit_btn tiny green awesome" data-id="{{ item.pk }}"
+    style="display: none"> <img alt=""
+    src="/site_media/site_graphics/comment_edit.png">
+</a>
+
+</div>

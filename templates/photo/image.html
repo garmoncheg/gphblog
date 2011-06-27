@@ -3,6 +3,7 @@
 {% block head %}
 {% include "headers/header_voting.html" %}
 {% include "headers/header_comments.html" %}
+{% include "headers/header_title_editor.html" %}
 {% endblock %}
 
 {% block title %}Image: {{ item.title }}{% endblock %}
@@ -16,8 +17,7 @@
     {% include "photo/voter.html" %}
     {% register_viewer item.pk as views %}
     <!-- Photo instance  -->
-        <div class="h5"><b>Image: {{ item.title }}</b></div>
-            <div class="phtitle"><b>Photo:</b> {{ item.title }}</div>
+        {% include "title_edit/title_editor_main.html" %}
             <div class="title"><b>original name:</b> "{{ item.image.name }}"</div>
             <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>

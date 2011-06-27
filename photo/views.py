@@ -21,6 +21,43 @@ else:
 
 """
 #########################################################################################
+                           TITLE EDITOR
+#########################################################################################
+"""
+
+def edit_title_ajax(request):
+    """
+    View to EDIT TITLE of an image
+    """
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            action=request.POST["action"]
+            if (action=="receive"):
+                image_pk = request.POST["image_pk"]
+                title_text = request.POST["title_text"]
+                return render_to_response("title_edit/title_edit_form.html",{"pk": image_pk, "textarea_text": title_text})
+            if (action=="commit"):
+                image_pk = request.POST["image_pk"]
+                title_body = request.POST["body"]
+                if title_body == u'': 
+                    return render_to_response("title_edit/title_edit_form.html",{"pk": image_pk, "textarea_text": title_text})
+                else:
+                    image = get_object_or_404(Image, pk=image_pk)
+                    if (image.user==request.user) or (request.user.is_superuser):
+                        image.title = unicode(title_body)
+                        image.save()
+                        return HttpResponse(unicode(title_body))
+                    else:
+                        return HttpResponseBadRequest('You are not allowed to edit this title!')
+        else: return HttpResponseBadRequest('must be logged in to edit your photo title!')
+    else:#if post
+        print 'get recieved'
+        return HttpResponseBadRequest('Only POST accepted')
+
+
+
+"""
+#########################################################################################
                            TAGS system
 #########################################################################################
 """
@@ -217,6 +254,12 @@ def single_image_view(request, pk):
     #loading tags data from my function
     get_tags_data(user, item)
     
+    #checking for permit to edit photo title
+    if (item.user == request.user) or (request.user.is_superuser):
+        item.title_permit = 'permit'
+    else: print 'oshibochka!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    
+    #checking for user permit to vote
     try:
         if user.is_authenticated():
             Votes.objects.get(image__pk=pk, user=user)
@@ -224,6 +267,7 @@ def single_image_view(request, pk):
             Votes.objects.get(image__pk=pk, user_key=request.session.session_key)
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
+    
     return render_to_response("photo/image.html", {"item": item, "comment_form": get_comment_form(user), },
                               context_instance=RequestContext(request))
 

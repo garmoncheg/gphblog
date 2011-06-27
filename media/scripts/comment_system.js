@@ -48,7 +48,7 @@ function afterEditComment(responseText, statusText, xhr, $form)
 };
 
 //_______________________________________________________________________________________________
-//functions to show comment edit/delete buttons
+//functions to handle comment edit/delete buttons behavior
 //_______________________________________________________________________________________________
 function comment_buttons_show(comment_pk) {
 	$('.comment_delete_btn[comment-id="'+ comment_pk + '"]').show();
@@ -60,7 +60,7 @@ function comment_buttons_hide(comment_pk) {
 };
 
 /*___________________________________________________________________________________________
-*    functions to SHOW and HIDE "edit" and "delete" comment buttons
+*    functions to SHOW and HIDE "edit" and "delete" comment buttons upon :hover
 * ___________________________________________________________________________________________
 */
 function init_mouse_buttons(){

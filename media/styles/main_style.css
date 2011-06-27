@@ -72,7 +72,16 @@ p {
 	border-bottom: 1px solid #aaa;
 }
 .h5 {
-	font-size: 3.1em;
+    font-size: 3.1em;
+}
+
+#photo_title {
+    font-size: 3.1em;
+}
+
+#photo_title:hover {
+    font-size: 3.1em;
+    background: #ECF1EF;
 }
 
 h6 {
@@ -125,7 +134,6 @@ h6 {
 
 }
 
-
 .commentlink {
     text-align: right;
 }
@@ -142,4 +150,53 @@ textarea {
     border-width: thin;
     padding: 3px;
     font-size: 2.7em;
+}
+
+/* --------------------------- pagination styles --------------------------- */
+.pagination {
+    padding-top: 20px;
+    padding-left: 40px;
+    background: #ECF1EF;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+}
+.pagination a.page, .prev, .next{
+    border: 3px solid #ccc;
+    margin-left: 1px;
+    margin-right: 1px;
+    padding-left: 4px;
+    padding-right: 4px;
+    text-decoration: none;
+    color: #8C8C8C;
+}
+
+.pagination a.page:hover, .prev:hover, .next:hover{
+    border:3px solid #000000;
+    background: #FFEC8B;
+    color: #000000;
+}
+
+.pagination .current {
+    border: 3px solid #444444;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    background: #FFEC8B;
+}
+
+.pagination .disabled {
+    display: none;
+}
+
+/* --------------------------- title editor styles --------------------------- */
+#title_edit_form textarea {
+    height: 200px;
+    width: 750px;
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+    padding: 3px;
+    font-size: 1.7em;
 }

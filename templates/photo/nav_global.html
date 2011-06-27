@@ -23,8 +23,9 @@
     <a href="{% url django.contrib.auth.views.login %}">Log in</a><br />
     <a href="{% url auth.views.create_new_user %}">Register</a><br />
 {% endif %}
+<a href="{% url about %}">About</a><br />
 {% endblock %}
 </div>
 <a class="logo" href="/feeds/latest/">
-    <img src="/site_media/site_graphics/feed.png"/>
+    RSS:<img width="20" height="20" src="/site_media/site_graphics/social/rss-icon.png"/>
 </a>

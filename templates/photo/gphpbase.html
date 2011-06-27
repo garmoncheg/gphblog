@@ -9,6 +9,22 @@
     <link rel="stylesheet" href="/site_media/styles/main_style.css" type="text/css" media="screen" charset="utf-8" />
     {% include "headers/header_blueprint.html" %}
     {% block head %}{% endblock %}
+    
+<!-- Google analytics script -->
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-23993474-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
 </head>
 
 <body class="free">
