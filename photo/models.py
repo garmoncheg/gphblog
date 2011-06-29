@@ -42,18 +42,13 @@ class Image(models.Model):
         im = PilImage.open(os.path.join(MEDIA_ROOT, self.image.name))
         self.width, self.height = im.size
         super(Image, self).save(*args, ** kwargs)
-
-
+        
     def size(self):
         """Image size."""
         return "%s x %s" % (self.width, self.height)
 
     def __unicode__(self):
         return self.image.name
-
-#    def tags_(self):
-#        lst = [x[1] for x in self.tags.values_list()]
-#        return str(join(lst, ', '))
 
     def albums_(self):
         lst = [x[1] for x in self.albums.values_list()]

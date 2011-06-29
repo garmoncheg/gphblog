@@ -1,5 +1,13 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+
+gphblog 2.2.0 29.06.2011
+==============================================================
+- fix changed time of images and comments displaying to more suitable format
+- add simple user profile(settings) page
+- add image rotation buttons and procedure to single image view
+    users can now rotate images they've uploaded
+
 gphblog 2.1.0 27.06.2011
 ==============================================================
 - fix comments username displaying None instead of Anonymous

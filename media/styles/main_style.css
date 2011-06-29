@@ -200,3 +200,16 @@ textarea {
     padding: 3px;
     font-size: 1.7em;
 }
+
+
+/* --------------------------- Photo rotator styles --------------------------- */
+div#rotation_buttons {
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+    background: #ECF1EF;
+}
+
+span.photo_rotator_title {
+    font-size: 1.7em;
+}

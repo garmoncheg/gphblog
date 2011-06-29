@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response, get_object_or_404
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from photo.models import Image, Comment, Votes
 from tagging.models import Tag, TaggedItem
 from django.template import RequestContext
@@ -18,6 +18,49 @@ if "notification" in settings.INSTALLED_APPS:
 else:
     notification = None
 
+
+from PIL import Image as PilImage
+from django.core.files import File
+from django.db.models.fields.files import FieldFile
+from sorl.thumbnail import get_thumbnail
+from sorl.thumbnail import delete as thumbnails_delete
+from settings import MEDIA_ROOT, MEDIA_URL 
+from django.contrib.auth.decorators import login_required
+"""
+#########################################################################################
+                           IMAGE ROTATION HANDLER
+#########################################################################################
+"""
+@login_required
+def image_rotator(request):
+    if request.method=='POST':
+        try:
+            direction = request.POST["direction"]
+            pk = request.POST["pk"]
+        except KeyError:
+            return HttpResponseBadRequest('No image PK or direction given!')
+        else: pass
+        image = get_object_or_404(Image, pk=pk)
+        if (request.user.is_superuser) or (image.user==request.user):
+            im = PilImage.open(image.image)
+            if direction=='right':
+                rotated_image = im.rotate(270)
+            elif direction=='left':
+                rotated_image = im.rotate(90)
+            else: return HttpResponseBadRequest('Incorrect direction!')
+            thumbnails_delete(image.image, delete_file=False)
+            rotated_image.save(image.image.file.name, owerwrite=True)
+            new_image_width=rotated_image.size[0]
+            new_image_height=rotated_image.size[1]
+            if (new_image_width >= new_image_height):
+                thumbnail=get_thumbnail(image.image.file.name, "795x594", crop="10px 10px")
+            else:
+                thumbnail=get_thumbnail(image.image.file.name, "795x1094", crop="10px 10px")
+            return HttpResponse(thumbnail.url)
+            
+        else: return HttpResponseBadRequest('You have no permission to rotate images!')
+    else: return HttpResponseBadRequest('Only POST accepted!')
+    
 
 """
 #########################################################################################
@@ -254,11 +297,11 @@ def single_image_view(request, pk):
     #loading tags data from my function
     get_tags_data(user, item)
     
-    #checking for permit to edit photo title
+    #checking for permit to edit photo title and to rotate photo
     if (item.user == request.user) or (request.user.is_superuser):
         item.title_permit = 'permit'
-    else: print 'oshibochka!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
-    
+        item.rotation_permit=True
+        
     #checking for user permit to vote
     try:
         if user.is_authenticated():
@@ -267,7 +310,6 @@ def single_image_view(request, pk):
             Votes.objects.get(image__pk=pk, user_key=request.session.session_key)
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
-    
     return render_to_response("photo/image.html", {"item": item, "comment_form": get_comment_form(user), },
                               context_instance=RequestContext(request))
 

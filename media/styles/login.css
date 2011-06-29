@@ -74,3 +74,10 @@ table.create_form td {
     background-color: white;
     -moz-border-radius: ;
 }
+
+/* user profile settings */
+#profile_header {
+    background-color: #FCF8DC;
+    border: 1px solid #ccc;
+    font-size: 2.5em;
+}

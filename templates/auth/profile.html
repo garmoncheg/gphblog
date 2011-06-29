@@ -1,11 +1,22 @@
 {% extends "auth/base_auth.html" %}
 {% block head %}
-<META HTTP-EQUIV="refresh" CONTENT="1;{% url photo.views.thumbnail_view %}">
+<META HTTP-EQUIV="refresh" CONTENT="5;{% url photo.views.thumbnail_view %}">
 {% endblock %}
-{% block title %}Authentication{% endblock %}
+{% block title %}User Profile{% endblock %}
 
 {% block content %}
-<h1>You are <b> {{ user_auth_state }}. </b></h1>
-<h2><b>Welcome {{ username }}!</b></h2>
-<h3>Redirecting you to <a href="{% url photo.views.thumbnail_view %}">App!</a></h3>
+<div id="user_profile_main">
+    <div id="profile_header">Profile Settings page.</div>
+    <h2><b>Welcome {% if user.is_superuser %}MASTER{% else %}{{ user.username }}{%endif%}!</b></h2>
+    <br />
+    <p><b>First name: </b>{{ user.first_name }}</p>
+    <p><b>Last name: </b>{{ user.last_name }}</p>
+    <p><b>E-mail: </b>{{ user.email }}</p>
+    <p><b>Last login: </b>{{ user.last_login|date:"r" }}</p>
+    <p>You may change your settings here in future...</p>
+    <p>Site will autoredirect you in 5 seconds to main application.</p>
+</div>
+
+<h3 style="background-color:gray;">Now only you may go to main Photoblog from here: <h1><a href="{% url photo.views.thumbnail_view %}">GO!</a></h1></h3>
+
 {% endblock %}

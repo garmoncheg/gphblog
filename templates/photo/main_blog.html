@@ -32,7 +32,7 @@
         <div class="photo_instance" data-id="{{ item.pk }}">
             {% include "photo/voter.html" %}
             <div class="h5"><b>Photo:</b> {{ item.title }}</div>
-            <div class="title"><b>posted:</b> {{ item.created }} by {{ item.user }}</div>
+            <div class="title"><b>posted:</b> {{ item.created|date:"r" }} by {{ item.user }}</div>
             <div class="title"><b>original:</b>{{ item.width }} x {{ item.height }}</div>
             <div class="title"><b>rating:</b><span class="rating-{{item.pk}}">{{ item.rating }}</span></div>
             <a href="{% url photo.views.single_image_view item.pk %}">
