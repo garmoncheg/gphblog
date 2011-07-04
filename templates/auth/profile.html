@@ -1,21 +1,45 @@
 {% extends "auth/base_auth.html" %}
 {% block head %}
-<META HTTP-EQUIV="refresh" CONTENT="5;{% url photo.views.thumbnail_view %}">
+<!--  <META HTTP-EQUIV="refresh" CONTENT="5;{% url photo.views.thumbnail_view %}">  -->
 {% endblock %}
 {% block title %}User Profile{% endblock %}
 
 {% block content %}
 <div id="user_profile_main">
     <div id="profile_header">Profile Settings page.</div>
-    <h2><b>Welcome {% if user.is_superuser %}MASTER{% else %}{{ user.username }}{%endif%}!</b></h2>
+    <h2><b>Welcome {% if user.is_superuser %}MASTER{% else %}{{ user.first_name }} {{ user.last_name }}{%endif%}!</b></h2>
     <br />
-    <p><b>First name: </b>{{ user.first_name }}</p>
-    <p><b>Last name: </b>{{ user.last_name }}</p>
-    <p><b>E-mail: </b>{{ user.email }}</p>
     <p><b>Last login: </b>{{ user.last_login|date:"r" }}</p>
-    <p>You may change your settings here in future...</p>
-    <p>Site will autoredirect you in 5 seconds to main application.</p>
 </div>
+
+<div id="socialauth_profile_data">
+  <h3>User data:</h3>
+  <table>
+    <tr class="odd"><th>Id:</th> <td>{{ user.id }}</td></tr>
+    <tr class="even"><th>Username:</th> <td>{{ user.username }}</td></tr>
+    <tr class="odd"><th>Email:</th> <td>{{ user.email|default:"Not provided" }}</td></tr>
+    <tr class="even"><th>First name:</th> <td>{{ user.first_name|default:"Not provided" }}</td></tr>
+    <tr class="odd"><th>Last name:</th> <td>{{ user.last_name|default:"Not provided" }}</td></tr>
+    <tr class="even"><th>Logged in with:</th> <td>{{ last_login }}</td></tr>
+  </table>
+</div>
+
+{% if accounts %}
+  <h3>Disconnect accounts:</h3>
+  <p>This will disable your Photoblog account. So in general you will have no access to your uploaded content.</p>
+  <ul>
+  {% for account in accounts %}
+    <li>
+        <span class="disconnect"><a href={% url disconnect_individual account.provider account.id %}>{{ account.provider|title }} (ID {{ account.id }})</a></span>
+    </li>
+  {% endfor %}
+  
+  </ul>
+{% endif %}
+
+{% if not accounts %}
+    {% include "auth/socialauth_accounts_buttons.html" %}
+{% endif %}
 
 <h3 style="background-color:gray;">Now only you may go to main Photoblog from here: <h1><a href="{% url photo.views.thumbnail_view %}">GO!</a></h1></h3>
 

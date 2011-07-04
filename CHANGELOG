@@ -1,5 +1,14 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.3.0 04.07.2011
+==============================================================
+- add httplib2 (required by oauth2) http://code.google.com/p/httplib2/
+- add oauth2 lib (for social registrations) https://github.com/simplegeo/python-oauth2
+- add social_auth app https://github.com/omab/django-social-auth#readme
+- fix First and Last names displaying in the blog instead of username
+- add connect with Facebook,Twitter, Linkedin buttons to login page
+- add disconnect social network to main profile page 
+
 
 gphblog 2.2.0 29.06.2011
 ==============================================================

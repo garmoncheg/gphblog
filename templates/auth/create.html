@@ -17,6 +17,7 @@ Please enter correct data to field {{ error }}<br />
 </div>
 {% endif %}
 <form action="" method="post">
+{% csrf_token %}
 <table class="create_form">
 <tr>
     <td>

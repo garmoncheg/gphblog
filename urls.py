@@ -25,6 +25,10 @@ urlpatterns = patterns('',
     (r'^notification/', include('notification.urls')),
     url(r'^captcha/', include('captcha.urls')),
     
+    #social auth urls
+    url(r'', include('social_auth.urls')),
+    #url(r'^social/', include('socialregistration.urls'))
+    
 )
 
 if settings.DEBUG:

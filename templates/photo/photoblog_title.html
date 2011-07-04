@@ -2,7 +2,7 @@
     {% if tagged_name %}
         <div class="h5">Photos tagged: <b>{{ tagged_name }}</b></div>
     {% else %}
-        <div class="h5">Photoblog of <b>{{ user }}</b></div>
+        <div class="h5">Photoblog{% if user.first_name or user.last_name %} <b>of {{ user.first_name }} {{ user.last_name }}</b>{% endif %}</div>
     {% endif %}
     
 {% else %}
