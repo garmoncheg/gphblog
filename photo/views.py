@@ -20,17 +20,18 @@ else:
 
 
 from PIL import Image as PilImage
-from django.core.files import File
-from django.db.models.fields.files import FieldFile
 from sorl.thumbnail import get_thumbnail
 from sorl.thumbnail import delete as thumbnails_delete
-from settings import MEDIA_ROOT, MEDIA_URL 
 from django.contrib.auth.decorators import login_required
+
+#temporary upon migration to new django bug fix with cs_rf
+from django.views.decorators.csrf import csrf_exempt
 """
 #########################################################################################
                            IMAGE ROTATION HANDLER
 #########################################################################################
 """
+@csrf_exempt
 @login_required
 def image_rotator(request):
     if request.method=='POST':
@@ -67,7 +68,7 @@ def image_rotator(request):
                            TITLE EDITOR
 #########################################################################################
 """
-
+@csrf_exempt
 def edit_title_ajax(request):
     """
     View to EDIT TITLE of an image
@@ -94,7 +95,6 @@ def edit_title_ajax(request):
                         return HttpResponseBadRequest('You are not allowed to edit this title!')
         else: return HttpResponseBadRequest('must be logged in to edit your photo title!')
     else:#if post
-        print 'get recieved'
         return HttpResponseBadRequest('Only POST accepted')
 
 
@@ -104,6 +104,7 @@ def edit_title_ajax(request):
                            TAGS system
 #########################################################################################
 """
+@csrf_exempt
 def get_tags_data(user, item, *args, **kwargs):
     """
     Function to retrieve tags data depending on user and add it to an image.
@@ -121,7 +122,7 @@ def get_tags_data(user, item, *args, **kwargs):
     item.tags_string =unicode(join(lst, ', '))
     return item
 
-
+@csrf_exempt
 def tag_edit(request):
     """
     View for adding a tag
@@ -165,6 +166,7 @@ def get_comment_form(user, *args, **kwargs):
         cf.author = 'Anonymous'
     return cf
 
+@csrf_exempt
 def delete_comment_ajax(request):
     """
     View to DELETE comments
@@ -183,6 +185,7 @@ def delete_comment_ajax(request):
     else:
         return HttpResponseBadRequest('Only POST accepted')
 
+@csrf_exempt
 def edit_comment_ajax(request):
     """
     View to EDIT comments
@@ -248,7 +251,7 @@ def add_comment_ajax(request):
                            Votes(rating)
 #########################################################################################
 """
-
+@csrf_exempt
 def change_rating_ajax_view(request):
     """ A view for AJAX voting for the photo with POST method 
         and checking if user already voted"""
@@ -325,6 +328,7 @@ def thumbnail_view(request, tag=''):
         #items=Tag.objects.
     return render_to_response("photo/main_blog.html", {'items': items, 
                                                        'tagged_name': tag,
+                                                       'tag_cloud_display': True,
                                                        "comment_form": get_comment_form(user),},
                                                         context_instance=RequestContext(request, processors=[my_auth_processor]))
 

@@ -1,8 +1,6 @@
 .tagbox {
-	width: 220px;
-
+	width: 795px;
 	background-color: #FCF8DC;
-	text-align: center;
 	padding: 5px;
 	overflow: auto;
 	font-size: 70%;
@@ -30,7 +28,7 @@
 }
 
 .tags_group li a {
-	text-decoration: none;
+	
 	color: #777;
 }
 
@@ -39,22 +37,46 @@
 	color: #050505;
 }
 
-.tag1 {
-	font-size: 1em;
+a.tag {
+    font-size: 35px;
 }
 
-.tag3 {
-	font-size: 1.5em;
+a.tag10 {
+	font-size: 33px;
 }
 
-.tag {
-	font-size:2.5em;
+a.tag9 {
+    font-size: 30px;
 }
 
-.tag4 {
-	font-size: 2em;
+a.tag8 {
+	font-size: 27px;
 }
 
-.tag10 {
-	font-size: 2.5em;
+a.tag7 {
+    font-size: 25px;
+}
+
+a.tag6 {
+    font-size: 22px;
+}
+
+a.tag5 {
+    font-size: 19px;
+}
+
+a.tag4 {
+    font-size: 17px;
+}
+
+a.tag3 {
+    font-size: 16px;
+}
+
+a.tag2 {
+    font-size: 14px;
+}
+
+a.tag1 {
+	font-size: 12px;
 }

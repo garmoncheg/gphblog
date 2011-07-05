@@ -7,6 +7,7 @@
     <!-- <meta http-equiv="refresh" content="2">  -->
     <script type='text/javascript' src='/site_media/scripts/jquery.min.js'></script> 
     <link rel="stylesheet" href="/site_media/styles/main_style.css" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="/site_media/styles/main_menu.css" type="text/css" media="screen" charset="utf-8" />
     {% include "headers/header_blueprint.html" %}
     {% block head %}{% endblock %}
     
@@ -28,14 +29,13 @@
 </head>
 
 <body class="free">
+{% csrf_token %}
     <div id="sidebar"> 
-        {% include "photo/nav_global.html" %}
-        {% include "tags/tags_cloud.html" %}
         {% block sidebar %} {% endblock %}
     </div>
     <div id="container">
-
         <div id="content">
+        {% include "photo/nav_global.html" %}
             {% block content %}{% endblock %}
         </div>
     </div>

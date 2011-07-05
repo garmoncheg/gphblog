@@ -1,5 +1,15 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.4.0 05.07.2011
+==============================================================
+- fix new migration to django 1.2.5 bugs with form and AJAX
+- add disabling elements (visually and programatically) upon photo rotation
+- change profile, login, create user templates are now using main website template
+- fix edit comment textarea size
+- change tagcloud displaying permit is taken from view
+- change menu is displayed inline on top of a site
+
+
 gphblog 2.3.0 04.07.2011
 ==============================================================
 - add httplib2 (required by oauth2) http://code.google.com/p/httplib2/

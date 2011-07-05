@@ -59,7 +59,19 @@ Things included in the distribution:
         version used, included in the project.
         changed demo source codes used mostly
         url: http://aquantum-demo.appspot.com/file-upload
-    - 
+    - social_auth (0.3.20)
+        version used, included in the project.
+        Django-social-auth application, allows OpenId or OAuth user
+        registration/authentication just adding a few configurations
+        url: https://github.com/omab/django-social-auth
+    - oauth2 (1.5)
+        version used, included in the project.
+        used for django social_auth
+        url: https://github.com/dgouldin/python-oauth2
+    - httplib2 (0.7.0)
+        version used, included in the project.
+        used for oauth2
+        url: http://code.google.com/p/httplib2/
 
 Installation:
 ----------------------------------------------------------------------
@@ -100,3 +112,9 @@ How to register content grabber on Flickr:
 
     You can read about how Flickr API works and why do you need all this things here:
         http://www.flickr.com/services/api/auth.howto.web.html
+        
+
+How to register Social authentification apps:
+----------------------------------------------------------------------
+
+in development...

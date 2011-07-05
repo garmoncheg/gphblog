@@ -1,13 +1,16 @@
 {% if item.rotation_permit %}
 <hr>
+<form>
+
     <div id="rotation_buttons" class="rotator{{ item.pk }}">
         <span class="photo_rotator_title">Rotate:  </span>
-        <a class="small orange awesome" href="" onclick="return rotate(this, '{{ item.pk }}', 'left', '{% url rotate %}')" >
+        <a id="rotator_btn" class="small orange awesome" href="" onclick="return rotate(this, '{{ item.pk }}', 'left', '{% url rotate %}')" >
             <img alt="Right" src="/site_media/site_graphics/object-rotate-left.png" width="50" height="50">
         </a>
-        <a class="small orange awesome" href="" onclick="return rotate(this, '{{ item.pk }}', 'right', '{% url rotate %}')" >
+        <a id="rotator_btn" class="small orange awesome" href="" onclick="return rotate(this, '{{ item.pk }}', 'right', '{% url rotate %}')" >
             <img alt="Left" src="/site_media/site_graphics/object_rotate_right.png" width="50" height="50"></a>
         </a>
     </div>
     <br />
+</form>
 {% endif %}

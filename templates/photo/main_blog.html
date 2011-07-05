@@ -55,7 +55,9 @@
             </div>
          </div>
         {% endfor %}
-        {% paginate %}
+        {% include "tags/tags_cloud.html" %}
         <br />
+        {% paginate %}
+    <br />
     </div>
 {% endblock %}

@@ -1,8 +1,12 @@
-{% extends "auth/base_auth.html" %}
+{% extends "photo/gphpbase.html" %}
 {% block head %}
 <!--  <META HTTP-EQUIV="refresh" CONTENT="5;{% url photo.views.thumbnail_view %}">  -->
+<link rel="stylesheet" href="/site_media/styles/login.css" type="text/css" media="screen" charset="utf-8"  /> 
+<link rel="stylesheet" href="/site_media/styles/avesome_buttons.css" type="text/css" media="screen" charset="utf-8" />
 {% endblock %}
 {% block title %}User Profile{% endblock %}
+
+
 
 {% block content %}
 <div id="user_profile_main">
@@ -40,7 +44,5 @@
 {% if not accounts %}
     {% include "auth/socialauth_accounts_buttons.html" %}
 {% endif %}
-
-<h3 style="background-color:gray;">Now only you may go to main Photoblog from here: <h1><a href="{% url photo.views.thumbnail_view %}">GO!</a></h1></h3>
 
 {% endblock %}
