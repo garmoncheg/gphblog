@@ -1,8 +1,8 @@
 <div id="slider">
-    <div id="panel"> 
-        <div url="{% url upload_photo_ajax %}" class="slide-inside">
-            Loading...
-        </div>
+    <div id="panel" class="loading"> 
+        <div url="{% url upload_photo_ajax %}" class="slide-inside" style="display:none;">
+        
+        </div><!-- /slide-inside -->  
     </div> 
     <p class="slide"><a href="#" class="btn-slide large orange awesome">Upload</a></p>
 </div>

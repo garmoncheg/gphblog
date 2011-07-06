@@ -130,8 +130,12 @@ def tag_edit(request):
     #POST checking
     if request.method == 'POST':
         user=request.user
-        image_pk = request.POST["image_pk"]
-        image=get_object_or_404(Image, pk=image_pk)
+        try:
+            image_pk = request.POST["image_pk"]
+            image=get_object_or_404(Image, pk=image_pk)
+        except KeyError:
+            return HttpResponseBadRequest('Can not find image specified')
+        
         #checking user permit to edit tags
         if user.is_authenticated() and (image.user==user) or user.is_superuser:
             #getting tags string and parsing them with tags APP

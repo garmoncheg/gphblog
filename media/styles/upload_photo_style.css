@@ -34,6 +34,12 @@ a.btn-slide:focus {
 	display: none;
 }
 
+#panel.transparent {
+    opacity:0.4;
+    filter:alpha(opacity=40)
+    
+}
+
 .slide {
 	margin: 0;
 	padding: 0;
@@ -60,4 +66,11 @@ a.btn-slide:focus {
 	font: bold 120%/100% Arial, Helvetica, sans-serif;
 	color: #fff;
 	text-decoration: none;
+	background: #9a9a9a;
+}
+
+#panel.loading {
+    background-image:url('../../site_media/site_graphics/loading_ani.gif');
+    background-repeat:no-repeat;
+    background-position:center;
 }

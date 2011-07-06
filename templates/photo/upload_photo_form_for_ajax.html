@@ -8,8 +8,10 @@
 <p><label for="id_image">File:</label> <input type="file" name="image" id="id_image" /></p>
 <p><label for="id_title">Title:</label> <input id="id_title" type="text" name="title" maxlength="60" /></p>
 <p id="sendwrapper"><input type="submit" value="Upload" id="uploadbutton"/></p>
-</form>
-</div>
-<div class="upload_photo_multiuploader"> Or use:
+{% if not form.errors %}
+<div class="upload_photo_multiuploader" style> Or use:
 <a class="small orange awesome" href="{% url multi_upload_photo_ajax %}" >Multiuploader</a>
+</div>
+{% endif %}
+</form>
 </div>

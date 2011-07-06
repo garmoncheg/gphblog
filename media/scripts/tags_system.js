@@ -11,7 +11,7 @@ function update_tags(tag){
 	//getting post url
 	var post_url = $('div#tags_block').attr('url');
 	//getting item pk
-	var image_pk = $('input').attr('data-id');
+	var image_pk = $('div#tags_block').attr('data-id');
 	//updated string capturing
 	var cleaned_tags = $('input.tags').attr('value');
 	//posting changes to base and rewriting tags string
