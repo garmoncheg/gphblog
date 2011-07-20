@@ -1,5 +1,12 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.6.0 20.07.2011
+==============================================================
+- add facebook like button to single image
+- add google +1 button to single photo page
+- add photo description to a model
+- add photo albums view
+
 gphblog 2.5.0 06.07.2011
 ==============================================================
 - fix photo uploder "multiuploader" button displaying twice while displaying form errors

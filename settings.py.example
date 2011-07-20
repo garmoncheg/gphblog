@@ -15,8 +15,12 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # default base config
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = os.path.join(PROJECT_ROOT, 'gphblog.db').replace('\\','/')
+DATABASES = {
+    'default': {
+        'ENGINE': 'sqlite3',
+        'NAME': os.path.join(PROJECT_ROOT, 'gphblog.db').replace('\\','/'),
+    }
+}
 
 #timezone: choose yours
 TIME_ZONE = 'Europe/Kiev'
@@ -54,6 +58,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'pagination.middleware.PaginationMiddleware',
 )
@@ -62,6 +68,18 @@ ROOT_URLCONF = 'gphblog.urls'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_ROOT, 'templates/').replace('\\','/'),
+)
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 INSTALLED_APPS = (
@@ -77,6 +95,7 @@ INSTALLED_APPS = (
     'photo',
     'feeds',
     'content_grabber',
+    'multiuploader',
 ############################################# PLUGINS ###############################################
     'flickrapi',#Python frontend to flickr api
     'captcha',#captcha plugin
@@ -84,8 +103,12 @@ INSTALLED_APPS = (
     'tagging', #tagging library
     'pagination', #pagination generation lib
     'sorl.thumbnail', #thumbnail generation lib
-    'syncr.flickr', #app to sync django with a set of websites
+    'syncr.flickr',  #app to sync django with a set of websites
+    'oauth2', #for social registration plugin
+    'httplib2', #need for oauth2 plugin
+    'social_auth', #for social registration backends to work properly
 )
+
 
 
 #setting for using sorl lib
@@ -95,3 +118,50 @@ INTERNAL_IPS = ('127.0.0.1',)
 #change 'xxxx'-es to your flickr APP keys obtained from flickr (see readme)
 FLICKR_API_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 FLICKR_API_SECRET = 'xxxxxxxxxxxxxxxx'
+
+
+#social registration app keys and data
+TWITTER_CONSUMER_KEY         = ''
+TWITTER_CONSUMER_SECRET      = ''
+FACEBOOK_APP_ID              = ''
+FACEBOOK_API_SECRET          = ''
+LINKEDIN_CONSUMER_KEY        = ''
+LINKEDIN_CONSUMER_SECRET     = ''
+GOOGLE_CONSUMER_KEY          = ''
+GOOGLE_CONSUMER_SECRET       = ''
+GOOGLE_OAUTH2_CLIENT_KEY     = ''
+GOOGLE_OAUTH2_CLIENT_SECRET  = ''
+
+LOGIN_URL          = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/photo/'
+
+LOGIN_ERROR_URL    = '/photo/'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/accounts/profile/'
+SOCIAL_AUTH_NEW_ASSOCIATION_REDIRECT_URL = '/accounts/profile/'
+SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/accounts/profile/'
+
+#In case of authentication error, the message can be stored in session if the following setting is defined:
+SOCIAL_AUTH_ERROR_KEY = 'social_errors'
+
+SOCIAL_AUTH_COMPLETE_URL_NAME  = 'complete'
+SOCIAL_AUTH_ASSOCIATE_URL_NAME = 'associate_complete'
+
+SOCIAL_AUTH_DEFAULT_USERNAME = 'social_auth_user'
+
+SOCIAL_AUTH_SESSION_EXPIRATION = False
+
+
+#Facebook like button admin user ID
+FACEBOOK_USER_ID =''
+
+
+#logging cofiguration
+#configured to write gphblog.log in the folder where project folder located
+import logging
+PROJECT_DIR = os.path.dirname(__file__)
+PARENT_DIR = os.path.dirname(PROJECT_DIR)
+logging.basicConfig(level=logging.DEBUG,
+     format='%(asctime)s %(levelname)s %(message)s',
+     filename=os.path.join(PARENT_DIR, 'gphblog.log'),
+     filemode='a+'
+)

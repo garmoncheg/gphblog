@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
-from photo.models import Image, Comment, Votes
+from photo.models import Image, Comment, Votes, Album
 from tagging.models import Tag, TaggedItem
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
@@ -26,6 +26,20 @@ from django.contrib.auth.decorators import login_required
 
 #temporary upon migration to new django bug fix with cs_rf
 from django.views.decorators.csrf import csrf_exempt
+
+
+
+#using logging
+import logging
+logger = logging
+
+
+#using site to get our current URL
+from django.contrib.sites.models import Site
+
+#to add urls to facebook like button
+import urllib
+
 """
 #########################################################################################
                            IMAGE ROTATION HANDLER
@@ -34,11 +48,13 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 @login_required
 def image_rotator(request):
+    logger.info('Rotate image called by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     if request.method=='POST':
         try:
             direction = request.POST["direction"]
             pk = request.POST["pk"]
         except KeyError:
+            logger.error('Rotator: No image PK or direction of rotation given!')
             return HttpResponseBadRequest('No image PK or direction given!')
         else: pass
         image = get_object_or_404(Image, pk=pk)
@@ -73,6 +89,7 @@ def edit_title_ajax(request):
     """
     View to EDIT TITLE of an image
     """
+    logger.info('TITLE edit called by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     if request.method == 'POST':
         if request.user.is_authenticated():
             action=request.POST["action"]
@@ -127,6 +144,7 @@ def tag_edit(request):
     """
     View for adding a tag
     """
+    logger.info('Tag edit called by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     #POST checking
     if request.method == 'POST':
         user=request.user
@@ -134,6 +152,7 @@ def tag_edit(request):
             image_pk = request.POST["image_pk"]
             image=get_object_or_404(Image, pk=image_pk)
         except KeyError:
+            logging.error('Can not find image specified (no request or no model instance)')
             return HttpResponseBadRequest('Can not find image specified')
         
         #checking user permit to edit tags
@@ -144,6 +163,7 @@ def tag_edit(request):
             #generate string of tags for output
             lst = [x[1] for x in image.tags.values_list()]
             image.tags_string=unicode(join(lst, ', '))
+            logger.info('updated tags for image pk='+str(image_pk)+', user='+str(user.username)+', tags string ="'+str(image.tags_string)+'"')
             return HttpResponse(unicode(image.tags_string))
         else: return HttpResponseBadRequest('Forbidden! User is not logged in!')
     else: return HttpResponseBadRequest('Only POST accepted')
@@ -180,6 +200,7 @@ def delete_comment_ajax(request):
             comment_pk = request.POST["comment_pk"]
             comment = get_object_or_404(Comment, pk=comment_pk)
             if (comment.author==request.user) or (request.user.is_superuser):
+                logger.info('Deleting comment pk='+str(comment.pk)+', user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
                 comment.delete()
                 return HttpResponse(comment_pk)
             else:
@@ -194,6 +215,7 @@ def edit_comment_ajax(request):
     """
     View to EDIT comments
     """
+    logger.info('EDIT comment called user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     if request.method == 'POST':
         if request.user.is_authenticated():
             action=request.POST["action"]
@@ -222,6 +244,7 @@ def add_comment_ajax(request):
     """
     Add a new comment view
     """
+    logger.info('ADD comment called user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     #checking for POST
     if request.method == 'POST':
         pk = request.POST["pk"]
@@ -238,6 +261,7 @@ def add_comment_ajax(request):
             comment.save()
             comment.data_id = pk
             comment.permited = unicode('permit')
+            logger.info('ADD comment called user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR'])+', comment='+str(comment.body))
             if notification:
                 notification.send([item.user], "c_add", {"ph_title":item.title, "notice":comment.body})
             return render_to_response("comments/single_comment.html", {"comment": comment, "pk": comment.pk}, context_instance=RequestContext(request))
@@ -278,10 +302,12 @@ def change_rating_ajax_view(request):
                 Votes.objects.create(image = item, rating=1, user_key=user_key)
             if incrementer == '1':
                 #user votes "+"
+                logger.info('Vote by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR'])+' +')
                 item.rating = intial_rating+1
             elif incrementer == '2':
                 #user votes "-"
                 item.rating = intial_rating-1
+                logger.info('Vote by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR'])+' -')
             item.save()
             return HttpResponse(unicode(item.rating))#if vote added correctly return image rating
         else:#try
@@ -296,8 +322,26 @@ def change_rating_ajax_view(request):
                            BLOG system
 #########################################################################################
 """
+
+def albums_view(request):
+    """Albums view to select album to watch"""
+    logger.info('Albums viewed by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
+    albums=Album.objects.all()
+    for album in albums:
+        print(album.title)
+        print(album.image_set.all())
+        album.images=album.image_set.all()[:6]
+    #items=Image.objects.all()
+    
+    return render_to_response("photo/albums_view.html", 
+                              {"items": albums,
+                               'tag_cloud_display': True,},
+                              context_instance=RequestContext(request))
+
+
 def single_image_view(request, pk):
     """Image view with rating, comments and comment form"""
+    logger.info('Single Image viewed by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     user=request.user
     item = get_object_or_404(Image, pk=pk)
     
@@ -317,12 +361,27 @@ def single_image_view(request, pk):
             Votes.objects.get(image__pk=pk, user_key=request.session.session_key)
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
-    return render_to_response("photo/image.html", {"item": item, "comment_form": get_comment_form(user), },
-                              context_instance=RequestContext(request))
+    
+    current_site = Site.objects.get_current()
+    current_domain = unicode('http://')+unicode(current_site)
+    urllib.quote("http://mydomain.com/#url=http://stackoverflow.com")
+
+    facebook_dict={"facebook_like_app_id":settings.FACEBOOK_APP_ID,
+                   "facebook_user_id":settings.FACEBOOK_USER_ID,
+                   "facebook_like_url":urllib.quote(current_domain+request.path),
+                   "facebook_site_name":current_site
+                   }
+    
+    return render_to_response("photo/image.html", {"item": item, 
+                                                   "comment_form": get_comment_form(user),
+                                                   "facebook_dict":facebook_dict,
+                                                  },
+                                                   context_instance=RequestContext(request))
 
 #@login_required
 def thumbnail_view(request, tag=''):
     """Blog view, also main view"""
+    logger.info('Main blog called user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     user = request.user
     if tag=='':
         items=Image.objects.all().order_by('-last_commented')
@@ -348,6 +407,7 @@ def thumbnail_view(request, tag=''):
 
 def upload_photo_ajax(request):
     """View for Uploading a photo."""
+    logger.info('Single image upload called by="'+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     if request.user.is_authenticated():
         if request.method == 'POST':
             form = UploadImageForm(request.POST, request.FILES or None)
@@ -356,6 +416,7 @@ def upload_photo_ajax(request):
                 image.user=request.user
                 image.save()
                 form.save_m2m()
+                logger.info('Uploaded an image title="'+str(image.title)+', by user="'+str(request.user)+'"')
                 if notification:
                     notification.send(User.objects.filter(is_superuser=True), "photo_add", {"ph_title":image.title,})
                 return HttpResponse(unicode("Uploaded success!"))

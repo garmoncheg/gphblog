@@ -1,0 +1,13 @@
+{% if facebook_dict %}
+
+<!-- FACEBOOK like button options -->
+<meta property="og:title" content="Photoblog photo: {{ item.title }}"/> 
+<meta property="og:site_name" content="{{ facebook_dict.facebook_site_name }}"/> 
+<!-- <meta property="og:image" content="{{ im.url }}"/>  -->
+<meta property="og:type" content="article" /> 
+<meta property="og:url" content="{{ facebook_dict.facebook_like_url }}"/> 
+<meta property="og:description" content="{{ item.title }}"/> 
+<meta property="fb:admins" content="{{ facebook_dict.facebook_user_id }}"/> 
+<meta property="fb:app_id" content="{{ facebook_dict.facebook_like_app_id }}" />
+
+{% endif %}

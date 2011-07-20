@@ -5,6 +5,9 @@
 {% include "headers/header_comments.html" %}
 {% include "headers/header_title_editor.html" %}
 {% include "headers/header_photo_rotator.html" %}
+{% include "facebook/single_image_facebook_like_meta_header.html" %}
+<!-- Google +1 button scripts load -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 {% endblock %}
 
 {% block title %}Image: {{ item.title }}{% endblock %}
@@ -41,9 +44,18 @@
             {% endif %}
                 </center>
             </a>
-            <div class="metadata"><b>(c):</b>{{ item.user }}</div>
+            <div class="metadata"><b>(c):</b>{{ item.user }}</div> 
             <hr>
+
             {% include "tags/tags_system.html" %}
+            
+            <div id="facebook_like_wrapper" style="display:inline;">
+            {% include "facebook/single_image_facebook_like_button.html" %}
+            <br />
+            <g:plusone></g:plusone>
+            </div>
+            
+            
 
 <hr>
     <div class="comments">

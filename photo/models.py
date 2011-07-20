@@ -34,7 +34,7 @@ class Image(models.Model):
     height = models.IntegerField(blank=True, null=True)
     user = models.ForeignKey(User, null=True, blank=True)
     views = models.IntegerField(default=0)
-
+    description = models.TextField(max_length=800, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         """Save image dimensions."""

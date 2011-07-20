@@ -26,6 +26,7 @@
 <div class="main">
     <!-- Posts in blog  -->
         {% include "photo/photoblog_title.html" %}
+        {% include "photo/views_switcher.html" %}
         {% autopaginate items 5 %}
         {% add_voted user.pk items as items %}
         {% for item in items %}

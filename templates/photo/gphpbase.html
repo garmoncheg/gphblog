@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en" lang="en" >
 <head>
     <title>{% block title %}PhotoApp{% endblock %}</title>
     <!-- <meta http-equiv="refresh" content="2">  -->
+    <link rel="shortcut icon" href="/site_media/site_graphics/favicon.ico" >
+    <link rel="icon" type="image/gif" href="/site_media/site_graphics/animated_favicon1.gif" >
     <script type='text/javascript' src='/site_media/scripts/jquery.min.js'></script> 
     <link rel="stylesheet" href="/site_media/styles/main_style.css" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="/site_media/styles/main_menu.css" type="text/css" media="screen" charset="utf-8" />
@@ -39,7 +41,9 @@
             {% block content %}{% endblock %}
         </div>
     </div>
-
+<div id="footer">
+{% block footer %}{% endblock %}
+</div>
 </body>
 </html>
 

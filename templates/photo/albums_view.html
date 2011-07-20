@@ -1,0 +1,48 @@
+{% extends "photo/gphpbase.html" %}
+
+{% block title %}Photo Albums{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+
+{% block sidebar %}
+{% endblock %}
+
+
+
+{% block content %}
+
+
+{% load thumbnail %}
+{% load pagination_tags %}
+
+<div class="main">
+    <!-- Albums list  -->
+        {% include "photo/photoblog_title.html" %}
+        {% include "photo/views_switcher.html" %}
+        
+        {% autopaginate items 5 %}
+        <div class="photo_album_photos">
+        {% for item in items %}
+            <p class="mv_album_title">{{ item.title }}</p>
+            {% for photo in item.images %}
+            <a href="{% url photo.views.single_image_view photo.pk %}">
+            {% if photo.image|is_portrait %}
+                {% thumbnail photo.image "50x80" crop="1px 1px" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+            {% else %}
+                {% thumbnail photo.image "80x50" crop="center" as im %}
+                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                {% endthumbnail %}
+            {% endif %}
+            </a>
+            {% endfor %}
+        {% endfor %}
+        </div>
+        {% include "tags/tags_cloud.html" %}
+        <br />
+        {% paginate %}
+    </div>
+{% endblock %}

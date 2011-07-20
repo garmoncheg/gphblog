@@ -34,11 +34,6 @@ a.btn-slide:focus {
 	display: none;
 }
 
-#panel.transparent {
-    opacity:0.4;
-    filter:alpha(opacity=40)
-    
-}
 
 .slide {
 	margin: 0;

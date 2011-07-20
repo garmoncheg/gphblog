@@ -1,0 +1,23 @@
+{% if facebook_dict %}
+
+<!-- FACEBOOK like button -->
+<fb:like show_faces="true" width="553" font="lucida grande" autologoutlink="true"></fb:like>
+
+{% block footer %}
+<!-- FACEBOOK like button Script -->
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({appId: '{{ facebook_dict.facebook_like_app_id }}', status: true, cookie: true,
+             xfbml: true});
+  };
+  (function() {
+    var e = document.createElement('script'); e.async = true;
+    e.src = document.location.protocol +
+      '//connect.facebook.net/en_US/all.js';
+    document.getElementById('fb-root').appendChild(e);
+  }());
+</script>
+
+{% endblock %}
+{% endif %}
