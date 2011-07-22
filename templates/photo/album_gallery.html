@@ -22,15 +22,14 @@
         {% include "photo/photoblog_title.html" %}
         {% include "photo/views_switcher.html" %}
         
-        {% autopaginate items 5 %}
+        {% autopaginate items 20 %}
         <div class="photo_albums_list">
-        {% for item in items %}
             <div class="album_title">
-                <a href="{% url photo.views.gallery_in_album_view item.pk %}"> {{ item.title }} </a>
-                <span> ({{item.count}} Photo{% if item.count != 1 %}s{% else %}{% endif %})</span>
+                {{ album.title }}
+                <span> ({{album.count}} Photo{% if album.count != 1 %}s{% else %}{% endif %})</span>
             </div>
             <div class="album_images">
-            {% for photo in item.images %}
+            {% for photo in items %}
             <div id="album_photo_thumbnail">
             <a href="{% url photo.views.single_image_view photo.pk %}">
             {% if photo.image|is_portrait %}
@@ -45,14 +44,8 @@
             </a>
             </div>
             {% endfor %}
-            <div id="album_enter_thumbnail">
-                <a href="{% url photo.views.gallery_in_album_view item.pk %}">
-                    <img class="imagedropshadow" src="/site_media/site_graphics/albums/albums_right.png" width="100" height="95">
-                </a>
-            </div>
             <br class="albums_clearBoth" />
             </div><!-- album images -->
-        {% endfor %}
         </div>
         {% include "tags/tags_cloud.html" %}
         <br />

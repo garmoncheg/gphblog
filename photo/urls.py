@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from views import change_rating_ajax_view, upload_photo_ajax, thumbnail_view
 from views import single_image_view, add_comment_ajax, edit_comment_ajax, delete_comment_ajax
-from views import tag_edit, edit_title_ajax, image_rotator, albums_view
+from views import tag_edit, edit_title_ajax, image_rotator, albums_view, gallery_in_album_view
 
 from django.views.generic.simple import direct_to_template
 
@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     (r"^$", thumbnail_view),
     (r"^image/(\d+)/$", single_image_view),
     (r'^tag/(?P<tag>\w+)/$', thumbnail_view),
+    (r'^gallery/(\d+)/$', gallery_in_album_view),
     
     url(r'^rotate/', image_rotator, name='rotate'),
     url(r'^albums/', albums_view, name='albums_main'),

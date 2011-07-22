@@ -1,11 +1,23 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.7.0 22.07.2011
+==============================================================
+- add date taken (from photo Exif info) to single image view
+- add photo exif parser module
+- add EXIF.py library for processing exif image info 
+    (http://sourceforge.net/projects/exif-py/)
+- add main style like design to albums view
+- add album gallery view (to display images in album with pagination)
+- add views switcher style
+
 gphblog 2.6.0 20.07.2011
 ==============================================================
 - add facebook like button to single image
 - add google +1 button to single photo page
 - add photo description to a model
+- add views switcher
 - add photo albums view
+- added albums support (now only can be edited through admin)
 
 gphblog 2.5.0 06.07.2011
 ==============================================================

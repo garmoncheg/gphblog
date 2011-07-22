@@ -1,5 +1,7 @@
 
 <div class="view_selector">Select view: <b>
-    <a href="{% url photo.views.thumbnail_view %}">blog</a> | <a href="{% url albums_main %}">albums</a>
+{% if switcher != 'blog' %}
+    <a href="{% url photo.views.thumbnail_view %}">blog</a>{% else %}blog{% endif %} | 
+{% if switcher != 'album' %}<a href="{% url albums_main %}">albums</a>{% else %}albums{% endif %}
 </b>
 </div>

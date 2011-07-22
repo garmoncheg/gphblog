@@ -27,7 +27,8 @@ from django.contrib.auth.decorators import login_required
 #temporary upon migration to new django bug fix with cs_rf
 from django.views.decorators.csrf import csrf_exempt
 
-
+#importing exif extractor
+from photo.photo_meta import get_exif, get_exif_taken_date
 
 #using logging
 import logging
@@ -323,19 +324,29 @@ def change_rating_ajax_view(request):
 #########################################################################################
 """
 
+def gallery_in_album_view(request, pk):
+    """Gallery view to show images in an album"""
+    logger.info('Album pk='+str(pk)+' viewed by ip='+str(request.META['REMOTE_ADDR']))
+    album = get_object_or_404(Album, pk=pk)
+    images = album.image_set.all()
+    album.count = images.count()
+    return render_to_response("photo/album_gallery.html", 
+                              {"album": album,
+                               "items":images,
+                               "switcher":'album'},
+                              context_instance=RequestContext(request))
+
 def albums_view(request):
     """Albums view to select album to watch"""
     logger.info('Albums viewed by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     albums=Album.objects.all()
     for album in albums:
-        print(album.title)
-        print(album.image_set.all())
-        album.images=album.image_set.all()[:6]
-    #items=Image.objects.all()
-    
+        album.images=album.image_set.all()[:4]
+        album.count = album.image_set.all().count()
     return render_to_response("photo/albums_view.html", 
                               {"items": albums,
-                               'tag_cloud_display': True,},
+                               'tag_cloud_display': True,
+                               'switcher':'album'},
                               context_instance=RequestContext(request))
 
 
@@ -364,7 +375,6 @@ def single_image_view(request, pk):
     
     current_site = Site.objects.get_current()
     current_domain = unicode('http://')+unicode(current_site)
-    urllib.quote("http://mydomain.com/#url=http://stackoverflow.com")
 
     facebook_dict={"facebook_like_app_id":settings.FACEBOOK_APP_ID,
                    "facebook_user_id":settings.FACEBOOK_USER_ID,
@@ -372,15 +382,30 @@ def single_image_view(request, pk):
                    "facebook_site_name":current_site
                    }
     
-    return render_to_response("photo/image.html", {"item": item, 
-                                                   "comment_form": get_comment_form(user),
-                                                   "facebook_dict":facebook_dict,
-                                                  },
-                                                   context_instance=RequestContext(request))
+    # trying to load photo Exif taken DataTime
+    #else using file DateTime
+    image_path=settings.MEDIA_ROOT+item.image.name
+    try:
+        exif_date_taken=get_exif_taken_date(image_path)
+        taken_date = exif_date_taken
+    except:
+        taken_date = 'Not provided'
+        pass
+    
+    context = {"item": item, 
+               "comment_form": get_comment_form(user),
+               "facebook_dict":facebook_dict,
+               "taken_date": taken_date,
+               }
+    return render_to_response("photo/image.html", context, context_instance=RequestContext(request))
 
 #@login_required
 def thumbnail_view(request, tag=''):
-    """Blog view, also main view"""
+    """Blog view, also main view
+    Shows 5 photos iterated by last comment.
+    Also shows images for tag, if provided
+    
+    Includes comment and voting system for each photo."""
     logger.info('Main blog called user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
     user = request.user
     if tag=='':
@@ -392,7 +417,8 @@ def thumbnail_view(request, tag=''):
     return render_to_response("photo/main_blog.html", {'items': items, 
                                                        'tagged_name': tag,
                                                        'tag_cloud_display': True,
-                                                       "comment_form": get_comment_form(user),},
+                                                       "comment_form": get_comment_form(user),
+                                                       'switcher':'blog'},
                                                         context_instance=RequestContext(request, processors=[my_auth_processor]))
 
 

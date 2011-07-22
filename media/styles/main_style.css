@@ -191,3 +191,84 @@ div#rotation_buttons {
 span.photo_rotator_title {
     font-size: 1.7em;
 }
+/* --------------------------- Views selector styles --------------------------- */
+.view_selector {
+    text-align: right;
+    font-size: 1.5em;
+    background: #ECF1EF;
+}
+
+.view_selector a{
+    color: #000000;
+    background: #FFEC8B;
+}
+
+.view_selector a:hover, .view_selector a:visited {
+    color: #8C8C8C;
+}
+
+/* --------------------------- Albums view styles --------------------------- */
+div.photo_albums_list {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    background: #FEF0C9;
+}
+
+div.album_title, div.album_title a, div.album_title a:hover, div.album_title a:visited {
+    font-size: 1.8em;
+    color: #000000;
+}
+
+div.album_title a:hover{
+	color: #8C8C8C;
+}
+
+
+div.album_images {
+    border-color: gray;
+    border-style: solid;
+    border-width: thin;
+    background: white;
+    margin: 0 auto; 
+}
+
+#album_photo_thumbnail {
+    width: 157px;
+    height: 157px;
+    float: left;
+    margin: auto;
+}
+
+.albums_clearBoth { clear:both; }
+
+
+
+/* ----- Box shadow effects ----- */
+
+.dropshadowclass {
+       border: solid 1px #CCC;
+    -moz-box-shadow: 5px 5px 0px #999;
+    -webkit-box-shadow: 5px 5px 0px #999;
+        box-shadow: 5px 5px 0px #999;
+}
+
+.anotherboxshadowclass {
+       border: solid 2px #CCC;
+    -moz-box-shadow: 0px 2px 0px #69C;
+    -webkit-box-shadow:  0px 2px 0px #69C;
+        box-shadow:  0px 2px 0px #69C;
+}
+
+.imagedropshadow {
+    padding: 5px;
+    border: solid 1px #EFEFEF;
+}
+
+a:hover img.imagedropshadow {
+    border: solid 1px #CCC;
+    -moz-box-shadow: 1px 1px 5px #999;
+    -webkit-box-shadow: 1px 1px 5px #999;
+        box-shadow: 1px 1px 5px #999;
+}
