@@ -19,7 +19,8 @@
 
 <div class="albums">
     <!-- Albums list  -->
-        {% include "photo/photoblog_title.html" %}
+        <div class="h5">Photo Albums <b>{{ tagged_name }}</b></div>
+        <div class="h3">Enter an album to watch a slideshow of it.</div>
         {% include "photo/views_switcher.html" %}
         
         {% autopaginate items 5 %}

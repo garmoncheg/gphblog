@@ -6,12 +6,12 @@
  */
 function voteClick(button, pk, incrementer, url)
 {
+    $('div.vote_block_' + pk).hide("fast");//hiding vote button
     $.post(url, {
         pk: pk,
         incrementer: incrementer,
     }, function(data) {
         $('.rating-' + pk).html(data);//changing rating visually
-        $('div.vote_block_' + pk).hide("slow");//hiding vote button
     });
     return false;
 }

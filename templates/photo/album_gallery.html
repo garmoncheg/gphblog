@@ -3,6 +3,7 @@
 {% block title %}Photo Albums{% endblock %}
 
 {% block head %}
+        {% include "photo/slideshow.html" %}
 {% endblock %}
 
 
@@ -21,7 +22,7 @@
     <!-- Albums list  -->
         {% include "photo/photoblog_title.html" %}
         {% include "photo/views_switcher.html" %}
-        
+
         {% autopaginate items 20 %}
         <div class="photo_albums_list">
             <div class="album_title">
@@ -31,17 +32,24 @@
             <div class="album_images">
             {% for photo in items %}
             <div id="album_photo_thumbnail">
-            <a href="{% url photo.views.single_image_view photo.pk %}">
+            
             {% if photo.image|is_portrait %}
+                {% thumbnail photo.image "700" as ssim %}
+                <a rel="slideshow_album" href="{{ ssim.url }}">
+                {% endthumbnail %}
                 {% thumbnail photo.image "95x140" crop="1px 1px" as im %}
                     <img class="imagedropshadow" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                </a>
                 {% endthumbnail %}
             {% else %}
+                {% thumbnail photo.image "700" as ssim %}
+                <a rel="slideshow_album" href="{{ ssim.url }}">
+                {% endthumbnail %}
                 {% thumbnail photo.image "140x95" crop="center" as im %}
                     <img class="imagedropshadow" src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+                </a>
                 {% endthumbnail %}
             {% endif %}
-            </a>
             </div>
             {% endfor %}
             <br class="albums_clearBoth" />

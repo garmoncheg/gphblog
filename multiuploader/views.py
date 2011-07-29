@@ -78,7 +78,14 @@ def multiupload_photo_ajax(request):
                        "delete_url":file_delete_url+str(image.pk)+'/', 
                        "delete_type":"POST",})
         response_data = simplejson.dumps(result)
-        return HttpResponse(response_data, mimetype='application/json')
+        
+        #checking for json data type
+        #big thanks to Guy Shapiro
+        if "application/json" in request.META['HTTP_ACCEPT_ENCODING']:
+            mimetype = 'application/json'
+        else:
+            mimetype = 'text/plain'
+        return HttpResponse(response_data, mimetype=mimetype)
     else: #GET
         return render_to_response('multiuploader/multiuploader_main.html', {'static_url':settings.MEDIA_URL,
                                                                             'open_tv':u'{{',

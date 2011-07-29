@@ -39,7 +39,7 @@ ul.new_menu li {
     float:left;
     height: 79px;
     text-align: center;
-    background: -webkit-gradient(radial, 50% 100%, 10, 50% 50%, 90, from(rgba(31,169,244,1)), to(rgba(0,28,78, 1)) );
+    background: -webkit-gradient(radial, 50% 100%, 10, 50% 50%, 90, from(rgba(254,240,201,1)), to(rgba(255,92,0, 1)) );
     background: -moz-radial-gradient(center 80px 45deg, circle cover, rgba(254,240,201,1) 0%, rgba(255,92,0, 1) 100%);
     menu-gradient-color-here:_____up_______;
     }

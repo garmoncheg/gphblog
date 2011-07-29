@@ -1,5 +1,11 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.8.0 29.07.2011
+==============================================================
+- add sideshow to single Album view and pointed it in main Albums view
+- fix bug with menu colors outside mozilla FF
+- fix bug with ability to click vote button more than once  while animation
+
 gphblog 2.7.0 22.07.2011
 ==============================================================
 - add date taken (from photo Exif info) to single image view
