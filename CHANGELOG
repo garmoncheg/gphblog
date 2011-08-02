@@ -1,5 +1,12 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 2.9.0 02.08.2011
+==============================================================
+- add creation of default album on app syncdb
+- add adding every uploaded photo to default album
+- add adding every photo uploaded by multiuploader to default album
+- add photo uploads to Flickr by button under photo (in controlls area)
+
 gphblog 2.8.0 29.07.2011
 ==============================================================
 - add sideshow to single Album view and pointed it in main Albums view

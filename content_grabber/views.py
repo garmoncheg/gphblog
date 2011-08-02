@@ -60,7 +60,7 @@ def require_flickr_auth(view):
         if not token:
             # No valid token, so redirect to Flickr
             log.info('Redirecting user to Flickr to get frob')
-            url = f.web_login_url(perms='read')
+            url = f.web_login_url(perms='write')
             return HttpResponseRedirect(url)
 
         # If the token is valid, we can call the decorated view.
@@ -75,7 +75,7 @@ def callback(request):
         log.info('We got a callback from Flickr, store the token')
 
         f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
-            settings.FLICKR_API_SECRET, store_token=False)
+            settings.FLICKR_API_SECRET, store_token=True)
 
         frob = request.GET['frob']
         token = f.get_token(frob)
@@ -102,7 +102,7 @@ def flickr_synchronize(request):
         return render_to_response('cgbflickr/cgb_flickr.html', {'user': request.user, })
     elif request.method == 'POST':
         return HttpResponse('POST flickr syncronization view not accepted')
-
+ 
 @login_required
 @require_flickr_auth
 def flickr_synchronize2(request):

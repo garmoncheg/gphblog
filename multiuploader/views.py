@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest
-from photo.models import Image
+from photo.models import Image, Album
 from django.template import RequestContext
 
 from django.core.files.uploadedfile import UploadedFile
@@ -78,6 +78,15 @@ def multiupload_photo_ajax(request):
                        "delete_url":file_delete_url+str(image.pk)+'/', 
                        "delete_type":"POST",})
         response_data = simplejson.dumps(result)
+
+        #adding photo to default album to be displayed in albums automaticly
+        try:
+            default_album = get_object_or_404(Album, title="User's Posted")
+            image.albums.add(default_album)
+        except:
+            log.info('Error adding photo pk='+str(image.pk)+' to default album.')
+            pass
+        
         
         #checking for json data type
         #big thanks to Guy Shapiro

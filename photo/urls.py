@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     (r'^tag/(?P<tag>\w+)/$', thumbnail_view),
     (r'^gallery/(\d+)/$', gallery_in_album_view),
     
+    url(r'^flickr_it/$', 'photo.views.upload_to_flickr', name="flickr_post"),
     url(r'^rotate/', image_rotator, name='rotate'),
     url(r'^albums/', albums_view, name='albums_main'),
     url(r'^upload_ajax/', upload_photo_ajax, name='upload_photo_ajax'),

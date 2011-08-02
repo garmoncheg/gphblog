@@ -272,3 +272,14 @@ a:hover img.imagedropshadow {
     -webkit-box-shadow: 1px 1px 5px #999;
         box-shadow: 1px 1px 5px #999;
 }
+
+/* ------------------------- Photo social posting styles ------------------------- */
+div#social_posting_buttons {
+    border-color: black;
+    border-style: solid;
+    border-width: thin;
+    background: #ECF1EF;
+}
+
+span.social_poster_title {
+    font-size: 1.7em;

@@ -41,6 +41,92 @@ from django.contrib.sites.models import Site
 #to add urls to facebook like button
 import urllib
 
+
+
+import flickrapi
+"""
+#########################################################################################
+                           PHOTO UPLOAD TO FLICKR HANDLER
+#########################################################################################
+"""
+
+@csrf_exempt
+def check_for_flickr_permit(user, item, *args, **kwargs):
+    """
+    Function check if the user has permit to post photos to Flickr.
+    """
+    
+    #checking for user permit to edit tags
+    if user.is_authenticated():
+        if (item.user==user) or (user.is_superuser):
+            item.social_posting_permit = True
+        else: item.social_posting_permit = False
+    else:
+        item.social_posting_permit = False
+    return item
+
+
+def flickr_callback(progress, done):
+    if done:
+        logger.info("Done uploading to flickr")
+    else:
+        logger.info( "At %s%%" % progress)
+
+from content_grabber.views import require_flickr_auth
+from django.contrib.sites.models import Site
+
+@csrf_exempt
+@login_required
+def upload_to_flickr(request):
+    """
+    View to upload photos to Flickr
+    called by POST method from user who can post his photo to flickr.
+    """
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            logger.info('Uploading photo to Flickr triggered by user='+str(request.user)+', ip='+str(request.META['REMOTE_ADDR']))
+    
+            pk = request.POST['image_pk']
+            #getting image from base
+            image=get_object_or_404(Image, pk=pk)
+    
+            #getting image description if exists else using title instead
+            if image.description:
+                description = image.description
+            else:
+                current_site = Site.objects.get(id=1)
+                description = u'Photo uploaded by Photblog website: http://'+current_site.domain+'/'
+                
+            #getting flickr api instance
+            flickr = flickrapi.FlickrAPI(settings.FLICKR_API_KEY, settings.FLICKR_API_SECRET, format='xmlnode')
+            
+            #checking serve authentication
+            (token,frob)= flickr.get_token_part_one(perms='write')
+            flickr.get_token_part_two((token, frob))
+            
+            #getting file to upload path
+            photo_path = settings.MEDIA_ROOT+image.image.name
+            
+            #generating tags string
+            lst = [x[1] for x in image.tags.values_list()]
+            tags = unicode(join(lst, ', '))
+            
+            #Uploading file
+            flickr.upload( filename= str(photo_path),
+                           title=image.title,
+                           description=description,
+                           tags = tags,
+                           callback=flickr_callback,)
+            logger.info('Uploaded to flickr photo id='+str(pk)+' ')
+            return HttpResponse('Success posting photo to flickr!')
+        else:
+            logger.info('Bad request to view "post to flickr" called by user='+str(request.user))
+            return HttpResponseBadRequest('Only POST accepted')
+    else:
+        logger.info('remote ip='+str(request.META['REMOTE_ADDR'])+' tried to access view "post to flickr"')
+        return HttpResponseBadRequest('Only for authenticated users')
+
+
 """
 #########################################################################################
                            IMAGE ROTATION HANDLER
@@ -359,6 +445,9 @@ def single_image_view(request, pk):
     #loading tags data from my function
     get_tags_data(user, item)
     
+    #checking for user permit to post to socials
+    check_for_flickr_permit(user, item)
+    
     #checking for permit to edit photo title and to rotate photo
     if (item.user == request.user) or (request.user.is_superuser):
         item.title_permit = 'permit'
@@ -373,6 +462,7 @@ def single_image_view(request, pk):
         item.voted = True
     except Votes.DoesNotExist: item.voted = False
     
+    #generating data for facebook button
     current_site = Site.objects.get_current()
     current_domain = unicode('http://')+unicode(current_site)
 
@@ -442,9 +532,16 @@ def upload_photo_ajax(request):
                 image.user=request.user
                 image.save()
                 form.save_m2m()
+                try:
+                    default_album = get_object_or_404(Album, title="User's Posted")
+                    image.albums.add(default_album)
+                except:
+                    logger.info('Error adding photo pk='+str(image.pk)+' to default album.')
+                    pass
                 logger.info('Uploaded an image title="'+str(image.title)+', by user="'+str(request.user)+'"')
                 if notification:
                     notification.send(User.objects.filter(is_superuser=True), "photo_add", {"ph_title":image.title,})
+
                 return HttpResponse(unicode("Uploaded success!"))
             else: #form errors
                 return render_to_response("photo/upload_photo_form_for_ajax.html", {'form': form})

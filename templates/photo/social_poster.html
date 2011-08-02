@@ -1,0 +1,14 @@
+{% if item.social_posting_permit %}
+<form id="social_posting_form" class="" data-id="{{ item.pk }}">
+    <div id="social_posting_buttons" class="poster{{ item.pk }}">
+        <span class="social_poster_title">Post to social networks:  </span>
+        
+        <a type="button" id="flickr_post_btn" disabled="false" class="small orange awesome" onclick="return post_to_flickr(this, '{{ item.pk }}', '{% url flickr_post %}')" >
+            <img alt="Right" src="/site_media/site_graphics/social/flickr-icon.png" width="50" height="50">
+        </a>
+        <br />
+        <span id="socialposter_console"></span>
+    </div>
+    <br />
+</form>
+{% endif %}
