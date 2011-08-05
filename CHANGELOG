@@ -1,5 +1,19 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 3.0.0 05.08.2011
+==============================================================
+- add to Profile social poster GUI (for user to be able to connect 
+    his social networks to his profile)
+- add auth.UserProfile model to storing user options
+    (used for storing user connected to flickr fact for now)
+- add photo.SocialPosts model to store users actions on posting to social networks.
+- add complex function to check for user permit and state of social_posting block (function)
+- add template block checking for user permissions to post to social networks
+- add template block in profile to connect social networks
+- add flickr authentification backend to auth.views app (refactored content grabber 
+    authentificator and used it for those purposes via @require_flickr_auth view decorator)
+- add flickr authenticated checker to auth.views app
+
 gphblog 2.9.0 02.08.2011
 ==============================================================
 - add creation of default album on app syncdb

@@ -9,13 +9,16 @@
 
 
 {% block content %}
+{% if not user.is_superuser %}
+<br /><br /><br /><br /><br />
+{% endif %}
+<div id="profile_main">
 <div id="user_profile_main">
     <div id="profile_header">Profile Settings page.</div>
     <h2><b>Welcome {% if user.is_superuser %}MASTER{% else %}{{ user.first_name }} {{ user.last_name }}{%endif%}!</b></h2>
-    <br />
-    <p><b>Last login: </b>{{ user.last_login|date:"r" }}</p>
+    <span class="profile_last_login"><b>Last login: </b>{{ user.last_login|date:"r" }}</span>
 </div>
-
+<br />
 <div id="socialauth_profile_data">
   <h3>User data:</h3>
   <table>
@@ -29,6 +32,7 @@
 </div>
 
 {% if accounts %}
+<div id="disconnect_accounts">
   <h3>Disconnect accounts:</h3>
   <p>This will disable your Photoblog account. So in general you will have no access to your uploaded content.</p>
   <ul>
@@ -37,12 +41,32 @@
         <span class="disconnect"><a href={% url disconnect_individual account.provider account.id %}>{{ account.provider|title }} (ID {{ account.id }})</a></span>
     </li>
   {% endfor %}
-  
-  </ul>
+<br />
+</div>
 {% endif %}
 
 {% if not accounts %}
     {% include "auth/socialauth_accounts_buttons.html" %}
 {% endif %}
 
+{% if social_poster_accounts %}
+<div id="socialposter_accounts">
+        <h1>Connect accounts <br />(to be able to post your photos there):</h1>
+        {% if not social_poster_accounts.flickr_authenticated %}
+        <a rel="nofollow" href="{% url flickr_authentificate %}" alt="connect to Flickr to post photos there">
+            <img id="flickr" width="100" height="100" src="/site_media/site_graphics/social/flickr-icon.png">
+        </a>
+        {% else %}
+        <div id="socialposter_connected_wrapper">
+            <img id="flickr" class="socialposter_connected" width="100" height="100" src="/site_media/site_graphics/social/flickr-icon.png">
+        </div>
+        {% endif %}
+</div>
+{% endif %}
+
+</div>
+
+
+
 {% endblock %}
+

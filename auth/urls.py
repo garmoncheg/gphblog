@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     (r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'auth/login.html'}),
     (r'^logout/$', 'django.contrib.auth.views.logout', {'template_name': 'auth/logout.html'}),
     (r'^create/$', create_new_user),
-    (r'^profile/', auth_state),
+    url(r'^profile/', auth_state, name='profile'),
+    url(r'^test_flickr_auth/$', 'auth.views.flickr_authentificator', name='flickr_authentificate'),
 )

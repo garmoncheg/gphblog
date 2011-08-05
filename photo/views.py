@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
-from photo.models import Image, Comment, Votes, Album
+from photo.models import Image, Comment, Votes, Album, SocialPost
 from tagging.models import Tag, TaggedItem
 from django.template import RequestContext
 from auth.context_processors import my_auth_processor
@@ -41,25 +41,56 @@ from django.contrib.sites.models import Site
 #to add urls to facebook like button
 import urllib
 
-
+#importing user profiles to use it in Flickr uplopder permit tester
+from auth.models import UserProfile
 
 import flickrapi
 """
 #########################################################################################
-                           PHOTO UPLOAD TO FLICKR HANDLER
+                          PHOTO UPLOAD TO SOCIAL NETWORKS HANDLER
 #########################################################################################
 """
 
 @csrf_exempt
-def check_for_flickr_permit(user, item, *args, **kwargs):
+def get_social_data(user, item, *args, **kwargs):
     """
-    Function check if the user has permit to post photos to Flickr.
+    Function check if the user has permit to post photos to social networks.
+    Checks for:
+    - user is owner of the photo
+    - user is superuser
+    - user is authenticated
+    - user has connected social poster in profile section (from UserProfile model)
+    - user has already posted to this social network (from SocialPost model)
+    
+    Works with:
+    -Flickr
     """
     
-    #checking for user permit to edit tags
+    #checking for user permit to view this block at all
     if user.is_authenticated():
+        # checking if the user is the photo owner
         if (item.user==user) or (user.is_superuser):
-            item.social_posting_permit = True
+            #getting user profile data with social poster networks connected permit
+            #and trying to add permit for this photo
+            try:
+                profile = UserProfile.objects.get(user=user)
+                if profile.flickr_authenticated:
+                    #user has authenticated Flickr at profiles section
+                    #trying to check for user already posted it to Flickr
+                    try:
+                        #checking if user post exists
+                        social_post = SocialPost.objects.get(user=user, image=item)
+                        item.flickr_permit = social_post.flickr
+                    except:
+                        #user post to Flickr does not exist and user  has perms to post
+                        item.flickr_permit = True
+                        pass
+                else:
+                    item.no_social_poster_connected = True
+                item.social_posting_permit = True
+            except:
+                item.social_posting_permit = False
+                pass
         else: item.social_posting_permit = False
     else:
         item.social_posting_permit = False
@@ -117,6 +148,12 @@ def upload_to_flickr(request):
                            description=description,
                            tags = tags,
                            callback=flickr_callback,)
+            
+            #storing data to local model about Flickr upload
+            # to disable this button appearing in future
+            upload = SocialPost.objects.create(image=image, user=request.user, flickr=False)
+            logger.info('Created info about photo upload id='+str(pk)+' ')
+            
             logger.info('Uploaded to flickr photo id='+str(pk)+' ')
             return HttpResponse('Success posting photo to flickr!')
         else:
@@ -446,7 +483,7 @@ def single_image_view(request, pk):
     get_tags_data(user, item)
     
     #checking for user permit to post to socials
-    check_for_flickr_permit(user, item)
+    get_social_data(user, item)
     
     #checking for permit to edit photo title and to rotate photo
     if (item.user == request.user) or (request.user.is_superuser):

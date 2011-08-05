@@ -283,3 +283,22 @@ div#social_posting_buttons {
 
 span.social_poster_title {
     font-size: 1.7em;
+}
+
+span.social_poster_error {
+	font-size: 1.7em;
+	color:red;
+}
+
+a.social_poster_error_link {
+	font-size: 1.7em;
+}
+
+#socialposter_console {
+	color:black;
+}
+
+img.flickr_post_btn_disabled {
+    opacity:0.3;
+    filter:alpha(opacity=30)
+}

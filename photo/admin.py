@@ -1,5 +1,5 @@
 # admin config here
-from photo.models import Album, Image, Comment, Votes, ImageViews
+from photo.models import Album, Image, Comment, Votes, ImageViews, SocialPost
 from django.contrib import admin
 
 class AlbumAdmin(admin.ModelAdmin):
@@ -27,9 +27,14 @@ class VotesAdmin(admin.ModelAdmin):
 class ImageViewsAdmin(admin.ModelAdmin):
     display_fields = ["image", "user", "user_key", "view_create_date"]
     list_display = ["image", "user", "view_create_date"]
-    
+
+class SocialPostAdmin(admin.ModelAdmin):
+    search_fields = ["image", "user"]
+    list_display = ["image", "image", "flickr"]
+
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Votes, VotesAdmin)
 admin.site.register(ImageViews, ImageViewsAdmin)
+admin.site.register(SocialPost, SocialPostAdmin)

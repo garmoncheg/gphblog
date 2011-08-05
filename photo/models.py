@@ -93,7 +93,8 @@ class Votes(models.Model):
         return unicode(self.image.pk)
 
 class ImageViews(models.Model):
-    """Model for storing unique views of users"""
+    """Model for storing unique views of users.
+    Used in templatetag created for returning user Views for every photo."""
     image = models.ForeignKey(Image)
     user = models.ForeignKey(User, null=True, blank=True)
     user_key = models.CharField(max_length=40)
@@ -101,3 +102,12 @@ class ImageViews(models.Model):
     
     def __unicode__(self):
         return unicode(self.image.pk)
+
+class SocialPost(models.Model):
+    """Model to store user posts of photos to social Web sites.
+    Saves user posts to:
+    - Flickr
+    """
+    image = models.ForeignKey(Image)
+    user = models.ForeignKey(User)
+    flickr=models.BooleanField(default=True)

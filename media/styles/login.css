@@ -81,3 +81,22 @@ table.create_form td {
     border: 1px solid #ccc;
     font-size: 2.5em;
 }
+
+#profile_main, #socialauth_profile_data, #socialauth_logins, #disconnect_accounts {
+    border: 1px solid #ccc;
+}
+
+.profile_last_login {
+	font-size: 1.5em;
+}
+
+#socialposter_connected_wrapper {
+	background-color: #FCF8DC;
+	width:100px;
+	height:100px;
+}
+
+img.socialposter_connected {
+	opacity:0.4;
+	filter:alpha(opacity=40)
+}

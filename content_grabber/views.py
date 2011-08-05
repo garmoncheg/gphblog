@@ -14,10 +14,7 @@ from django.conf import settings
 
 #using logging in flickr auth views
 import logging
-logging.basicConfig()
-
-log = logging.getLogger(__name__)
-log.setLevel(logging.DEBUG)
+log = logging
 
 # for using django-syncr
 from syncr.app.flickr import FlickrSyncr
@@ -26,6 +23,9 @@ from syncr.app.flickr import FlickrSyncr
 from syncr.flickr.models import *
 
 from photo.models import Image
+
+#importing user profiles to write there flickr authentication fact
+from auth.models import UserProfile
 """
 #########################################################################################
                            Flickr authentication
@@ -71,7 +71,7 @@ def require_flickr_auth(view):
     return protected_view
 
 def callback(request):
-    if request.method == 'GET':
+    if request.method == 'GET' and (request.user.is_authenticated) or (request.user.is_superuser):
         log.info('We got a callback from Flickr, store the token')
 
         f = flickrapi.FlickrAPI(settings.FLICKR_API_KEY,
@@ -81,9 +81,17 @@ def callback(request):
         token = f.get_token(frob)
         request.session['token'] = token
 
-        return HttpResponseRedirect(reverse('flickr_synchronize_second_phase'))
+        #writing profile settings of user that he has authenticated
+        try:
+            profile=UserProfile.objects.get(user=request.user)
+            profile.flickr_authenticated = True
+            profile.save()
+        except:
+            pass
+        
+        return HttpResponseRedirect(reverse('profile'))
     else:
-        return HttpResponseBadRequest('only GET Accepted')
+        return HttpResponseBadRequest('Permission denied!')
 
 @require_flickr_auth
 def flickr_auth_test(request):

@@ -24,6 +24,15 @@ class SimpleTokenCache(object):
 
         self.token = None
 
+
+#garmoncheg modification here to store tokens in folder suitable for his 
+#production server settings and debug purposes
+try:
+    from django.conf import settings
+except:
+    settings.DEBUG=False
+    pass
+
 class TokenCache(object):
     '''On-disk persistent token cache for a single application.
     
@@ -38,7 +47,15 @@ class TokenCache(object):
         self.api_key = api_key
         self.username = username        
         self.memory = {}
-        self.path = os.path.join("~", ".flickr")
+        
+        #garmoncheg modification here to store tokens in folder suitable for his 
+        #production server settings and debug purposes
+        #original is:
+        # self.path = os.path.join("~", ".flickr")
+        if settings.DEBUG:
+            self.path = os.path.join("~", ".flickr")
+        else:
+            self.path = os.path.join("/home/garmon/photoblog/", ".flickr")
 
     def get_cached_token_path(self):
         """Return the directory holding the app data."""
