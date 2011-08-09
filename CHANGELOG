@@ -1,5 +1,9 @@
 Changelog for Gphblog (Garmoncheg's Photo Blog)
 
+gphblog 3.1.0 05.08.2011
+==============================================================
+- add visually disable button while posting to flickr and output status to console
+
 gphblog 3.0.0 05.08.2011
 ==============================================================
 - add to Profile social poster GUI (for user to be able to connect 

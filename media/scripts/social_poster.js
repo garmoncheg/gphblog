@@ -100,25 +100,48 @@ $('a.title_edit_btn').click(function(){
 });
 };
 
+//simple function to set delay
+function wait_console(time) {
+	$.delay(time);
+}
+
+
 
 /*___________________________________________________________________________________________
-*   function for posting to FLICKR current a photo
+*   function for posting to FLICKR current photo
+*   called by onclick event in single image view
 * ___________________________________________________________________________________________
 */
+//variable to disable processing click
+var flickr_post_ready = 1;
 function post_to_flickr(button, image_pk, url){
+	//checking for processing switch
+	if (flickr_post_ready == 1) {
 		//making button disabled and 
 		//posting into flickr
-		$('#flickr_post_btn').attr("disabled", "disabled");
+		flickr_post_ready = 2;
 		$('#flickr_post_btn').addClass("bisy");
-		$('span#socialposter_console').html('Posting photo to your flickr. Please wait...');
+		//printing status to console
+		$('div#social_posting_buttons').append('<span id="socialposter_console"> </span>');
+		$('span#socialposter_console').html('<span class="green"><img src="/site_media/site_graphics/waiting_scroller_small.gif" width="25" height="25"></img>Posting photo to your flickr. Please wait...</span>');
+		$('span#socialposter_console').show();
 		$.post(//url to post to
 				url, 
 				//data array to send
 				{ image_pk: image_pk },
-				//function to handle callback
+				//function to handle successful callback
 				function(data){
-					$('span#socialposter_console').html(data);
+					var feedback = '<span class="green"><img src="/site_media/site_graphics/ok_small.png" width="25" height="25"></img>'+data+'</span>'
+					$('a#flickr_post_btn').replaceWith('<img class="flickr_post_btn_disabled" src="/site_media/site_graphics/social/flickr-icon.png" width="50" height="50"></img>');
+					$('span#socialposter_console').html(feedback);
+					$('span#socialposter_console').delay(3000).slideUp(300);
+					$('span#socialposter_console').attr('id','none');
+					$('span#socialposter_console').show();
+					flickr_post_ready = 1;
 				});//end function and post
+	} else { //not allowed to use this button due to processing
+		return false;
+	};
 		return false;
 };//end function
 

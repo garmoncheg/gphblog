@@ -295,10 +295,15 @@ a.social_poster_error_link {
 }
 
 #socialposter_console {
-	color:black;
+	font-size: 1.5em;
 }
 
 img.flickr_post_btn_disabled {
     opacity:0.3;
     filter:alpha(opacity=30)
+}
+
+span.green {
+	color: green;
+	font-size: 1.5em;
 }
